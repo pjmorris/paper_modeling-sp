@@ -1,37 +1,14 @@
 \section{Model}
 \label{sec:model}
-As evidenced by, for example, the Heartbleed and Shellshock vulnerabilities, a single commit, sometimes even a single line of code, can cause a large-scale security problem.  As a consequence, software development teams are investigating the use of security practices in software development. 
-
-We conjecture that a team’s ability to plan, change, and review their codebase, change by change and line by line, is related to their ability to produce secure software.
-
-When presented with lists of the hundreds of software development security practices available (e.g. those listed in the `Building Security in Maturity Model ~\cite{mcgraw2013bsimm} (BSIMM)), the first question industry practitioners typically ask is `Where do I start?'  To answer this question requires a theory for how software development security practices affect the software, as well as an understanding of what the questioner's most significant security problems are. We, further, require enough empirical evidence for the theory to characterize the answers in the context of the person asking the question. In this section, we present a theory of how security practice use affects security outcomes in software development. We express the theory as a model, to support collection of the data needed to test the theory empirically. Ultimately, our goal is to provide evidence-based answers for questions like `Where do I start?', `What do I do next?', and `When do we stop?'.
-
-To underpin the experience and theories bearing on these questions, we propose collecting and analyzing empirical evidence for security practice use and security outcomes in software development. 
-
-From prediction to explanation...
-
-Start with VPM
-While we aim to build an explanatory model, we draw from past experience with vulnerability prediction models
-Typical VPM: predict vulns (external, CVE) in terms of a set of metrics - SLOC, Churn, ….
-We want to add information about what was done to produce the SLOC, etc across the SDLC so we can understand, explain, intervene
-We expand the basic prediction model format in two ways
-
-
-We draw on research in defect prediction and vulnerability prediction to identify and select metrics for measuring security outcomes and criticality.  For example, the relationship between code size and vulnerability is well-established. How does security practice use moderate that relationship?  For example, does the use of coding standards correlate with less vulnerabilities for a given code size? Can thorough testing mitigate a lack of coding standards? Can static analysis substitute for thorough testing? And the situation is more complicated than the examples given; there are factors beyond code size that contribute to vulnerabilities, and security practice use does not prevent all vulnerabilities.  
-
-Modeling section (Just enough modeling to be dangerous)
-Statistical literature references three categories of models; descriptive, predictive, and explanatory. 
-[Explanatory as distinguished from predictive, descriptive a theory for how practices affect software development]
-[Need latent variable motivation, definition]
-We construct our model in light of a) explanatory in terms of purpose, evaluated via structural equation modeling in terms of analysis technique.
 
 Sanders~\cite{sanders2009security} argues that existing security metrics should be integrated to provide a comprehensive, quantified view of systems through their lifecycle. Landwehr~\cite{landwehr2015we} argues that secure coding requirements should have a basis in theory or experiment for each requirement. Given the wide variety of security measurements and practices available, a model of the variables and relationships involved in measuring security in software development could help clarify how security practices affect security outcomes. 
 
-what is the effect of a practice?
-To model the effect of security practice use on security outcomes in software development, the model must include notions of software, security, practice use, outcomes, and software development. 
- 
+Previous research in defect and vulnerability prediction has surfaced a set of relationships between code properties and security properties [Zimmerman,Meneely,Shin,Security Metrics Mapping Study]. For example, the relationship between code size and vulnerability is well-established[similar cites]. How does security practice use moderate that relationship?  For example, does the use of coding standards correlate with less vulnerabilities for a given code size? Can thorough testing mitigate a lack of coding standards? Can static analysis substitute for thorough testing? And the situation is more complicated than the examples given; there are factors beyond code size that contribute to vulnerabilities (e.g. security policy, configuration), and security practice use does not prevent all vulnerabilities.
+
+As a basis for studying how practice adherence moderates security outcomes, we define a model relating software project context, practice adherence, and security outcomes. In this section, we present the model constructs, how they connect to software development, and a set of data collection rules for collecting data for the model.
+
 \subsection{Constructs}
-Given our goal of measuring security practice use on software vulnerabilities, we need to model three things; security practice use, software, and vulnerabilities.  We first define conceptual constructs to model each of these things; Adherence, Criticality, and Outcomes then define our approach to measuring each construct.
+Given our goal of measuring security practice use on software vulnerabilities, we need to model three things; security practice adherence, software criticality factors, and vulnerabilities.  We first define conceptual constructs to model each of these things; Adherence, Criticality, and Outcomes. We then define our approach to measuring each construct.
 \subsubsection{Outcomes}
 \label{sec:model_contruct_outcome}
 The Outcomes construct represents security outcomes for the software. Meneely~\cite{meneely2016security} observes that security is negatively defined, the absence of issues in a system's confidentiality, integrity, and availability. 
@@ -43,8 +20,9 @@ The absence of vulnerabilities may only be apparent, due to undiscovered or unre
 We measure the Outcomes construct in terms of manifest vulnerabilities and the  timing of their discovery and resolution. Low total values for manifest vulnerabilities are preferable, and a high proportion of vulnerabilities discovered pre-release rather than post-release is also preferable. 
 
 \subsubsection{Adherence}
+\label{sec:model_contruct_adherence}
 The Adherence construct represents the effort the team takes to prevent and discover vulnerabilities. We adapt an IEEE definition of practice~\cite{ieee1990glossary} `3. a specific type of professional or management activity that contributes to 
-the execution of a process and that may employ one or more techniques and tools' to define a software development security practice to be an action a software development team member takes to prevent, identify, or resolve a vulnerability, possibly guided by a tool or reference. The Adherence construct is measured in terms of the frequency and prevalence of security practice use by the team. To measure frequency, we count instances of practice use, proportional to total team effort. To measure prevalence, we compute the ratio of team members who apply the practice to total team members. We measure adherence for each security practice to enable comparison of the relative values of the various security practices to which a team adheres.
+the execution of a process and that may employ one or more techniques and tools' to define a software development security practice to be an action a software development team member takes to prevent, identify, or resolve a vulnerability, possibly guided by a tool or reference. From our definition, we define a template for describing security practice use: \textless Role\textgreater (team member)\textless Verb\textgreater (action)\textless Artifact(s) Affected\textgreater, (guided by)\textless Artifact(s) Referenced\textgreater. Our definition and template allows description of the actions team members take (e.g. `Developer ran Findbugs before checking in code', `Manager documented threat model for new design') in the course of adhering to security practices during the project. The Adherence construct is measured in terms of the frequency and prevalence of security practice use by the team. To measure frequency, we count instances of practice use, proportional to total team effort. To measure prevalence, we compute the ratio of team members who apply the practice to total team members. We measure adherence for each security practice to enable comparison of the relative values of the various security practices to which a team adheres.
 
 \subsubsection{Criticality}
 The Criticality construct represents the characteristics of the software's purpose, construction, and environment that may affect security Outcomes. To accurately measure Adherence requires accounting for Criticality. For example, a carefully-written piece of widely-used software that manages financial data (high Criticality) may have poorer Outcomes than a less well written baseball scores program used by a few hundred users (low Criticality). The Criticality construct is measured in terms of a set of context factors, associated with each project, that represent factors historically associated with high security risk. 
@@ -59,7 +37,7 @@ We hypothesize that the three constructs are related; We expect that both Adhere
 
 \subsection{Situating the Constructs in Software Development}
 
-To measure Outcomes, Adherence, and Criticality in the context of the software development lifecycle, we need to describe the components of software development in which vulnerabilities are introduced and found, to which security practices are applied, and by which the software may be attacked.   Vulnerabilities may not only be problems in code (`bugs'~\cite{mcgraw2006software}) but may also be, for example, design issues (`flaws'), documentation issues, and configuration issues. We define a set of vulnerability sources, based on the definition of vulnerability we have adopted~\ref{sec:model_contruct_outcome}:  
+To measure Outcomes, Adherence, and Criticality in the context of the software development lifecycle, we need to describe the components of software development in which vulnerabilities are introduced and found, to which security practices are applied, and by which the software may be attacked.   Vulnerabilities may not only be problems in code (`bugs'~\cite{mcgraw2006software}) but may also be, for example, design issues (`flaws'), documentation issues, and configuration issues. We define a set of vulnerability sources, based on the definition of vulnerability we have adopted(Section ~\ref{sec:model_contruct_outcome}):  
  \begin{itemize}
  	\item \textbf{Specification} - All activities, e.g. planning, preparation, requirements definition, and design that precede, chronologically or conceptually, coding. 
  	\item \textbf{Coding} - The development and maintenance of software features.
@@ -83,7 +61,7 @@ To collect empirical data to test the constructs and their relationships, we hav
 \subsubsection{Context Factors}
 \label{sec:model_cf}
 
-Drawing conclusions from empirical studies in software engineering is difficult because the results of  any process largely depend upon the relevant context variables. One cannot assume a priori that a study’s results generalize beyond the specific environment in which it was conducted [5???]. Therefore, recording a study’s context factors is essential to understanding the generality and utility of the conclusions as well as the similarities and differences between the case study and one’s own environment. Dyba et al. ~\cite{dyba2012what} suggests the question “Does the inclusion of this information explain the constraints on, or the opportunities for, the phenomenon I am studying?” as a guide for including context factors. Jones~\cite{jones2000software} suggests six categories of measurements to be collected for every project; software classification, sociological, project-specific, ergonomic, technological, and international. SP-EF includes the following context factors:
+Drawing conclusions from empirical studies in software engineering is difficult because the results of  any process largely depend upon the relevant context variables. One cannot assume a priori that a study’s results generalize beyond the specific environment in which it was conducted [5???]. Therefore, recording a study’s context factors is essential to understanding the generality and utility of the conclusions as well as the similarities and differences between the case study and one’s own environment. Dyba et al. ~\cite{dyba2012what} suggests the question `Does the inclusion of this information explain the constraints on, or the opportunities for, the phenomenon I am studying?' as a guide for including context factors. Jones~\cite{jones2000software} suggests six categories of measurements to be collected for every project; software classification, sociological, project-specific, ergonomic, technological, and international. SP-EF includes the following context factors:
 \begin{itemize}
 \item \textit{Language} – Language in which the software artifact being measured is written, e.g. Java, C, C++, Python, PHP. \textit{Hypothesis}: Because languages vary in how much access they provide to system memory and hardware, language choice influences security criticality.
 \item \textit{Operating System} - Operating system(s) on which the software runs, e.g. Linux, Windows, iOS. \textit{Hypothesis}: Because operating systems vary in how much access they provide to system memory and hardware, and because they reduce an attacker’s effort by presenting a single interface to the population of machines they are available on (monoculture), operating system choice influences security criticality.
@@ -131,9 +109,7 @@ For each security practice adherence event, we recorded the following data eleme
 \item \textit{Assignee} – For defect report documents, the person assigned the defect, where applicable.
 \end{itemize}
 
-While the practice adherence metrics are not tied to a specific set of practices, we have defined a set of software development security practices, synthesized from the BSIMM, SDL, SAFECode, and OWASP practice lists.  
-
-From our definition, we define a template for describing security practice use: <Role>(team member)<Verb>(action)<Artifact(s) Affected>, (guided by)<Artifact(s) Referenced>. We read through the BSIMM, SDL, SAFECode, and OWASP practice lists, filling out the template for each security practice. We identifying 16 practices that, in combination with roles (e.g. Manager, Developer), verbs (e.g. ‘implement’, ‘test’, ‘document’) , phases (e.g. ‘Design’, ‘Testing’), and artifacts (e.g. ‘Requirements’, ‘Source Code’, ‘Regulations’), were sufficient to classify the source practices we identified. We excluded three of the practices, ‘Apply Security Principles’,  ‘Monitor Security Metrics’ and ‘Publish Disclosure Policy’ from the framework because they were mentioned less than 2\% of the time across our sources.
+While the practice adherence metrics are not tied to a specific set of practices, we have defined a set of software development security practices, based on prior art. We read through the BSIMM, SDL, SAFECode, and OWASP practice lists, filling out the practice adherence template (\ref{sec:model_contruct_adherence}) for each security practice. We identifying 16 practices that, in combination with roles (e.g. Manager, Developer), verbs (e.g. ‘implement’, ‘test’, ‘document’) , phases (e.g. ‘Design’, ‘Testing’), and artifacts (e.g. ‘Requirements’, ‘Source Code’, ‘Regulations’), were sufficient to classify the source practices we identified. We excluded three of the practices, ‘Apply Security Principles’,  ‘Monitor Security Metrics’ and ‘Publish Disclosure Policy’ from the framework because they were mentioned less than 2\% of the time across our sources.
 Once we had classified the practices, we revisited the text of the source practices, and extracted representative keywords and questions characterizing how the practice is implemented. 
  Table 1 lists the practices, with descriptions, and keywords for each practice. Documentation for all of the roles, verbs, phases, artifacts, keywords, and questions is available at the website~\cite{morrison2016spefsite}.
 
@@ -163,12 +139,9 @@ Given a collection of vulnerabilities with the attributes specified above, we ca
 \end{itemize}
 
 
-\subsection{Putting it all together; three refinements of the model}
+\subsection{Putting it all together; Linking SPEF to the Model}
 
+Figure X-marks-the-full-model-spot presents the model, annotated with each SPEF data element in its hypothesized relationship to the model. 
 In this section, we build three graphical models of the hypothesized relationships described above, representing three levels of measurement detail.
 
-	Draw base C-A-O model
-	Add S-C-T-O Ozment comments, picture
-	Add (and extract, revise) practices, present full 13 - SCTO - CAO model
-	
 \input{CAO_SCTO_SPEF_Table}
