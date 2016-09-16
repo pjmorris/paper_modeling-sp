@@ -1,0 +1,60 @@
+\section{OpenSSL Case Study}
+\label{sec:case_openssl}
+
+OpenSSL~\footnote{\url{https://www.openssl.org/}} is an open source toolkit for implementing communications over Transport Layer Security (TLS) and (SSL), used, among many uses, by the Apache and nginx web servers to manage encrypted web sessions.   
+
+OpenSSL provides an open defect repository and version control system, both based on a public Github repository~\footnote{\url{https://github.com/phpmyadmin/phpmyadmin}} The project issues security advisories and releases for critical security issues~\footnote{\url{https://www.phpmyadmin.net/security/}}. 
+
+In April 2014, two groups of security researchers reported that the `Catastrophic'~\footnote{\url{https://www.schneier.com/blog/archives/2014/04/heartbleed.html}} Heartbleed~\footnote{\url{http://heartbleed.com/}} vulnerability was discovered in OpenSSL. [Blurb about OpenSSL investment from the Linux Foundation...] The OpenSSL case offers an opportunity for us to investigate whether SP-EF`s practice adherence measures will show evidence of security practice use where we know in advance that such changes exist.
+
+We cloned the OpenSSL github repo~\footnote{\url{https://github.com/openssl/openssl}}, representing the source code and changes made during the history of the projects. We applied CVSAnaly from the MetricsGrimoire tool set reported on by Gonzalez-Barahona~\cite{barahona2015metrics} to process and summarize the github data, and then analyzed and reported on the data using R~\footnote{\url{https://www.r-project.org/}}. We extracted email data from downloaded developer email archives. We extracted defect and vulnerability data from OpenSSL’s github repository~\footnote{\url{https://github.com/openssl/openssl/issues}}, and checked it against the project’s CVE records~\footnote{\url{https://www.cvedetails.com/vendor/383/Openssl-Openssl.html}}.
+
+\subsection{Context Factors}
+The context factors SLOC, Churn, and Developers are based on github data, while Number of Machines is conservatively estimated as the total of Apache and nginx servers reported by the monthly Netcraft~\footnote{\url{https://news.netcraft.com/archives/2016/03/18}, \url{https://news.netcraft.com/archives/2014/03/03}} surveys for March 2014 and March 2016. We, subjectively, rate OpenSSL’s Confidentiality, Integrity, and Availability Requirements as High, because the software transmits encrypted data representing millions of sensitive (e.g. web purchases) communications daily.
+
+\subsection{Practice Adherence}
+In this section, we present our findings on the use of each security practice from two data collection perspectives; qualitative observation and text mining, summarized in Table \ref{tab:paComparisonTable}
+
+\textbf{Apply Data Classification Scheme (ADCS)}
+We were not able to identify documented process or artifacts for data classification.
+
+\textbf{Apply Security Requirements (ASR)}
+OpenSSL maintains a (incomplete) list~\footnote{\url{https://www.openssl.org/docs/standards.html}} of the Internet Engineering Task Force Request For Comments (RFC) standards that are implemented in the software.  OpenSSL has received FIPS 140~\footnote{\url{https://www.openssl.org/docs/fips.html}} certification.
+
+\textbf{Perform Threat Modeling (PTM)}
+We were not able to identify documented process or artifacts around threat modeling.
+
+\textbf{Document Technical Stack (DTS)}
+The OpenSSL team maintains a list of dependencies in the INSTALL script for building the software, kept in the github repo. Version number requirements for the dependencies are not listed.
+
+\textbf{Apply Secure Coding Standards (ASCS)}
+OpenSSL maintains a coding standards document. ~\footnote{\url{https://www.openssl.org/policies/codingstyle.html}}. We conjecture that manual code reviews of changes to the software are the mechanism for enforcement of the standard.
+
+\textbf{Apply Security Tooling (AST)}
+At the time of Heartbleed, no testing tools were incorporated into the offical build for release, although many tool vendors ran their tools on OpenSSL and provided feedback to the project. 
+
+\textbf{Perform Security Testing (PST)}
+The OpenSSL github repository contains a test suite for the software. The team began running the test suite on every change, continuous integration, in October 2015~\footnote{\url{https://mta.openssl.org/pipermail/openssl-dev/2015-October/003251.html}}.
+
+\textbf{Perform Penetration Testing (PPT)}
+External security researchers conduct penetration testing. Tool vendors provide the project with reports from static and dynamic analyzers, and fuzzing tools. 
+
+\textbf{Perform Security Review (PSR)}
+An experienced, full-time project member reviews each change made. In changes after Heartbleed, a 'Reviewed-By' tag was added to each commit message, along with a protocol for additional review of critical changes.
+
+\textbf{Publish Operations Guide (POG)}
+The project team maintains a set of documents, manual pages, and a FAQ~\footnote{\url{https://www.openssl.org/docs/}}.
+
+\textbf{Track Vulnerabilities (TV)}
+The project team publishes procedures for raising security concerns, and maintains a security policy for handling security-related matters. 
+
+\textbf{Improve Development Process (IDP)}
+The projec team refines the development process over time.
+
+\textbf{Perform Security Training (PST)} 
+We were not able to identify documented process or artifacts around security training for the project team.
+
+
+%\input{PracticeAdherenceData_OpenSSL}
+
+\subsection{Outcome Measures}

@@ -1,2 +1,56 @@
 \section{Evaluation}
 \label{sec:evaluation}
+
+We evaluated our model in two ways; at the construct level through applying structural equation modeling to a dataset of projects for which security is a concern, and at the SPEF framework level by conducting two case studies of open source development projects, examining the effects of security practice use on security outcomes. In this section, we present a summary description of our case study protocol, SP-EF, and how we apply it to our data collection and analysis. SP-EF and all study artifacts are available online ~\cite{morrison2016spef}. 
+
+\subsection{Construct Study}
+
+To quantitatively assess the relationships between constructs in our proposed model, we applied Structural Equation Modeling~\cite{kline2015principles} to the Core Infrastructure Initiative~\cite{lf2016cii} (CII) census dataset (~\footnote{\url{https://github.com/linuxfoundation/cii-census}}). 
+
+\subsubsection{Structural Equation Modeling}
+
+Kline~\cite{kline2015principles} emphasizes that the point of SEM is to test a theory by specifying a model that represents predictions of that theory among plausible constructs measured with appropriate observed variables (those that can be directly measured). Latent variables represent plausible constructs, e.g. ‘intelligence’, or ‘Criticality’, that cannot be directly measured, but that can be indirectly measured in terms of one or more observed variables. SEM is often applied in psychology and education, to build a measurement model for the constructs measured, and to allow assessment of how well measurement instruments test the constructs measured. 
+
+SEM studies are organized around six steps: specification, identification, data selection and collection, estimation, re-specification, and reporting. In model specification, researchers express the hypothesized relationships between observed variables and latent variables, typically in the form of a graphical model. Each edge in the graph represents a parameter to be estimated, indicating the strength of the relationship between the nodes connected by the edge. In identification, the specified model is checked against statistical theory for whether all of the model’s parameters can be estimated. If the original model cannot be identified, it must be revised in light of both statistical theory and the theory the researcher is expressing in the model. In data selection and collection, data for each of the model’s observed variables is chosen, and collected. In estimation, the observed data and the model are checked for fit.  If appropriate fit is achieved, the parameter estimates can be interpreted for implications of the theorized relationships and the observed data. If appropriate fit is not achieved, the list of model changes developed during specification should be considered in re-specifying the model.  When reporting the results of SEM studies, the model, parameter estimates, and fit measures should be included in the report.
+Examples of SEM use in software engineering and information technology include Capra et al.~\cite{capra2008empirical}, Wallace and Sheetz~\cite{wallace2014adoption}, and Gopal et al.~\cite{gopal2005impact}.
+
+\subsubsection{Specification}
+\subsubsection{Identification}
+\subsubsection{Data selection and collection}
+\subsubsection{Estimation}
+\subsubsection{Re-specification}
+\subsubsection{Reporting}
+
+
+We select projects for this study based upon meeting the following criteria:
+\begin{itemize}
+
+\item Available records of software security vulnerabilities
+\item Version control system access, providing both project source code and the history of changes to the code over time
+\item Bug tracker system access, providing records of vulnerability and defect discovery and resolution
+\item Project documentation, providing access to information about the project’s development process and practices
+\end{itemize}
+
+We collect project documentation and history using the project’s website, version control system, and bug tracker, as primary sources, and as sources for links to further information. 
+
+For this study, we chose OpenSSL, to evaluate security practice use before and after the Heartbleed bug.  For comparison across cases, we choose phpMyAdmin, an open source project of similar age and size to OpenSSL, allowing comparison of how security practices and outcomes are similar and different between the projects. 
+
+\subsection{Data Collection}
+
+We collect data through qualitative observation and text mining of the team's emails, issue tracker, and commit messages. We read through the project documentation for qualitative evidence of the security practices, based on the SP-EF subjective practice adherence measures. We obtained objective SP-EF practice adherence measures for the team by applying a basic text mining technique, keyword counting, to the project's issue tracking records. The text mining classification procedure is available as an R package, linked from the SP-EF website~\cite{morrison2016spef}.   To develop an oracle for assessing the performance of the text mining, we read and classified a subset of the emails, issue tracking records, and commit messages described above according to the guidelines for identifying the presence of SP-EF practices. 
+
+For each practice, we used the search strings listed in the ‘Keywords’ column of Table 1, and recorded each instance of practice use.  We collected data by two means:
+\begin{itemize}
+\item We used a script, available from the SP-EF website, to iterate over each commit, issue, and email, and generate security practice event classifications.
+\item The first author manually examined each project for security practice use and generated security practice event classifications. Additional raters classified a randomly selected pool of issues, and we compared their results to the automated classifications.
+\end{itemize}
+
+For each artifact we identified, we recorded the document name, URL, age, and made note of any available change history, e.g. wiki page change records. We manually classified pre- and post-release vulnerabilities based on a study of who reported the vulnerability and whether they were identifiable as a project member.
+
+\subsection{Analysis}
+
+We qualitatively compare pre-security event data with post-security event data for each project, looking for changes in the security practices selected by the team, and changes in frequency of use of the practices by the team. In the case of OpenSSL, we manually classified 500 commits, bug tracking issues, and emails from the year before April 1, 2014 (Heartbleed), and 500 more from the year ending April 1, 2016.  We chose the earlier time period to reflect pre-Heartbleed efforts, and the more recent time period to reflect ongoing practice rather than the immediate response to Heartbleed. In the case of phpMyAdmin, we chose the year 2007, reflecting phpMyAdmin data before its participation in GSOC, and from the year ending April 1, 2016, reflecting current practice. By comparing the data sets, we expect to find security-focused practice changes in the text of the sets of project data.
+
+To evaluate RQ1, we collect frequency metrics through manual review of each project’s artifacts; project documentation, project emails, bug tracking issues, and commit messages.  
+
+To evaluate RQ2, we track two outcome measures, counts of CVE and Security-Related (SR) events. CVE's are publicly reported vulnerability counts, which may understate the total vulnerability count.  SR events are counts of references to a set of keyword that represent those found in typical discussions of security, acting as a proxy for the team's awareness of security. Lower values for CVE and SR may indicate high code quality and/or opportunities for discovering latent vulnerabilities. We examine the relationship between our practice adherence metrics and CVE and SR.

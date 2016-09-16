@@ -1,0 +1,67 @@
+\section{phpMyAdmin Case Study}
+\label{sec:case_pma}
+	
+phpMyAdmin is a popular MySql administration tool, with rich documentation including various books~\footnote{\url{https://www.phpmyadmin.net/15-years/}}. phpMyAdmin provides an open defect repository and version control system, both based on a public Github repository~\footnote{\url{https://github.com/phpmyadmin/phpmyadmin}} The project issues security advisories and releases for critical security issues~\footnote{\url{https://www.phpmyadmin.net/security/}}. 
+phpMyAdmin has participated in the Google Summer of Code~\footnote{\url{https://developers.google.com/open-source/gsoc/}} annually since 2008. phpMyAdmin`s administrators have introduced documentation and process changes in conjunction with its GSOC participation~\footnote{\url{https://www.phpmyadmin.net/news/2008/4/4/google-summer-of-code-2008-and-phpmyadmin/}}. The phpMyAdmin case offers an opportunity for us to investigate whether SP-EF`s practice adherence measures will show evidence of security practice use where we know in advance that such changes exist.
+
+We cloned the phpmyadmin github repo, representing the source code and changes made during the history of the project, encompassing 2005 source files, and 99121 commits by 955 unique developers. We applied CVSAnaly from the MetricsGrimoire tool set reported on by Gonzalez-Barahona~\cite{barahona2015metrics} to process and summarize the github data, and then analyzed and reported on the data using R~\footnote{\url{https://www.r-project.org/}}. We extracted email data from downloaded developer email archives. We extracted defect and vulnerability data from phpMyAdmin’s github repository and from the security section of its website, and checked it against the project’s CVE records~\footnote{\url{https://www.cvedetails.com/vendor/784/Phpmyadmin.html}}. 
+
+\subsection{Context Factors}
+
+The context factors SLOC, Churn, and Developers are based on version control system data, while Number of Machines is estimated based on 20\% of 200,000 monthly downloads reported in September 2013, projected linearly from the project start date. We, subjectively, rate phpMyAdmin’s Confidentiality Requirement and Integrity Requirement as High, because the software supports administrator creation, editing, and deletion of MySql database schemas and data. We rate phpMyAdmin’s Availability Requirement as Low, because the software is a optional, and is not essential to MySql database administration.
+
+\subsection{Practice Adherence}
+
+In this section, we present our findings on the use of each security practice from two data collection perspectives; qualitative observation, and text mining, summarized in Table \ref{tab:paComparisonTable}.
+
+\subsubsection{Researcher Observation}
+
+In this section, we review security practice usage results obtained from researcher assessment of phpMyAdmin. We present observations organized by security practice, and include links to evidence, where available. Italicized quotes are from phpMyAdmin project communications.
+
+\textbf{Apply Data Classification Scheme (ADCS)}
+We were not able to identify documented process or artifacts for data classification.
+
+\textbf{Apply Security Requirements (ASR)}
+The team considers security on a case-by-case basis as code is written. The two main administrators have been with the project since shortly after its inception, and they monitor features, and issues for security as well as other quality attributes.
+
+\textbf{Perform Threat Modeling (PTM)}
+We were not able to identify documented process or artifacts around threat modeling. 
+
+\textbf{Document Technical Stack (DTS)}
+The phpMyAdmin team documents their technical stack via a wiki page.
+
+\textbf{Apply Secure Coding Standards (ASCS)}
+Over time, the phpMyAdmin project has adopted coding standards, and security coding standards. August 2010: \textit{Please stick with PEAR coding style and please try to keep your code as simple as possible: beginners are using phpMyAdmin as an example application.}  March 2012: \textit{Here are some guidelines on how to avoid security issues that could lead to security bugs}.
+
+\textbf{Apply Security Tooling (AST)}
+Over time, the project has added tooling to support its standards and build process. May 2012:\textit{To verify coding style, you can install PHP CodeSniffer}  Sep 2013: \textit{I\`ve set up coveralls.io coverage reports}. Dec 2013: \textit{(r.e. PHP code checking tool, scrutinizer) What is this good for?}. May 2014 \textit{Let\`s make scrutinizer happy ;)}. 
+
+\textbf{Perform Security Testing (PST)}
+One of the project\`s leaders confirmed~\footnote{via private email communication} that external security consultants (researchers) are the primary finders of vulnerabilities. However, the team began developing an automated test suite in 2009, and continues to maintain and add to it. May 2001:  \textit{It would maybe nice to have a kind of `test suite'}. Jul 2009: \textit{I\`ve set up a cronjob which would run the test suite e.g. every day}. Nov 2014 \textit{'We use several test suites to help ensure quality code. All new code should be covered by test cases to ensure proper [Unit Testing]'}
+
+\textbf{Perform Penetration Testing (PPT)}
+External security researchers conduct penetration testing. 
+
+\textbf{Perform Security Review (PSR)}
+The two main administrators monitor the build process and its associated tool reports for security as well as other quality attributes.
+
+\textbf{Publish Operations Guide (POG)}
+The team maintains installation, configuration, and administration documentation for phpMyAdmin, including security-related material\footnote{\url{http://docs.phpmyadmin.net/en/latest/faq.html#security}}. 
+
+\textbf{Track Vulnerabilities (TV)}
+The phpMyAdmin project maintains a security mailing address, and a list of vulnerabilities resolved. The team tracks and resolves vulnerabilities as they are reported.
+
+\textbf{Improve Development Process (IDP)} In conjunction with joining the GSOC in 2008, and managing the additional help they received from the sponsored developers, phpMyAdmin administrators added or extended standards, tooling, and test suites to the development process.
+
+\textbf{Perform Security Training (PSTR)} 
+While we did not observe direct evidence of training, e.g. tutorials or courses, the project has brought developers in successfully through its mentoring program. 
+
+\subsubsection{Text Mining}
+A display of counts per Project Month for each Issue containing one or more of a practice’s keywords is presented in Figure 2.
+
+\input{pma_PracticeAdherenceData}
+
+\subsubsection{Outcome Measures}
+We present phpMyAdmin Vdensity and VRE for 2008-2014 in Figure 3.  
+
+

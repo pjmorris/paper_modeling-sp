@@ -74,8 +74,31 @@
 % \documentclass[conference]{../sty/IEEEtran}
 
 
+\usepackage{enumitem}
+
+\input{macros}
+
+\setlist{nosep}
+
+
 % Some very useful LaTeX packages include:
 % (uncomment the ones you want to load)
+
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{alltt}
+\usepackage{algorithm}
+
+\usepackage{algorithmic}
+\usepackage{cite}
+\usepackage{flushend}
+\usepackage{tabularx}
+\usepackage{framed}
+\usepackage{subcaption}
+\usepackage{cite}
+\usepackage{booktabs}
+\usepackage[caption=false,font=footnotesize,labelfont=sf,textfont=sf]{subfig}
 
 
 % *** MISC UTILITY PACKAGES ***
@@ -314,15 +337,13 @@
 % (Unless specifically asked to do so by the journal or conference you plan
 % to submit to, of course. )
 
-
-
 %
 % The actual paper starts below.
 %
 
 \begin{document}
 
-\title{Better Lucky or Good? : Quantifying the Effect of Security Practice Use on Security Outcomes in Software Development }
+\title{Quantifying Security Practice Use in Software Development }
 \author{\IEEEauthorblockN{Patrick J Morrison, Laurie Williams}
 	\IEEEauthorblockA{Department of Computer Science\\
 		North Carolina State University\\
@@ -332,10 +353,10 @@
 \maketitle
 
 \input{abstract}
+
 \input{introduction}
 \input{background}
 \input{themodel}
-\input{methodology}
 \input{evaluation}
 \input{results}
 \input{discussion}
@@ -345,6 +366,10 @@
 
 
 \bibliographystyle{abbrv}
-\bibliography{IEEEabrv,measuring} 
+\bibliography{modeling} 
+
+
+\setlist{nosep}
+
 
 \end{document}

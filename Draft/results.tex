@@ -1,2 +1,114 @@
-\section{Disucssion}
-\label{sec:discussion}
+\section{Results}
+\label{sec:results}
+\input{case_openssl}
+
+\begin{table*}
+	\begin{center}	
+		\caption{Case Study Context Factors: OpenSSL and phpMyAdmin}
+		\begin{tiny}	
+			\begin{tabular}{|l|l|l||l|l|}
+				\topline
+				\headcol & \multicolumn{2}{c}{OpenSSL} & \multicolumn{2}{c}{phpMyAdmin}\\
+				\headcol & Before & After & Before & After \\	
+				\midline
+				Churn & & & & \\
+				Confidentiality Requirement & High & High & High  & High \\
+				Integrity Requirement & High & High & High  & High \\
+				Availability Requirement & High & High & Low  & Low \\
+				Dependencies & glibc & glibc & OS, Web Server, MySQL, Browser &  OS, Web Server, MySQL, Browse \\
+				Domain & networking, security & networking, security & Database administration & Database administration \\
+				Number of Identities & Millions & Millions & Millions & Millions \\
+				Language & C & C & PHP, Javascript, HTML SQL & PHP, Javascript, HTML SQL \\
+				Number of Machines & 900,000 & 3,700,000 & Millions & Millions \\
+				Methodology & & & BDFL & BDFL \\
+				Operating System & Unix, Windows, OS X, Open VMS & Unix, Windows, OS X, Open VMS & Unix, Unix \\
+				Product Age & 18 years & 18 years & 18 years & 18 years \\
+				SLOC & 456,000 & 438,000 & 154,000 & 389,000 \\
+				Source Code Availability &  Open Source &  Open Source &  Open Source &  Open Source \\
+				Team Location & Distributed  & Distributed  & Distributed  & Distributed \\
+				Team Size (Devs,Testers) & 15  & 15 & 9 & 9 \\
+				\bottomline
+			\end{tabular}
+			
+			\label{tab:CAO_SCTO_Table}
+		\end{tiny}
+	\end{center}
+\end{table*}
+
+\begin{table*}
+	\begin{center}	
+		\caption{phpMyAdmin Practice Adherence Comparison Table}
+		\begin{tiny}
+			
+			\begin{tabular}{|l|rrr||rrr|}
+				\topline
+				\headcol & \multicolumn{3}{c}{Before} & \multicolumn{3}{c}{After}\\
+				\headcol  & Observed & Oracle & Mined  & Observed & Oracle & Mined \\ 
+				\headcol  SP-EF Security Practice  & Frequency & Count & Count & Frequency & Count & Count\\
+				\midline	
+				Apply Data Classification Scheme & &  &  & N/A & & 2\\
+				Apply Security Requirements  & &  & 25  & Weekly & 6 & 50\\
+				Perform Threat Modeling &  &  & 2  & Weekly & & 9\\
+				Document Technical Stack  &  &  & 123  & Monthly & & 496\\
+				Apply Secure Coding Standards  &  &  & 90  & Daily & & 754\\
+				Apply Security Tooling  &  &  & 19 & Daily & & 129\\
+				Perform Security Testing &  &  & 48  & Weekly & 285 & 521\\
+				Perform Penetration Testing  &  &  & 3  & Monthly & & 0\\
+				Perform Security Review  &  &  & 2  & Daily & 7 & 40\\
+				Publish Operations Guide &  &  & 101 & Monthly & & 388\\
+				Track Vulnerabilities & & 77 & 17  & Weekly & 166 & 498\\
+				Improve Development Process & & 44 &  & Monthly & 48 & 4\\
+				Perform Security Training &  &  & 25 & N/A & & 196\\
+				\midline
+				CVE & 17 & N/A & N/A & 28 & N/A & N/A\\
+				Security-Related &  &  & 45 & & & 132 \\
+				
+				\bottomline
+			\end{tabular}
+			
+			\label{tab:openssl_paComparisonTable}
+		\end{tiny}
+	\end{center}
+\end{table*}
+
+
+\begin{table*}
+	\begin{center}	
+		\caption{OpenSSL Practice Adherence Comparison Table}
+		\begin{tiny}
+			
+			\begin{tabular}{|l|rrr||rrr|}
+				\topline
+				\headcol & \multicolumn{3}{c}{Before} & \multicolumn{3}{c}{After}\\
+				\headcol  & Observed & Oracle & Mined  & Observed & Oracle & Mined \\ 
+				\headcol SP-EF Security Practice  & Frequency & Count & Count & Frequency & Count & Count\\
+				\midline	
+				Apply Data Classification Scheme & &  & 0 & N/A & & 2\\
+				Apply Security Requirements  & &  & 13 & Weekly & & 67\\
+				Perform Threat Modeling &  &  &  & Weekly & & 18\\
+				Document Technical Stack  &  & 2 & 114 & Monthly & 6 & 433\\
+				Apply Secure Coding Standards  &  &  & 282 & Daily & & 553\\
+				Apply Security Tooling  &  & 0 & 12 & Daily & 0 & 65\\
+				Perform Security Testing &  & 0  & 212 & Weekly & & 261\\
+				Perform Penetration Testing  &  & & 0 & Monthly & & 0\\
+				Perform Security Review  & Daily & 0 & 12 & Daily & 2 & 543\\
+				Publish Operations Guide &  &  & 81 & Monthly & & 215\\
+				Track Vulnerabilities & & 5 & 181 & Weekly & 99 & 197\\
+				Improve Development Process & & 0 & 0 & Monthly & 4 & 1\\
+				Perform Security Training &  &  & 56 & N/A & 12 & 36\\
+				\midline
+				CVE &  &  &  & &  & \\
+				Security-Related &  &  & 20 & & & 242 \\
+				
+				\bottomline
+			\end{tabular}
+			
+			\label{tab:pma_paComparisonTable}
+		\end{tiny}
+	\end{center}
+\end{table*}
+
+\input{case_pma}
+
+
+
