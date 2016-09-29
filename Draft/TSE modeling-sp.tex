@@ -65,7 +65,7 @@
 % should be used if it is desired that the figures are to be displayed in
 % draft mode.
 %
-\documentclass[conference, compsoc]{IEEEtran}
+\documentclass[10pt,journal,compsoc]{IEEEtran}
 % \documentclass[draft, onecolumn]{IEEEtran}
 % Add the compsoc option for Computer Society conferences.
 %
@@ -343,16 +343,104 @@
 
 \begin{document}
 
-\title{Quantifying Security Practice Use in Software Development }
-\author{\IEEEauthorblockN{Patrick J Morrison, Laurie Williams}
-	\IEEEauthorblockA{Department of Computer Science\\
-		North Carolina State University\\
-		Raleigh, NC, USA\\
-		\{pjmorris, williams\}@ncsu.edu}
-}
-\maketitle
+\title{Quantifying the Effects of Security Practice Use in Software Development }
 
-\input{abstract}
+\author{Patrick J. Morrison,~\IEEEmembership{Student Member,~IEEE,}
+	Xiao Cheng,
+	Jonathan Stallings,
+	and Laurie Williams,~\IEEEmembership{Member,~IEEE}% <-this % stops a space
+	\IEEEcompsocitemizethanks{\IEEEcompsocthanksitem Patrick J. Morrison, Xiao Cheng and Laurie Williams are with the Department
+		of Computer Science, North Carolina State University\protect\\
+		% note need leading \protect in front of \\ to get a newline within \thanks as
+		% \\ is fragile and will error, could use \hfil\break instead.
+		E-mail: pjmorris@ncsu.edu, rpandit@ncsu.edu, and williams@csc.ncsu.edu
+		xsxiao@nec-labs.com
+		\IEEEcompsocthanksitem Jonathan Stallings is with the Department of Statistics, North Carolina State University Inc.\protect\\
+		jwstalli@ncsu.edu
+	}% <-this % stops an unwanted space
+	\thanks{Manuscript received October XX, 2016.}}
+
+
+% The paper headers
+\markboth{IEEE TRANSACTIONS ON SOFTWARE ENGINEERING, XX-2016}%
+{Morrison \MakeLowercase{\textit{et al.}}: Are Vulnerabilities Discovered and Resolved like Other Defects During Software Development?}
+% The only time the second header will appear is for the odd numbered pages
+% after the title page when using the twoside option.
+% 
+% *** Note that you probably will NOT want to include the author's ***
+% *** name in the headers of peer review papers.                   ***
+% You can use \ifCLASSOPTIONpeerreview for conditional compilation here if
+% you desire.
+
+
+
+% The publisher's ID mark at the bottom of the page is less important with
+% Computer Society journal papers as those publications place the marks
+% outside of the main text columns and, therefore, unlike regular IEEE
+% journals, the available text space is not reduced by their presence.
+% If you want to put a publisher's ID mark on the page you can do it like
+% this:
+%\IEEEpubid{0000--0000/00\$00.00~\copyright~2014 IEEE}
+% or like this to get the Computer Society new two part style.
+%\IEEEpubid{\makebox[\columnwidth]{\hfill 0000--0000/00/\$00.00~\copyright~2014 IEEE}%
+%\hspace{\columnsep}\makebox[\columnwidth]{Published by the IEEE Computer Society\hfill}}
+% Remember, if you use this you must call \IEEEpubidadjcol in the second
+% column for its text to clear the IEEEpubid mark (Computer Society jorunal
+% papers don't need this extra clearance.)
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+% for Computer Society papers, we must declare the abstract and index terms
+% PRIOR to the title within the \IEEEtitleabstractindextext IEEEtran
+% command as these need to go into the title area created by \maketitle.
+% As a general rule, do not put math, special symbols or citations
+% in the abstract or keywords.
+
+
+
+\IEEEtitleabstractindextext{%
+	
+	\input{abstract}
+	
+	% Note that keywords are not normally used for peerreview papers.
+	\begin{IEEEkeywords}
+		Software development, Measurement, Process improvement, Security
+	\end{IEEEkeywords}}
+	
+	
+	% make the title area
+	\maketitle
+
+
+% To allow for easy dual compilation without having to reenter the
+% abstract/keywords data, the \IEEEtitleabstractindextext text will
+% not be used in maketitle, but will appear (i.e., to be "transported")
+% here as \IEEEdisplaynontitleabstractindextext when the compsoc 
+% or transmag modes are not selected <OR> if conference mode is selected 
+% - because all conference papers position the abstract like regular
+% papers do.
+\IEEEdisplaynontitleabstractindextext
+% \IEEEdisplaynontitleabstractindextext has no effect when using
+% compsoc or transmag under a non-conference mode.
+
+
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+
 
 \input{introduction}
 \input{background}

@@ -1,4 +1,4 @@
-\section{phpMyAdmin Case Study}
+\subsection{phpMyAdmin Case Study}
 \label{sec:case_pma}
 	
 phpMyAdmin is a popular MySql administration tool, with rich documentation including various books~\footnote{\url{https://www.phpmyadmin.net/15-years/}}. phpMyAdmin provides an open defect repository and version control system, both based on a public Github repository~\footnote{\url{https://github.com/phpmyadmin/phpmyadmin}} The project issues security advisories and releases for critical security issues~\footnote{\url{https://www.phpmyadmin.net/security/}}. 
@@ -6,11 +6,11 @@ phpMyAdmin has participated in the Google Summer of Code~\footnote{\url{https://
 
 We cloned the phpmyadmin github repo, representing the source code and changes made during the history of the project, encompassing 2005 source files, and 99121 commits by 955 unique developers. We applied CVSAnaly from the MetricsGrimoire tool set reported on by Gonzalez-Barahona~\cite{barahona2015metrics} to process and summarize the github data, and then analyzed and reported on the data using R~\footnote{\url{https://www.r-project.org/}}. We extracted email data from downloaded developer email archives. We extracted defect and vulnerability data from phpMyAdmin’s github repository and from the security section of its website, and checked it against the project’s CVE records~\footnote{\url{https://www.cvedetails.com/vendor/784/Phpmyadmin.html}}. 
 
-\subsection{Context Factors}
+\subsubsection{Context Factors}
 
 The context factors SLOC, Churn, and Developers are based on version control system data, while Number of Machines is estimated based on 20\% of 200,000 monthly downloads reported in September 2013, projected linearly from the project start date. We, subjectively, rate phpMyAdmin’s Confidentiality Requirement and Integrity Requirement as High, because the software supports administrator creation, editing, and deletion of MySql database schemas and data. We rate phpMyAdmin’s Availability Requirement as Low, because the software is a optional, and is not essential to MySql database administration.
 
-\subsection{Practice Adherence}
+\subsubsection{Practice Adherence}
 
 In this section, we present our findings on the use of each security practice from two data collection perspectives; qualitative observation, and text mining, summarized in Table \ref{tab:paComparisonTable}.
 

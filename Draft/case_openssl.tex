@@ -1,4 +1,4 @@
-\section{OpenSSL Case Study}
+\subsection{OpenSSL Case Study}
 \label{sec:case_openssl}
 
 OpenSSL~\footnote{\url{https://www.openssl.org/}} is an open source toolkit for implementing communications over Transport Layer Security (TLS) and (SSL), used, among many uses, by the Apache and nginx web servers to manage encrypted web sessions.   
@@ -12,7 +12,7 @@ We cloned the OpenSSL github repo~\footnote{\url{https://github.com/openssl/open
 \subsection{Context Factors}
 The context factors SLOC, Churn, and Developers are based on github data, while Number of Machines is conservatively estimated as the total of Apache and nginx servers reported by the monthly Netcraft~\footnote{\url{https://news.netcraft.com/archives/2016/03/18}, \url{https://news.netcraft.com/archives/2014/03/03}} surveys for March 2014 and March 2016. We, subjectively, rate OpenSSL’s Confidentiality, Integrity, and Availability Requirements as High, because the software transmits encrypted data representing millions of sensitive (e.g. web purchases) communications daily.
 
-\subsection{Practice Adherence}
+\subsubsection{Practice Adherence}
 In this section, we present our findings on the use of each security practice from two data collection perspectives; qualitative observation and text mining, summarized in Table \ref{tab:paComparisonTable}
 
 \textbf{Apply Data Classification Scheme (ADCS)}
@@ -57,4 +57,4 @@ We were not able to identify documented process or artifacts around security tra
 
 %\input{PracticeAdherenceData_OpenSSL}
 
-\subsection{Outcome Measures}
+\subsubsection{Outcome Measures}
