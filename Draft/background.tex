@@ -1,28 +1,43 @@
 \section{Background}
 \label{sec:background}
-In this section we provide work related to security practices, measurement frameworks, and text mining.
+In this section we provide work related to structural equation modeling, security practices, and measurement frameworks.
 
+\subsection{Structural Equation Modeling}
+Structural Equation Modeling (SEM) is a family of statistical techniques for testing theories by specifying models that represent predictions of that theory among plausible constructs measured with appropriate observed variables~\cite{kline2015principles}. We rely, in particular, on two features of structural equation modeling to support our investigation: the distinction between observed variables and latent variables, and the distinction between structural and measurement models.  
+
+Observed variables are the data researchers collect to study a construct of interest. However, not every quantity we wish to measure can be measured directly. For example, in psychological studies of `general intelligence', \textit{g}, researchers examine correlations between various and multiple observed test scores and the notion, or `construct' of general intelligence. Latent variables are a tool for analyzing combinations of observed variables that correspond to hypothetical constructs, which are presumed to reflect a continuum that is not directly observable ~\cite{kline2015principles}.   Researchers commonly investigate the structure and effect of unobservables like intelligence through the analysis of inter-individual differences data by statistically relating covariation between observed variables to latent variables~\cite{borsboom2003theoretical}. 
+%One or more observed variables may be modeled as either causing (formative) or being caused by (reflective) a latent variable. 
+We adopt latent variables as a suitable tool for relating observed data to the constructs we study, for example Asset Value, and Software Risk.
+
+The distinction between structural and measurement models parallels the distinction between latent variables and observed variables. Structural models are representations of the latent variables and the relationships between them. Measurement models are representations of observed variables and the relationships between them.  A measurement model may be linked to a structural model to indicate relationships between observed and latent variables. Repeated studies with a single structural-measurement model combination contribute evidence for accepting or rejecting the combined models. A single structural model may be associated, serially, with a variety of measurement models, reflecting a variety of approaches to measuring a theoretical construct.  Observations of similar trends using different data sets and measurement approaches lends strength to the underlying theory~\cite{basili1999building,wohlin2000experimentation}. 
+
+SEM studies are organized around six steps (which may be iterated over, as called for by the needs of the study): 
+\begin{itemize}
+\item \textit{model specification}, researchers express the hypothesized relationships between observed variables and latent variables, typically in the form of a graphical model. Each edge in the graph represents a parameter to be estimated, indicating the strength of the relationship between the nodes connected by the edge,
+
+\item \textit{identification}, the specified model is checked against statistical theory for whether all of the model’s parameters can be estimated given the model's structure. Identification is analogous to checking whether a set of equations is solvable given their structure and the data at hand. If the original model cannot be identified, it must be revised in light of both statistical theory and the theory the researcher is expressing in the model,
+
+\item \textit{data selection}, where data for each of the model’s observed variables is chosen. Kline ~\cite{kline2015principles} states that SEM is a large-sample technique, reporting median sample size in the literature of 200 cases, starting with a minimum of 10 observations per parameter to be estimated.  Factors that drive the need for a large sample include the size and complexity of the model to be estimated, non-normally distributed data, categorical data, and imprecisely measured data,
+
+\item \textit{data collection}, where the selected data is obtained from the study's sources,
+
+\item \textit{estimation}, the observed data and the model are checked for fit.  If appropriate fit is achieved, the parameter estimates can be interpreted for implications of the theorized relationships and the observed data. If appropriate fit is not achieved, the list of model changes developed during specification should be considered in re-specifying the model, and
+
+\item \textit{reporting results}, the model, parameter estimates,  fit measures, and changes made for re-specification should be included in the report.
+
+Examples of SEM use in software engineering and information technology include Capra et al.~\cite{capra2008empirical}, Wallace and Sheetz~\cite{wallace2014adoption}, and Gopal et al.~\cite{gopal2005impact}.
+\end{itemize}
+	
 \subsection{Measurement Frameworks}
-Measurement frameworks offer a foundation for aggregating study results by standardizing the collection of empirical evidence, enabling comparison of results across projects. Previous researchers~\cite{kitchenham1999towards}, ~\cite{williams2004toward} have suggested four reasons for measurement frameworks: 
-• To allow researchers to provide a context within which specific questions can be investigated;
-• To help researchers understand and resolve contradictory results observed in empirical studies;
-• to provide researchers a standard framework to assist in data collection and reporting of empirical studies in such a manner that they can be classified, understood, and replicated and to help industrial adoption of research results; and
-• to provide researchers a framework for categorizing empirical studies into a body of knowledge.
+Measurement frameworks offer a foundation for aggregating study results by standardizing the collection of empirical evidence, enabling comparison of results across projects. Previous researchers~\cite{kitchenham1999towards,williams2004toward} have suggested four reasons for measurement frameworks:
+\begin{itemize}
+	\item To allow researchers to provide a context within which specific questions can be investigated;
+	\item To help researchers understand and resolve contradictory results observed in empirical studies;
+	\item to provide researchers a standard framework to assist in data collection and reporting of empirical studies in such a manner that they can be classified, understood, and replicated and to help industrial adoption of research results; and
+	\item  to provide researchers a framework for categorizing empirical studies into a body of knowledge.
+\end{itemize}
 
 Williams et al.~\cite{williams2004toward} defined a measurement framework for evaluating the use of Extreme Programming (XP), XP-EF. XP-EF contains context factors to capture internal project-related variables; adherence metrics to capture XP practice use; and outcome measures to capture external project results (e.g. quality). Modeled after XP-EF, we have developed SP-EF, a measurement framework for software development security practice use. We defined a similarly structured set of measures for recording context factors, practice adherence metrics, and outcome measures, related to the use of security practices in software development.
 Rudolph and Schwartz~\cite{rudolph2012critical} conducted a systematic literature review, and Morrison et al.~\cite{morrison2014mapping} produced a technical report on security metrics. We chose the context factors and outcome measures aligned with the findings of these surveys.
 
-The Common Vulnerability Scoring System~\cite{mell2006common} (CVSS) is a framework for communicating the characteristics of vulnerabilities in  (information technology (IT). Our focus is on the software development process and product rather than the individual vulnerability, however we adopt the Confidentiality Requirement, Integrity Requirement, and Availability Requirement elements of CVSS as context factors.
-
-A number of organizations have published lists of security practices, including the Building Security in Maturity Model~\cite{mcgraw2013bsimm} (BSIMM), the Microsoft Security Development Lifecycle~\cite{howard2009security} (SDL), the Software Assurance Forum for Excellence in Code~\cite{simpson2013fundamental} (SAFECode), and the Open Web Application Security Project (OWASP) Software Security Assurance Process ~\cite{martinez2014ssap} (SSAP). Organizations and development teams may use one or more of these lists, however the lists do not specify how to go about choosing, implementing, monitoring, and assessing the effects of a set of security practices.
-Mockus and Votta~\cite{mockus2000identifying} used keyword matching to distinguish between new code development, corrective, and perfective maintenance activities in version control system commit logs.
-
-Cleland-Huang et al.~\cite{clelandhuang2006detection} applied classification to detect non-functional requirements in requirements documents, beginning with a keyword-based classification approach, refining the classifier to weight the keyword terms by their likelihood in each type of non-functional requirement. They achieved performance measures ranging from 20-100\% recall, and 3-92\% precision. We adapt their techniques by investigate the presence of practice use rather than the presence of non-functional requirements, and apply the techniques to the project version control system data, bug tracking data, and developer mailing lists, rather than to project specifications.
-
-Ernst and Mylopoulos~\cite{ernst10refsq} applied keyword-based classification to evaluate the evolution of references to quality requirements over the life cycles of eight open-source projects. They did not find a systematic way in which references to quality requirements varied between the projects, and suggested that more refined techniques, e.g. domain-specific taxonomies, might be required to accurately track how requirements evolve in software projects. Our mining process parallels their `signifier extraction' process, however our search terms are drawn from SP-EF rather than generic requirements sources. They termed each occurrence of a requirement reference an `event', a convention we adopt in our work.
-
-Hindle [29], building on Cleland-Huang et al.~\cite{clelandhuang2006detection} and Ernst and Mylopoulos~\cite{ernst10refsq} applied bag-of-words and topic modeling text-mining approaches to extracting software process events from project history data in project documentation, repositories, bug trackers, and mailing lists for FreeBSD and SQLLite, concluding that development practice use could be recovered from project history, although practices differ in how much evidence is available, and in the frequency of their occurrence. In following work, Hindle [30] used lists of quality keywords to categorize requirements topics in commit comments from MySQL and MaxDB repositories, using the data to visualize how attention to various requiments changes over the course of the project. Performance for topic recognition ranged between .07 and .93 Recall, and .09 and 1.0 Precision. 
-
-Gegick et al. [31-cite] and Williams et al. [32-cite] have put forward lists of keywords related to security. We adopt these terms in our searches to identify potentially security-related issues, emails, and commits that are not marked by the project as security-related and that are not identified by our practice-specific keywords.
-Bayesian Belief Networks share many similarities with SEM models, and have been explored in multiple ways in the software engineering literature[cite Fenton, Capra]. 
-
+The Common Vulnerability Scoring System~\cite{mell2006common} (CVSS) is a framework for communicating the characteristics of vulnerabilities in information technology (IT). Our focus is on the software development process and product rather than the individual vulnerability, however we adopt the Confidentiality Requirement, Integrity Requirement, and Availability Requirement elements of CVSS as context factors.

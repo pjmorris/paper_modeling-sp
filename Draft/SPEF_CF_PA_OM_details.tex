@@ -1,0 +1,80 @@
+
+\subsubsection{Context Factors}
+\label{sec:model_cf}
+
+Drawing conclusions from empirical studies in software engineering is difficult because the results of  any process largely depend upon the relevant context variables. One cannot assume a priori that a study’s results generalize beyond the specific environment in which it was conducted [5???]. Therefore, recording a study’s context factors is essential to understanding the generality and utility of the conclusions as well as the similarities and differences between the case study and one’s own environment. Dyba et al. ~\cite{dyba2012what} suggests the question `Does the inclusion of this information explain the constraints on, or the opportunities for, the phenomenon I am studying?' as a guide for including context factors. Jones~\cite{jones2000software} suggests six categories of measurements to be collected for every project; software classification, sociological, project-specific, ergonomic, technological, and international. SP-EF includes the following context factors:
+\begin{itemize}
+\item \textit{Language} – Language in which the software artifact being measured is written, e.g. Java, C, C++, Python, PHP. \textit{Hypothesis}: Because languages vary in how much access they provide to system memory and hardware, language choice influences security risk likelihood.
+\item \textit{Operating System} - Operating system(s) on which the software runs, e.g. Linux, Windows, iOS. \textit{Hypothesis}: Because operating systems vary in how much access they provide to system memory and hardware, and because they reduce an attacker’s effort by presenting a single interface to the population of machines they are available on (monoculture), operating system choice influences security risk likelihood.
+\item \textit{Domain} – A description of the software’s purpose, e.g. application, framework, utility. 
+\textit{Hypothesis}: Because software domain influences who uses the software, what access to system resources the software has, and how often the software is run software domain influences security risk impact.
+\item \textit{Product Age} – Number of years since the software began development. 
+\textit{Hypothesis}: Because attack and defense techniques for software change over time, product age influences software performance and software risk likelihood.
+\item \textit{Source Lines of Code (SLOC)} - Total number of source lines of code (no comments, no blanks) as counted, for example, by the cloc or SLOCCount utilities. 
+\textit{Hypothesis}: Because each line of code is an opportunity to make a mistake,  and because code size correlates with other measures of software complexity~\cite{herraiz2009statistical},  SLOC is positively correlated with security risk likelihood.
+\item \textit{Churn} – Total number of SLOC added, deleted, or changed during the measurement time period. 
+\textit{Hypothesis}: Because changed code is correlated with defects, and even single-line changes   can cause vulnerabilities, Churn is positively correlated with security risk likelihood.
+\item \textit{Team size} – Total number of unique individuals in each of the following roles: Manager, Developer, and Tester. \textit{Hypothesis}: Team size is beneficial in enabling appropriate time and effort invested in its requirements, design, implementation, review, testing and documentation activities. Team size is detrimental in terms of knowledge transfer and training requirements. Team size is positively correlated with practice adherence, and influences security outcomes. Through management awareness, security risk impact and likelihood influences Team size.
+\item \textit{Team Location} – Team Location indicates whether the team is collocated or distributed. \textit{Hypothesis}: Because knowledge transfer and team cohesion are affected by team distribution, Team Location influences practice adherence.
+\item \textit{Methodology} – Software development process approach used by team. \textit{Hypothesis}: Because the degree of effort put in to software process planning, documentation, and controls supports control over the delivered software and consumes team resources, Methodology influences practice adherence and security outcomes.
+\item \textit{Number of Machines} - Number of machines is a count of how many machines on which the software is installed. The rise of botnets, networks of computers that can be centrally directed, has created a black market for their services.  In 2013, an hour of machine time on a botnet ranged from 2.5 – 12 US cents , and so the number of machines a piece of software runs on is a risk factor. \textit{Hypothesis}: Because economies of scale and monoculture work to the benefit of attackers as well as providers, Number of Machines is positively correlated with security risk impact.
+\item \textit{Number of Identities} - Number of identities is a count of how many individuals data are managed by the software.  In 2011, a personal identity could be bought (in groups of 1000) for 16 US cents  , and so the number of identities a piece of software manages is a risk factor. \textit{Hypothesis}: Because economies of scale work to the benefit of attackers as well as providers, Number of Identities is positively correlated with security risk impact.
+\item \textit{Confidentiality, Integrity, and Availability Requirement} (from CVSS) – The CVSS specification includes three data elements, one for each of Confidentiality, Integrity, and Availability, for indicating the security sensititivty of data. The values for each element are subjective assessments of the most sensitive data that passes through, or is kept by, the software under consideration for its Confidentiality (CR), Integrity (IR), and Availability (AR) requirements. \textit{Hypothesis}: Because CR, IR, and AR describe the security importance of the software, they are positively correlated with security risk impact.
+\item \textit{Source Code Avalability} – Source Code Availability indicates whether the software is proprietary or open source. \textit{Hypothesis}: Anderson [ref] showed that Source Code Availability influences security risk likelihood and practice adherence in both positive and negative ways, depending on project specifics.
+\end{itemize}
+
+\subsubsection{Practice Adherence Metrics}
+Researchers have empirically evaluated software development practices for their security benefits, for example, in requirements engineering~\cite{riaz2014hidden}, design patterns~\cite{uzunov2015comprehensive}, threat modeling~\cite{shostack2014threat}, static and dynamic analysis~\cite{austin2013comparison}, code review~\cite{meneely2014empirical}, testing~\cite{austin2013comparison}, and attack surface analysis~\cite{theisen2015approximating}.
+
+Different projects are unlikely to use the same set of security practices, or to use a given security practice in exactly the same way. Project teams may adapt their methodology through adding and dropping practices to suit the requirements of their customers, their business and operational environments, and their awareness of trends in software development. Adherence metrics are a means of characterizing the degree to which a practice is used on a project. 
+We have included subjective and objective metrics for measuring practice adherence. People are the driving force behind process and practices, and their views should be considered. We adopt four measures from UTAUT ~\cite{venkatesh2003user}, a model for the study of technology adoption, and add a fifth measure to support measurement of productivity: 
+\begin{itemize}
+\item \textit{Usage} - How often is this practice applied? \textit{Hypothesis}: Usage is a direct measure of the frequency of the use of a practice, positively correlated with practice adherence.
+\item \textit{Ease Of Use} - How easy is this practice to use? \textit{Hypothesis}: Ease of Use is positively correlated with practice adherence.
+\item \textit{Utility} - How much does this practice assist in providing security in the software under development? \textit{Hypothesis}: Utility is positively correlated with practice adherence.
+\item \textit{Training} - How well trained is the project staff in the practices being used? \textit{Hypothesis}: Training is positively correlated with practice adherence.
+\item \textit{Effort} - How much time, on average, does applying this practice take each time you apply it? \textit{Hypothesis}: Effort is a direct measure of practice adherence.
+\end{itemize}
+To support triangulation with subjective metrics, and support for studies where the team is unavailable, we define the following objective practice adherence metrics:
+\begin{itemize}
+\item \textit{Frequency}: Number of references to the practice, obtained by researcher observation and/or text mining. \textit{Hypothesis}:  How frequently practices are mentioned in project documentation and history is correlated with practice adherence.
+\item \textit{Prevalence}: Proportion of the team applying the practice, the ratio of all practice users to all team members. \textit{Hypothesis}: Many studies, e.g. Venkatesh ~\cite{venkatesh2003user} and Witschey ~\cite{witschey2015quantifying}, show use by other team members to be correlated with why developers use practices. \textit{Hypothesis}: Prevalence is positively correlated with practice adherence.
+\end{itemize}
+For each security practice adherence event, we recorded the following data elements:
+\begin{itemize}
+\item \textit{Event Date} – Date on which document was created.
+\item \textit{Practice} – Name of security practice associated with document. 
+\item \textit{Source} – Data source for document. Possible Values: Version Control, Defect Tracker, Email.
+\item \textit{Document Id} – Id of document in its source, e.g. commit hash, bug tracker id, email id.
+\item \textit{Creator} – Author of the source document.
+\item \textit{Assignee} – For defect report documents, the person assigned the defect, where applicable.
+\end{itemize}
+
+While the practice adherence metrics are not tied to a specific set of practices, we have defined a set of software development security practices, based on prior art. We read through the BSIMM, SDL, SAFECode, and OWASP practice lists, filling out the practice adherence template (\ref{sec:model_contruct_adherence}) for each security practice. We identifying 16 practices that, in combination with roles (e.g. Manager, Developer), verbs (e.g. ‘implement’, ‘test’, ‘document’) , phases (e.g. ‘Design’, ‘Testing’), and artifacts (e.g. ‘Requirements’, ‘Source Code’, ‘Regulations’), were sufficient to classify the source practices we identified. We excluded three of the practices, ‘Apply Security Principles’,  ‘Monitor Security Metrics’ and ‘Publish Disclosure Policy’ from the framework because they were mentioned less than 2\% of the time across our sources.
+Once we had classified the practices, we revisited the text of the source practices, and extracted representative keywords and questions characterizing how the practice is implemented. 
+ Table 1 lists the practices, with descriptions, and keywords for each practice. Documentation for all of the roles, verbs, phases, artifacts, keywords, and questions is available at the website~\cite{morrison2016spefsite}.
+
+\subsubsection{Outcome Measures}
+In this section, we describe the set of attributes and values that are used to describe the security-related outcomes of the project. 
+
+While hundreds of security metrics have been proposed~\cite{rudolph2012critical},~\cite{verendel2009quantified}, tracking a relatively small set of attributes for each vulnerability detected in the software is sufficient to replicate many of them. In addition to data kept for defects (e.g. those attributes listed by Lamkanfi et al.  ~\cite{lamkanfi2013eclipse}), we collect:
+\begin{itemize}
+\item \textit{Source} – The name of the bug tracker or bug-tracking database where the vulnerability is recorded.
+\item \textit{Identifier} – The unique identifier of the vulnerability in its source database.
+\item \textit{Description} – Text description of the vulnerability.
+\item \textit{Discovery Date} – Date the vulnerability was discovered. 
+\item \textit{Creation Date} – Date the tracking record was created.
+\item \textit{Patch Date} – The date the change resolving the vulnerability was made.
+\item \textit{Release Date} – The date the software containing the vulnerability was released.
+\item \textit{Severity} – The project's perceived importance of the vulnerability. 
+\item \textit{Phase}  – Indication of when during the development lifecycle the vulnerability was discovered
+\item \textit{Reporter} – Indication of who found the vulnerability. (Optional) Role Name and/or email address of person in the reporter role. 
+\end{itemize}
+
+Given a collection of vulnerabilities with the attributes specified above, we can compute the following measures:
+\begin{itemize}
+\item \textit{Pre-release Vulnerabilities} - Vulnerabilities found in new and changed code before software is released. \textit{Hypothesis}: The goal of security practice adherence is to avoid releasing software with vulnerabilities, so pre-release vulnerabilities are positively correlated with security effort, and negatively correlated with security outcomes.
+\item \textit{Post-release Vulnerabilities} - Vulnerabilities found in new and changed code after software is released. \textit{Hypothesis}: Post-release Vulnerabilities represent a failure of the process to catch vulnerabilities pre-release, and are negatively correlated with security outcomes.
+\item \textit{Vulnerability Density} - Vulnerability Density (Vdensity) is the cumulative vulnerability count per unit size of code ~\cite{alhazmi2007assessing}. We adopt a size unit of thousand source lines of code (KSLOC). \textit{Hypothesis}: Vulnerability Density is a derived measure negatively correlated with security outcomes ~\cite{alhazmi2007measuring}.
+\item \textit{Vulnerability Removal Effectiveness} - Vulnerability Removal Effectiveness (VRE) is the ratio of pre-release vulnerabilities to total vulnerabilities found, pre- and post-release, analogous to defect removal effectiveness ~\cite{kan2002metrics}. Ideally, a development team will find all vulnerabilities before the software is shipped.  VRE is a measure for how effective the team’s security practices are at finding vulnerabilities before release. \textit{Hypothesis}: VRE is positively correlated with practice adherence, and negatively correlated with security outcomes.
+\end{itemize}

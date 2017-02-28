@@ -1,8 +1,10 @@
 \section{Limitations}
 \label{sec:limitations}
 
-
-Why build a complicated analytical model for four data points? 
-
+[Add refs to Mell/Scarfone Improving CVSS and An Analysis of CVSS scoring, add discussion of limits of NVD use of web forms for reporting vulns/cvss.]
 
 Complete validation of the model would require use of a variety of frameworks and data sources to evaluate the constructs and their relationships. We propose the SPEF framework as an example means of data collection in line with the model, not as a limit on the means for empirical data collection. 
+
+Kaminsky~\cite{kaminsky2011showing} critiqued the NVD data, pointing out that the existence of a vulnerability record is more indicative of reporter and finder interest in the software more than of the software's quality. While reporter and finder interest and motivation color the results, if software quality is increasing, we would expect to see a positive correlation between year and the CVSS impact metrics.
+
+Statistical model-building in software engineering often uses Bayesian Belief Networks rather than SEM, e.g. [cite Fenton]. Judea Pearl has claimed the two techniques are essentially identical, preferring SEM when the research question if of the form `What factors determine the value of this variable' - \footnote{\url{http://causality.cs.ucla.edu/blog/index.php/2012/12/07/on-structural-equations-versus-causal-bayes-networks/}} We view our task in terms of determining the factors behind the values of the modeled variables, leading us to cast the model in terms of SEM.

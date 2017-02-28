@@ -1,0 +1,119 @@
+\documentclass[sigconf,anonymous]{acmart}
+
+\usepackage{booktabs} % For formal tables
+\usepackage{enumitem}
+\usepackage{natbib}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\citestyle{acmnumeric}
+
+
+% Copyright
+%\setcopyright{none}
+%\setcopyright{acmcopyright}
+%\setcopyright{acmlicensed}
+\setcopyright{rightsretained}
+%\setcopyright{usgov}
+%\setcopyright{usgovmixed}
+%\setcopyright{cagov}
+%\setcopyright{cagovmixed}
+
+% CFP: http://esec-fse17.uni-paderborn.de/call_for_papers.php
+% Template: http://www.acm.org/publications/proceedings-template
+
+% DOI
+\acmDOI{10.475/123_4}
+
+% ISBN
+\acmISBN{123-4567-24-567/08/06}
+
+%Conference
+\acmConference[ESEC/FSE'17]{ACM conference}{September 2017}{El
+	Paderborn, Germany} 
+\acmYear{2017}
+\copyrightyear{2017}
+
+\acmPrice{15.00}
+
+
+\begin{document}
+%\title{Got To Go}
+
+\title{Quantifying Security Context Factors in Software Development}
+
+
+\author{Patrick Morrison}
+\affiliation{%
+	\institution{Department of Computer Science}
+	\streetaddress{North Carolina State University}
+	\city{Raleigh}
+	\state{North Carolina} 
+	%\postcode{43017-6221}
+}
+\email{pjmorris@ncsu.edu}
+
+% Asked to be left off of paper, pending closer review
+%\author{Jonathan W. Stallings}
+%\affiliation{%
+%	\institution{Department of Statistics}
+%	\streetaddress{North Carolina State University}
+%	\city{Raleigh}
+%	\state{North Carolina} 
+%	%\postcode{43017-6221}
+%}
+%\email{jwstallings@ncsu.edu}
+
+\author{Laurie Williams}
+
+\affiliation{%
+	\institution{Department of Computer Science}
+	\streetaddress{North Carolina State University}
+	\city{Raleigh}
+	\state{North Carolina} 
+	%\postcode{43017-6221}
+}
+\email{williams@csc.ncsu.edu}
+
+	
+\begin{abstract}
+\label{sec:abstract}
+Context: Researchers and practitioners have proposed and evaluated many practices for measuring and improving software security during software development. However, assessing the effectiveness of security practices requires measuring not only the practices and their effects on software, but the software's characteristics and the context in which the software is used. 
+
+Goal:  \textit{The goal of this research is to support researchers and practitioners in measuring the effect of security practice use on software vulnerabilities by building and evaluating an explanatory model for software development security practice use.} 
+
+Method: In this work, we develop a model hypothesizing relationships between security outcomes, adherence to security practices, software context factors, and environmental context factors.  We evaluate the model quantitatively, using two existing datasets: The National Vulnerability Database (NVD), containing 79,533 vulnerabilities, and the Core Infrastructure Initiative (CII) census dataset of 428 security-critical projects.  
+
+Results: As measured in our data, both environmental context factors and software characteristics had strong correlations with security outcomes. The NVD case study results agreed with previous research suggesting that software security has improved over the last decade, as measured by decreasing CVSS scores and increasing access complexity required of attackers. The CII case study results agreed with previous research suggesting that team size and effort, and code size, are among the most significant influences on vulnerabilities. 
+Conclusion: The developed model and results from the two case studies offer a guide to the metrics suitable for prioritizing management of software context factors and security outcomes. 
+
+
+\end{abstract}
+
+%\ccsdesc[500]{Keywords got to go~Redundancy}
+%\ccsdesc[300]{Computer systems %organization~Redundancy}
+%\ccsdesc{Computer systems organization~Robotics}
+%\ccsdesc[100]{Networks~Network reliability}
+
+% We no longer use \terms command
+%\terms{Theory}
+
+%\keywords{ACM proceedings, \LaTeX, text tagging}
+
+\maketitle
+
+\input{introduction}
+\input{background}
+\input{themodel}
+\input{methodology}
+\input{evaluation}
+\input{discussion}
+\input{limitations}
+\input{conclusion}
+
+%\input{samplebody-conf}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{modeling} 
+
+\end{document}

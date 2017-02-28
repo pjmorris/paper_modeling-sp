@@ -1,150 +1,114 @@
 \section{Model}
 \label{sec:model}
 
-Sanders~\cite{sanders2009security} argues that existing security metrics should be integrated to provide a comprehensive, quantified view of systems through their lifecycle. Landwehr~\cite{landwehr2015we} argues that secure coding requirements should have a basis in theory or experiment for each requirement. Given the wide variety of security measurements and practices available, a model of the variables and relationships involved in measuring security in software development could help clarify how security practices affect security outcomes. 
+% Sanders~\cite{sanders2009security} argues that existing security metrics should be integrated to provide a comprehensive, quantified view of systems through their lifecycle.  
 
-As a basis for studying how practice adherence influences security outcomes, we define a model relating software project context, practice adherence, and security outcomes. In this section, we present the model constructs, how they connect to software development, and a set of data collection rules for collecting data for the model.
+ We recognize that both software quality factors, such as code size, and factors external to software development, such as the amount of money managed by the software, influence security outcomes. Software quality and external factors are multi-faceted, with multiple contributing causes. For example, software quality attributes with effects on security outcomes include code size [ref], code churn [ref], and language [ref]. External factors are not limited to the amount of money managed directly by software; attackers also focus on users and on machines.  We seek a model of the factors influencing security outcomes in software development to enable assessment of how varying security practice use affects those outcomes.
 
-\subsection{Constructs}
-Given our goal of measuring security practice use on software vulnerabilities, we need to model three things; security practice adherence, software risk factors, and vulnerabilities.  We first define conceptual constructs to model each of these things; Adherence, Risk, and Outcomes. We then define our approach to measuring each construct.
-\subsubsection{Outcomes}
-\label{sec:model_contruct_outcome}
-The Outcomes construct represents security outcomes for the software. Meneely~\cite{meneely2016security} observes that security is negatively defined, the absence of issues in a system's confidentiality, integrity, and availability. 
-However, at present, the presence of security issues, termed vulnerabilities, is the most common means of measuring security in software~\cite{morrison2014mapping}.
-To describe the Outcomes construct, we begin with a definition of vulnerability. Following Krsul~\cite{krsul1998software} and Ozment~\cite{ozment2007vulnerability}, we define a software vulnerability as “an instance of a mistake in the specification, development, or configuration of software such that its execution can violate the explicit or implicit security policy.  Vulnerabilities may not only be problems in code (`bugs'~\cite{mcgraw2006software}) but may also be, for example, design issues (`flaws'), documentation issues, and configuration issues. We define a set of vulnerability sources, drawn from our definition:  
-\begin{itemize}
-	\item \textbf{Specification} - All activities, e.g. planning, preparation, requirements definition, and design that precede, chronologically or conceptually, coding. 
-	\item \textbf{Code} - The development and maintenance of software features.
-	\item \textbf{Test} - The quality assurance activities applied to developed software before it is released.
-	\item \textbf{Operations} - The configuration and use of the released software, and feedback from the software's users to the development organization.
-\end{itemize} 
+As a basis for studying how practice adherence influences security outcomes, we define structural and measurement models relating software project context, practice adherence, and security outcomes. In this section, we present the structural model constructs and how they are related, and a measurement model for how we expect observable data to link to the structural model constructs. 
 
-The vulnerability sources may also be viewed chronologically, as development phases. Boehm ~\cite{boehm1981economics} reports that the earlier in the development process a defect is resolved, the cheaper it is to resolve. We can use data collected according to this scheme to analyze whether vulnerabilities follow the same cost pattern as defects.  While many projects will have a more detailed set of development process sources (phases), we conjecture that these phases are present in the majority of software development projects.
-We distinguish between undiscovered (`latent') and discovered (`manifest') security issues.  Vulnerabilities may be manifest, when discovered by users, security researchers or the development team itself, or they may be latent, not yet discovered by users, researchers or the team. We further distinguish between vulnerabilities identified after the software is released (`Post-release'), and vulnerabilities identified before the software is released (`Pre-release'). Pre-release vulnerabilities are an indication that the development team has incorporated practices supporting discovery of vulnerabilities into its development process. Post-release vulnerabilities are an indication of both vulnerabilities that have escaped the development process and of attacker interest in the software. 
+\subsection{Structural Model}
+  
+In this section, we define conceptual constructs to model Asset Value, Software Risk, Adherence, and Outcomes, and the relationships we expect between each construct. 
 
-We measure the Outcomes construct in terms of manifest vulnerabilities and the  timing of their discovery and resolution. Low total values for manifest vulnerabilities are preferable, and a high proportion of vulnerabilities discovered pre-release rather than post-release is also preferable. 
+\subsubsection{Asset Value}
+
+To make claims about how security practices affect security outcomes, we need to factor out other reasons for security outcomes. While researchers have conducted studies on how various source code attributes are correlated with vulnerabilities (e.g. ),  We hypothesize that software tracking valuable or sensitive data, such as PII or credit card data is more likely to be attacked than software tracking, say, baseball scores. 
+
+The Asset Value construct represents the characteristics of the software's purpose and usage context that may affect security Outcomes.
+ 
+
+\subsubsection{Software Risk}
+Software Risk represents the characteristics of the software under the control of the development team that are associated with software vulnerabilities, for example high churn and defect-prone languages. 
 
 \subsubsection{Adherence}
 \label{sec:model_contruct_adherence}
-The Adherence construct represents the effort the team takes to prevent and discover vulnerabilities. We adapt an IEEE definition of practice~\cite{ieee1990glossary} `3. a specific type of professional or management activity that contributes to 
-the execution of a process and that may employ one or more techniques and tools' to define a software development security practice to be an action a software development team member takes to prevent, identify, or resolve a vulnerability, possibly guided by a tool or reference. From our definition, we define a template for describing security practice use: \textless Role\textgreater (team member)\textless Verb\textgreater (action)\textless Artifact(s) Affected\textgreater, (guided by)\textless Artifact(s) Referenced\textgreater. Our definition and template allows description of the actions team members take (e.g. `Developer ran Findbugs before checking in code', `Manager documented threat model for new design') in the course of adhering to security practices during the project. The Adherence construct is measured in terms of the frequency and prevalence of security practice use by the team, and in terms of the vulnerability source to which the practice is applied. To measure frequency, we count instances of practice use in team documentation and communications (e.g. project documentation, emails, commit messages, bug tracking issues), and normalize the count to the total total team effort in the units counted. For example, if there are 10 references in emails to penetration testing and there are 100 emails, the ratio is 0.1.  To measure prevalence, we compute the ratio of team members who apply the practice to total team members. We measure adherence for each security practice to enable comparison of the relative values of the various security practices to which a team adheres. To measure source, we record the vulnerability source (Specification, Coding, Testing, Operations) to which the practice is applied. We conjecture that the types of communication the team use indicate influence on different vulnerability sources. For example, we conjecture that practice adherence in commit messages primarily represents security effort during Coding,  and that practice adherence in bug tracking issues is more likely to represent security effort in Testing and/or Operations. 
+Adherence represents the efforts the team takes to prevent and discover vulnerabilities. We adapt an IEEE definition of practice~\cite{ieee1990glossary} `3. a specific type of professional or management activity that contributes to 
+the execution of a process and that may employ one or more techniques and tools' to define a software development security practice to be an action a software development team member takes to prevent, identify, or resolve a vulnerability, possibly guided by a tool or reference. We measure the Adherence construct in terms of the frequency  of security practice use by the team.  
 % emails - spec
 % commit messages - code
 % tests - test
 % issues - ops
 % documentation - spec
 
-\subsubsection{Risk: Impact and Likelihood}
+\subsubsection{Outcomes}
+\label{sec:model_contruct_outcome}
+The Outcomes construct represents security outcomes for the software. Meneely~\cite{meneely2016security} observes that security is negatively defined, the absence of issues in a system's confidentiality, integrity, and availability. 
+However, at present, the presence of security issues, termed vulnerabilities, is the most common means of measuring security in software~\cite{morrison2014mapping}.
+To describe the Outcomes construct, we begin with a definition of vulnerability. Following Krsul~\cite{krsul1998software} and Ozment~\cite{ozment2007vulnerability}, we define a software vulnerability as “an instance of a mistake in the specification, development, or configuration of software such that its execution can violate the explicit or implicit security policy.  Vulnerabilities may not only be problems in code (`bugs'~\cite{mcgraw2006software}) but may also be, for example, design issues (`flaws'), documentation issues, and configuration issues.  We distinguish between undiscovered (`latent') and discovered (`manifest') security issues.  Vulnerabilities may be manifest, when discovered by users, security researchers or the development team itself, or they may be latent, not yet discovered by users, researchers or the team. We further distinguish between vulnerabilities identified after the software is released (`Post-release'), and vulnerabilities identified before the software is released (`Pre-release'). Pre-release vulnerabilities are an indication that the development team has incorporated practices supporting discovery of vulnerabilities into its development process. Post-release vulnerabilities are an indication of both vulnerabilities that have escaped the development process and of attacker interest in the software. 
 
-The Risk construct represents the characteristics of the software's purpose, construction, and environment that may affect security Outcomes.
-
-Typical definitions of risk include measures of the size of the potential threat, and the probability that the threat will occur. For example, the NIST recently defined risk ~\cite{nist2011managing} as: `A measure of the extent to which an entity is threatened by a potential circumstance or event, and typically a function of: (i) the adverse impacts that would arise if the circumstance or event occurs; and (ii) the likelihood of occurrence.' In keeping with typical definitions of risk, we define two sub-constructs, Impact, and Likelihood. Impact represents the value an attacker will find in conducting a successful attack on the assets made available through the software. Likelihood represents the software characteristics associated with software vulnerabilities, for example high churn and defect-prone languages. 
-
+We measure the Outcomes construct in terms of manifest vulnerabilities and the timing of their discovery and resolution. Low total values for manifest vulnerabilities are preferable, and a high proportion of vulnerabilities discovered pre-release rather than post-release is also preferable. 
 
 \subsubsection{Construct Relationships}
-We hypothesize that the three constructs are related; We expect that both Adherence and Risk influence Outcomes. For example, to accurately measure Adherence requires accounting for varying degrees of Risk. For example, a carefully-written piece of widely-used software that manages financial data (high Impact, low Likelihood) may have poorer Outcomes than a less well written baseball scores program used by a few hundred users (low Impact, high Likelihood). In an ideal world, we would expect Adherence to be driven by Risk, as teams adopted security practices in proportion to the security needs of their software, its environment, and their users. In the real word, users (especially attackers) sometimes surprise development teams in the uses of their software, unexpectedly increasing the software's Risk (via Impact) out of proportion to the team's Adherence. Figure~\ref{fig:model_constructs} depicts the basic construct relationships. Each circle in the figure represents a construct, modeled as a `latent variable', We model the constructs using latent variables to indicate that our measures for each construct are aggregates of observed variables containing some level of measurement error with respect to the construct ~\cite{kline2015principles,borsboom2008latent}. Each directed edge in the graph represents the influence of one construct upon another, as measured by their covariance. The weights on each edge in figure~\ref{fig:model_constructs} are from simulated data, but they represent the direction of the relationships we expect to see in empirical data, with, for example, increases in adherence leading to reductions in outcomes. 
+We hypothesize that the four constructs are related as follows:
+\begin{itemize}
+	\item We hypothesize that Asset Value is positively associated with negative Security Outcomes
+	\item We hypothesize that Software Risk is positively associated with negative Security Outcomes
+	\item We hypothesize that Practice Adherence is negatively associated with Software Risk 	
+\end{itemize}
+
+For example, a carefully-written piece of widely-used software that manages financial data (high Asset Value, low Software Risk) may have poorer Outcomes than a less well written baseball scores program used by a few hundred users (low Asset Value, high Software Risk). In an ideal world, we would expect Adherence to be correlated with Asset Value, as teams adopted security practices in proportion to the security needs of their software, its usage context, and their users. In the real word, users (especially attackers) sometimes surprise development teams in the uses of their software, unexpectedly increasing the software's Asset Value out of proportion to the team's Adherence. 
+
+Figure~\ref{fig:model_constructs} depicts the basic construct relationships. Each circle in the figure represents a construct, modeled as a `latent variable'. We model the constructs using latent variables to indicate that our measures for each construct are aggregates of observed variables containing some level of measurement error with respect to the construct ~\cite{kline2015principles,borsboom2008latent}. Each square in the figure represents the set of observable measurements associated with each construct. We present the list of measurements for each construct in the measurement guidebook (URL on request). Each directed edge in the graph represents the influence of one construct upon another, as measured by their covariance. The weights on each edge in figure~\ref{fig:model_constructs} are from simulated data, but they represent the direction of the relationships we expect to see in empirical data, with, for example, increases in Adherence leading to reductions in Outcomes. 
 
 \begin{figure}
-		\includegraphics[width=\columnwidth]{modelzero}
-	\caption{Model Constructs}
+		\includegraphics[width=\columnwidth]{modelzeroB}
+	\caption{Structural and Measurement Model Overview}
 	\label{fig:model_constructs}
 \end{figure}
 
-
-\begin{figure}
-	% \includegraphics[width=\columnwidth]{modelcaoscto}
-	\caption{Model Constructs and Sub-Constructs}
-	\label{fig:model_constructs_phases}
-\end{figure}
-
-
-\subsection{The Security Practices Evaluation Framework}
-
-To collect empirical data to test the constructs and their relationships, we have developed a data collection framework for the model, available online~\cite{morrison2016spefsite}.   We now present the data elements from the data collection framework. To ground the model and the present study, we include a hypothesis for each data element, which serves as both our reason for its inclusion in the framework and a testable component of the model. We collect Context Factors to measure Risk, Practice Adherence Metrics to measure Adherence, and Outcome Measures to measure Outcomes.
-\subsubsection{Context Factors}
-\label{sec:model_cf}
-
-Drawing conclusions from empirical studies in software engineering is difficult because the results of  any process largely depend upon the relevant context variables. One cannot assume a priori that a study’s results generalize beyond the specific environment in which it was conducted [5???]. Therefore, recording a study’s context factors is essential to understanding the generality and utility of the conclusions as well as the similarities and differences between the case study and one’s own environment. Dyba et al. ~\cite{dyba2012what} suggests the question `Does the inclusion of this information explain the constraints on, or the opportunities for, the phenomenon I am studying?' as a guide for including context factors. Jones~\cite{jones2000software} suggests six categories of measurements to be collected for every project; software classification, sociological, project-specific, ergonomic, technological, and international. SP-EF includes the following context factors:
-\begin{itemize}
-\item \textit{Language} – Language in which the software artifact being measured is written, e.g. Java, C, C++, Python, PHP. \textit{Hypothesis}: Because languages vary in how much access they provide to system memory and hardware, language choice influences security risk likelihood.
-\item \textit{Operating System} - Operating system(s) on which the software runs, e.g. Linux, Windows, iOS. \textit{Hypothesis}: Because operating systems vary in how much access they provide to system memory and hardware, and because they reduce an attacker’s effort by presenting a single interface to the population of machines they are available on (monoculture), operating system choice influences security risk likelihood.
-\item \textit{Domain} – A description of the software’s purpose, e.g. application, framework, utility. 
-\textit{Hypothesis}: Because software domain influences who uses the software, what access to system resources the software has, and how often the software is run software domain influences security risk impact.
-\item \textit{Product Age} – Number of years since the software began development. 
-\textit{Hypothesis}: Because attack and defense techniques for software change over time, product age influences software performance and software risk likelihood.
-\item \textit{Source Lines of Code (SLOC)} - Total number of source lines of code (no comments, no blanks) as counted, for example, by the cloc or SLOCCount utilities. 
-\textit{Hypothesis}: Because each line of code is an opportunity to make a mistake,  and because code size correlates with other measures of software complexity~\cite{herraiz2009statistical},  SLOC is positively correlated with security risk likelihood.
-\item \textit{Churn} – Total number of SLOC added, deleted, or changed during the measurement time period. 
-\textit{Hypothesis}: Because changed code is correlated with defects, and even single-line changes   can cause vulnerabilities, Churn is positively correlated with security risk likelihood.
-\item \textit{Team size} – Total number of unique individuals in each of the following roles: Manager, Developer, and Tester. \textit{Hypothesis}: Team size is beneficial in enabling appropriate time and effort invested in its requirements, design, implementation, review, testing and documentation activities. Team size is detrimental in terms of knowledge transfer and training requirements. Team size is positively correlated with practice adherence, and influences security outcomes. Through management awareness, security risk impact and likelihood influences Team size.
-\item \textit{Team Location} – Team Location indicates whether the team is collocated or distributed. \textit{Hypothesis}: Because knowledge transfer and team cohesion are affected by team distribution, Team Location influences practice adherence.
-\item \textit{Methodology} – Software development process approach used by team. \textit{Hypothesis}: Because the degree of effort put in to software process planning, documentation, and controls supports control over the delivered software and consumes team resources, Methodology influences practice adherence and security outcomes.
-\item \textit{Number of Machines} - Number of machines is a count of how many machines on which the software is installed. The rise of botnets, networks of computers that can be centrally directed, has created a black market for their services.  In 2013, an hour of machine time on a botnet ranged from 2.5 – 12 US cents , and so the number of machines a piece of software runs on is a risk factor. \textit{Hypothesis}: Because economies of scale and monoculture work to the benefit of attackers as well as providers, Number of Machines is positively correlated with security risk impact.
-\item \textit{Number of Identities} - Number of identities is a count of how many individuals data are managed by the software.  In 2011, a personal identity could be bought (in groups of 1000) for 16 US cents  , and so the number of identities a piece of software manages is a risk factor. \textit{Hypothesis}: Because economies of scale work to the benefit of attackers as well as providers, Number of Identities is positively correlated with security risk impact.
-\item \textit{Confidentiality, Integrity, and Availability Requirement} (from CVSS) – The CVSS specification includes three data elements, one for each of Confidentiality, Integrity, and Availability, for indicating the security sensititivty of data. The values for each element are subjective assessments of the most sensitive data that passes through, or is kept by, the software under consideration for its Confidentiality (CR), Integrity (IR), and Availability (AR) requirements. \textit{Hypothesis}: Because CR, IR, and AR describe the security importance of the software, they are positively correlated with security risk impact.
-\item \textit{Source Code Avalability} – Source Code Availability indicates whether the software is proprietary or open source. \textit{Hypothesis}: Anderson [ref] showed that Source Code Availability influences security risk likelihood and practice adherence in both positive and negative ways, depending on project specifics.
-\end{itemize}
-
-\subsubsection{Practice Adherence Metrics}
-Researchers have empirically evaluated software development practices for their security benefits, for example, in requirements engineering~\cite{riaz2014hidden}, design patterns~\cite{uzunov2015comprehensive}, threat modeling~\cite{shostack2014threat}, static and dynamic analysis~\cite{austin2013comparison}, code review~\cite{meneely2014empirical}, testing~\cite{austin2013comparison}, and attack surface analysis~\cite{theisen2015approximating}.
-
-Different projects are unlikely to use the same set of security practices, or to use a given security practice in exactly the same way. Project teams may adapt their methodology through adding and dropping practices to suit the requirements of their customers, their business and operational environments, and their awareness of trends in software development. Adherence metrics are a means of characterizing the degree to which a practice is used on a project. 
-We have included subjective and objective metrics for measuring practice adherence. People are the driving force behind process and practices, and their views should be considered. We adopt four measures from UTAUT ~\cite{venkatesh2003user}, a model for the study of technology adoption, and add a fifth measure to support measurement of productivity: 
-\begin{itemize}
-\item \textit{Usage} - How often is this practice applied? \textit{Hypothesis}: Usage is a direct measure of the frequency of the use of a practice, positively correlated with practice adherence.
-\item \textit{Ease Of Use} - How easy is this practice to use? \textit{Hypothesis}: Ease of Use is positively correlated with practice adherence.
-\item \textit{Utility} - How much does this practice assist in providing security in the software under development? \textit{Hypothesis}: Utility is positively correlated with practice adherence.
-\item \textit{Training} - How well trained is the project staff in the practices being used? \textit{Hypothesis}: Training is positively correlated with practice adherence.
-\item \textit{Effort} - How much time, on average, does applying this practice take each time you apply it? \textit{Hypothesis}: Effort is a direct measure of practice adherence.
-\end{itemize}
-To support triangulation with subjective metrics, and support for studies where the team is unavailable, we define the following objective practice adherence metrics:
-\begin{itemize}
-\item \textit{Frequency}: Number of references to the practice, obtained by researcher observation and/or text mining. \textit{Hypothesis}:  How frequently practices are mentioned in project documentation and history is correlated with practice adherence.
-\item \textit{Prevalence}: Proportion of the team applying the practice, the ratio of all practice users to all team members. \textit{Hypothesis}: Many studies, e.g. Venkatesh ~\cite{venkatesh2003user} and Witschey ~\cite{witschey2015quantifying}, show use by other team members to be correlated with why developers use practices. \textit{Hypothesis}: Prevalence is positively correlated with practice adherence.
-\end{itemize}
-For each security practice adherence event, we recorded the following data elements:
-\begin{itemize}
-\item \textit{Event Date} – Date on which document was created.
-\item \textit{Practice} – Name of security practice associated with document. 
-\item \textit{Source} – Data source for document. Possible Values: Version Control, Defect Tracker, Email.
-\item \textit{Document Id} – Id of document in its source, e.g. commit hash, bug tracker id, email id.
-\item \textit{Creator} – Author of the source document.
-\item \textit{Assignee} – For defect report documents, the person assigned the defect, where applicable.
-\end{itemize}
-
-While the practice adherence metrics are not tied to a specific set of practices, we have defined a set of software development security practices, based on prior art. We read through the BSIMM, SDL, SAFECode, and OWASP practice lists, filling out the practice adherence template (\ref{sec:model_contruct_adherence}) for each security practice. We identifying 16 practices that, in combination with roles (e.g. Manager, Developer), verbs (e.g. ‘implement’, ‘test’, ‘document’) , phases (e.g. ‘Design’, ‘Testing’), and artifacts (e.g. ‘Requirements’, ‘Source Code’, ‘Regulations’), were sufficient to classify the source practices we identified. We excluded three of the practices, ‘Apply Security Principles’,  ‘Monitor Security Metrics’ and ‘Publish Disclosure Policy’ from the framework because they were mentioned less than 2\% of the time across our sources.
-Once we had classified the practices, we revisited the text of the source practices, and extracted representative keywords and questions characterizing how the practice is implemented. 
- Table 1 lists the practices, with descriptions, and keywords for each practice. Documentation for all of the roles, verbs, phases, artifacts, keywords, and questions is available at the website~\cite{morrison2016spefsite}.
-
-\subsubsection{Outcome Measures}
-In this section, we describe the set of attributes and values that are used to describe the security-related outcomes of the project. 
-
-While hundreds of security metrics have been proposed~\cite{rudolph2012critical},~\cite{verendel2009quantified}, tracking a relatively small set of attributes for each vulnerability detected in the software is sufficient to replicate many of them. In addition to data kept for defects (e.g. those attributes listed by Lamkanfi et al.  ~\cite{lamkanfi2013eclipse}), we collect:
-\begin{itemize}
-\item \textit{Source} – The name of the bug tracker or bug-tracking database where the vulnerability is recorded.
-\item \textit{Identifier} – The unique identifier of the vulnerability in its source database.
-\item \textit{Description} – Text description of the vulnerability.
-\item \textit{Discovery Date} – Date the vulnerability was discovered. 
-\item \textit{Creation Date} – Date the tracking record was created.
-\item \textit{Patch Date} – The date the change resolving the vulnerability was made.
-\item \textit{Release Date} – The date the software containing the vulnerability was released.
-\item \textit{Severity} – The project's perceived importance of the vulnerability. 
-\item \textit{Phase}  – Indication of when during the development lifecycle the vulnerability was discovered
-\item \textit{Reporter} – Indication of who found the vulnerability. (Optional) Role Name and/or email address of person in the reporter role. 
-\end{itemize}
-
-Given a collection of vulnerabilities with the attributes specified above, we can compute the following measures:
-\begin{itemize}
-\item \textit{Pre-release Vulnerabilities} - Vulnerabilities found in new and changed code before software is released. \textit{Hypothesis}: The goal of security practice adherence is to avoid releasing software with vulnerabilities, so pre-release vulnerabilities are positively correlated with security effort, and negatively correlated with security outcomes.
-\item \textit{Post-release Vulnerabilities} - Vulnerabilities found in new and changed code after software is released. \textit{Hypothesis}: Post-release Vulnerabilities represent a failure of the process to catch vulnerabilities pre-release, and are negatively correlated with security outcomes.
-\item \textit{Vulnerability Density} - Vulnerability Density (Vdensity) is the cumulative vulnerability count per unit size of code ~\cite{alhazmi2007assessing}. We adopt a size unit of thousand source lines of code (KSLOC). \textit{Hypothesis}: Vulnerability Density is a derived measure negatively correlated with security outcomes ~\cite{alhazmi2007measuring}.
-\item \textit{Vulnerability Removal Effectiveness} - Vulnerability Removal Effectiveness (VRE) is the ratio of pre-release vulnerabilities to total vulnerabilities found, pre- and post-release, analogous to defect removal effectiveness ~\cite{kan2002metrics}. Ideally, a development team will find all vulnerabilities before the software is shipped.  VRE is a measure for how effective the team’s security practices are at finding vulnerabilities before release. \textit{Hypothesis}: VRE is positively correlated with practice adherence, and negatively correlated with security outcomes.
-\end{itemize}
+%\begin{figure}
+% \includegraphics[width=\columnwidth]{modelcaoscto}
+%	\caption{Model Constructs and Sub-Constructs}
+%	\label{fig:model_constructs_phases}
+%\end{figure}
 
 
-\subsection{Putting it all together; Linking SPEF to the Model}
+\subsection{Measurement Model}
+\label{sec:model_measurement}
+%~\cite{morrison2014mapping}
+%~\cite{morrison2016spefsite}
+Through literature review and analysis, we have developed a set of measurements that we expect to capture security-related factors and outcomes for software development. To collect empirical data, we have developed a data collection framework for the measurement model, available online (URL on request). For each data element, we give our hypothesis about its relationship to the structural model construct  and name. 
 
-Figure X-marks-the-full-model-spot presents the model, annotated with each SPEF data element in its hypothesized relationship to the model. 
-In this section, we build three graphical models of the hypothesized relationships described above, representing three levels of measurement detail.
+\subsubsection{Software Risk}
 
-\input{CAO_SCTO_SPEF_Table}
+	Language	influences	Software Risk	
+	Operating System	influences	Software Risk	
+	Domain	influences	Software Risk	
+	Product Age	increases	Software Risk	
+	SLOC	increases	Software Risk	
+	Churn	increases	Software Risk	
+	Team Size	influences	Software Risk	
+
+\subsubsection{Asset Value}
+
+	Number of Machines	increases	Asset Value
+	Number of Identities	increases	Asset Value	
+	Number of Dollars	increases	Asset Value	
+	Source Code Availability	influences	Asset Value
+	CIA Requirements	increases	Asset Value
+
+\subsubsection{Practice Adherence}
+
+Team Location	influences	Adherence	
+Methodology	influences	Adherence	
+Apply Data Classification Scheme increases	Adherence	
+Apply Security Requirements		increases		Adherence
+Perform Threat Modeling	increases	Adherence	
+Document Technical Stack	increases	Adherence	
+Apply Secure Coding Standards	increases	Adherence	
+Apply Security Tooling	increases	Adherence
+Perform Security Testing	increases	Adherence	
+Perform Penetration Testing	increases	Adherence	
+Perform Security Review	increases	Adherence	
+Publish Operations Guide	increases	Adherence
+Track Vulnerabilities	increases	Adherence	
+Improve Development Process	increases	Adherence	
+Perform Security Training	increases	Adherence	
+
+\subsubsection{Security Outcomes}
+Vulnerabilities	increase negative	Outcomes
+Defects increase negative Outcomes
+
+
+
