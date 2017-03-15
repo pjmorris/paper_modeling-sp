@@ -3,7 +3,7 @@
 
 In February 2017, security researchers discovered a programming bug in an internet service's HTML parser\footnote{https://blog.cloudflare.com/incident-report-on-memory-leak-caused-by-cloudflare-parser-bug/}. The parser was sending decrypted encryption keys and passwords along with ordinary web requests, resulting in unencrypted sensitive data being cached across the Internet. While the programming bug, now known as `Cloudbleed'~\footnote{https://en.wikipedia.org/wiki/Cloudbleed}, was on a single line of code, the bug had widespread effects because of the code's purpose and its context.   While researchers have surfaced relationships between source code metrics and security properties~\cite{zimmerman2010searching,alhazmi2007measuring,meneely2013when,shin2011evaluating}, Cloudbleed is an illustration of the need for development teams to account for the context in which a piece of software is used to assess its potential for vulnerabilities and the need for security effort.  Development teams and researchers could benefit from a comprehensive picture of the factors underlying security concerns.
 
-Given the wide variety of security measurements and practices available, a model of the variables and relationships involved in measuring security in software development could help clarify how to focus development efforts to avoid and resolve vulnerabilities. \textit{The goal of this research is to support researchers and practitioners in measuring the effect of security practice use on software vulnerabilities by building and validating an explanatory model for software development security practice use.}
+Given the wide variety of security measurements and practices available, a model of the variables and relationships involved in measuring security in software development could help clarify where to focus development efforts to avoid and resolve vulnerabilities. \textit{The goal of this research is to support researchers and practitioners in measuring the effect of security practice use on software vulnerabilities by building and validating an explanatory model for software development security practice use.}
  
 We investigate two research questions:
 \begin{itemize}
@@ -16,7 +16,7 @@ We propose and evaluate a model for quantifying security practice use and outcom
 	\item Asset Value - measures of the value an attacker will find in conducting a successful attack.
 	\item Software Risk - measures of the characteristics of software that make successful attacks more likely.
 	\item Practice Adherence (Adherence) - measures of the development team's security assurance efforts. 
-	\item Security Outcomes (Outcomes) - measures of the security outcomes of a piece of software over the course of the software's lifecycle.
+	\item Security Outcomes (Outcomes) - measures of security-related events associated with a piece of software over the course of the software's life cycle.
 \end{itemize}
 	
 To evaluate the model, we conduct two quantitative studies of the construct relationships, applying data from the National Vulnerability Database and the Core Infrastructure Initiative Census to test for relationships between Asset Value, Software Risk, Adherence, and Outcomes.
