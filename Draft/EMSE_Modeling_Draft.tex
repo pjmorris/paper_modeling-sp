@@ -1,0 +1,135 @@
+%%%%%%%%%%%%%%%%%%%%%%% file template.tex %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is a general template file for the LaTeX package SVJour3
+% for Springer journals.          Springer Heidelberg 2010/09/16
+%
+% Copy it to a new file with a new name and use it as the basis
+% for your article. Delete % signs as needed.
+%
+% This template includes a few options for different layouts and
+% content for various journals. Please consult a previous issue of
+% your journal as needed.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% First comes an example EPS file -- just ignore it and
+% proceed on the \documentclass line
+% your LaTeX will extract the file if required
+\begin{filecontents*}{example.eps}
+%!PS-Adobe-3.0 EPSF-3.0
+%%BoundingBox: 19 19 221 221
+%%CreationDate: Mon Sep 29 1997
+%%Creator: programmed by hand (JK)
+%%EndComments
+gsave
+newpath
+  20 20 moveto
+  20 220 lineto
+  220 220 lineto
+  220 20 lineto
+closepath
+2 setlinewidth
+gsave
+  .4 setgray fill
+grestore
+stroke
+grestore
+\end{filecontents*}
+%
+\RequirePackage{fix-cm}
+%
+%\documentclass{svjour3}                     % onecolumn (standard format)
+%\documentclass[smallcondensed]{svjour3}     % onecolumn (ditto)
+\documentclass[smallextended]{svjour3}       % onecolumn (second format)
+%\documentclass[twocolumn]{svjour3}          % twocolumn
+%
+\smartqed  % flush right qed marks, e.g. at end of proof
+%
+
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{tikz}
+
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{alltt}
+\usepackage{algorithm}
+
+\usepackage{algorithmic}
+\usepackage{cite}
+\usepackage{flushend}
+\usepackage{tabularx}
+\usepackage{framed}
+\usepackage{subcaption}
+\captionsetup{compatibility=false}
+
+%\lstset{language=C}
+%\input{macros}
+%\usepackage[margin=0.5in]{geometry}
+
+
+%
+% \usepackage{mathptmx}      % use Times fonts if available on your TeX system
+%
+% insert here the call for the packages your document requires
+%\usepackage{latexsym}
+% etc.
+%
+% please place your own definitions here and don't use \def but
+% \newcommand{}{}
+%
+% Insert the name of "your journal" with
+% \journalname{myjournal}
+%
+\begin{document}
+
+\title{Quantifying Security Context Factors in Software Development}
+%\subtitle{Do you have a subtitle?\\ If so, write it here}
+
+%\titlerunning{Short form of title}        % if too long for running head
+
+\author{Patrick J. Morrison \and
+	Jonathan W. Stallings \and
+	Laurie Williams
+}
+
+%\authorrunning{Short form of author list} % if too long for running head
+
+
+\institute{Patrick J. Morrison, Laurie Williams \at
+	Department of Computer Science,\\
+	North Carolina State University, North Carolina, USA\\
+	\email{pjmorris@ncsu.edu, and williams@csc.ncsu.edu}
+	\and
+	Jonathan W. Stallings \at
+	Department of Computer Science,\\
+	North Carolina State University, North Carolina, USA
+	\email{jwstallings@ncsu.edu}
+}
+\date{Received: date / Accepted: date}
+% The correct dates will be entered by the editor
+
+\maketitle
+
+\input{abstract}
+
+\input{introduction}
+\input{background}
+\input{themodel}
+\input{methodology}
+\input{evaluation}
+\input{evaluation_nvd}
+\input{evaluation_cii}
+%\input{evaluation_combined}
+\input{discussion}
+\input{limitations}
+\input{conclusion}
+
+%\section*{Acknowledgment}
+
+%This work is supported, in part, by IBM and by the USA National Security Agency (NSA) %Science of Security Lablet at NCSU. Any opinions expressed in this report are those of %the author(s) and do not necessarily reflect the views of IBM or the NSA.   Finally, we %thank the RealSearch\footnote{https://www.facebook.com/realsearchNCSU} research group for %providing helpful feedback on this work.
+
+\bibliographystyle{abbrv}
+\bibliography{modeling}
+
+\end{document}

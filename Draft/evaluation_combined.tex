@@ -1,0 +1,136 @@
+
+\subsection{Combined CII and NVD data}
+We observed that a subset of the CII census projects have vulnerabilities recorded in the NVD dataset, offering the opportunity to study the combination of measurement variables from the two datasets. 
+
+\subsubsection{Data selection}
+We began with the NVD and CII data, collected as previously described. 
+
+\subsubsection{Data collection}
+We intersected the two datasets based on the project name used in each dataset. Intersecting the 428 CII projects with the 6695 NVD projects yielded a set of 69 projects with all data for each project. 
+
+\subsubsection{Estimation}
+We began with the aggregated fields from both datasets, and removed theoretically equivalent fields, preferring ordinal and ratio fields to categorical fields where we had a choice. For example, we chose the `package\_popularity' count over the `PopularityRisk' categorical variable. We evaluated model fit after each variable removal, addition, and transformation.
+
+\subsubsection{Model Fit and Re-specification}
+Through a series of experiments, evaluating model fit for the combined datasets, we obtained a `Combined' model with good global fit characteristics, see the `Combined No Net' column in Table \ref{tab:results_fit_all}.
+
+\begin{align*}
+	SoftwareRisk =\sim cvss\_access\_vector + cvss\_access\_complexity\\
+	 + cvss\_auth + total\_code\_lines + TeamSize + LanguageRisk\\
+	AssetRisk =\sim cvss\_conf\_impact + cvss\_integ\_impact +\\ cvss\_avail\_impact + package\_popularity\\
+	Outcomes =\sim  logCVECount \\
+	Adherence =\sim adherence + twelve\_month\_contributor\_count +\\ CodeComments + TeamActivity \\
+	Outcomes ~ SoftwareRisk + AssetRisk\\
+	SoftwareRisk \sim  Adherence\\
+\end{align*}
+
+\subsubsection{Reporting Results}
+To study how models behave for different projects, we selected a non-model variable, `process\_network\_data', to filter data for the model. We compared the performance of the model on projects that do not process network data against the model's performance in projects that process network data by filtering the data each way and applying the model.
+
+\begin{table}
+	\begin{center}	
+		\caption{NVD-CII Combined, No Net Data}
+		\label{tab:results_combined1}
+		\begin{tabular}{l|rrrr}
+			\\[-1.8ex]\hline 
+			\hline \\[-1.8ex] 
+			\textit{Latent Variables}: &  & Combined & No Net & \\  
+			$\sim$ Measured variables& Estimate & Std.Err & z$-$value & $P(>|z|)$ \\
+			\hline \\[-1.8ex]
+			$SoftwareRisk =\sim$  & & & & \\                                   
+			cvss\_ccss\_vctr   & 1.000 & &  & \\                             
+			cvss\_ccss\_cmpl &  $-$0.36 &   0.286 & 1.243 &   0.214\\
+			cvss\_auth     &   $-$0.065  &  0.056  & $-$1.17   & 0.244\\
+			total\_code\_lns  &  6.232 &   2.572 &   2.423 &   0.015\\
+			TeamSize        &  6.268   & 2.484   & 2.524   & 0.012\\
+			LanguageRisk    &  0.148  &  0.413   & 0.357   & 0.721\\ 
+			& & & & \\  
+			$AssetValue =\sim$     & & & & \\                                    		
+		    cvss\_conf\_mpct  &  1.000  &	&	&                  \\
+		    cvss\_intg\_mpct  &  0.954  &  0.116 &   8.230  &  0.000\\
+		    cvss\_aval\_mpct  &  0.896 &   0.122 &   7.361 &   0.000\\
+		    package\_pplrty  &  0.458 &   0.464  &  0.987 &   0.324\\	
+			& & & & \\  
+			$Outcomes =\sim$    & & & & \\                                     
+			logCVECount     &  1.000  & & & \\                          
+			& & & & \\  
+			$Adherence =\sim$   & & & & \\                                      
+			adherence    &     1.000        & & & \\    
+			
+		    twlv\_mnth\_cnt\_  &  7.783  &  4.088  &  1.904 &   0.057\\
+		    CodeComments    &  1.914  &  1.145  &  1.672  &  0.095\\
+		    TeamActivity    &  1.386  &  0.842 &   1.646 &   0.100\\	
+			                
+			Regressions:  & & & & \\  
+			%& Estimate & Std.Err & z$-$value & $P(>|z|)$ \\
+			$Outcomes \sim$         & & & & \\                                     
+			SoftwareRisk   &  3.365 &   1.635 & 2.058 &   0.040 \\
+			Adherence       &  $-$1.559  & 1.526  &  $-$1.022  &  0.307\\
+			AssetValue     &   $-0$.619  &  0.291  &  $-$2.125 &   0.034\\
+			$SoftwareRisk \sim$        & & & & \\                                  
+			Adherence     &    1.56 &   1.04  &  1.505 &   0.132\\
+			Covariances:  & & & & \\  
+			%& Estimate & Std.Err & z$-$value & $P(>|z|)$ \\
+			$AssetValue \sim\sim$          & & & & \\                                 
+			Adherence     &    $-$0.024 &   0.019  &  $-$.255 &   0.209\\
+		\end{tabular}
+	\end{center}
+\end{table}
+
+
+\begin{table}
+	\begin{center}	
+		\caption{NVD-CII Combined, Net Data}
+		\label{tab:results_combined2}
+		\begin{tabular}{l|rrrr}
+			\\[-1.8ex]\hline 
+			\hline \\[-1.8ex] 
+			\textit{Latent Variables}: &  & Combined & No Net & \\  
+			$\sim$ Measured variables& Estimate & Std.Err & z$-$value & $P(>|z|)$ \\
+			\hline \\[-1.8ex]
+			$SoftwareRisk =\sim$  & & & & \\                                   
+			cvss\_ccss\_vctr   & 1.000 & &  & \\                             
+			cvss\_ccss\_cmpl &  $-$0.224 &   0.272 & 0.822 &   0.411\\
+			cvss\_auth     &   $-$0.1035  &  0.114  & $-$906   & 0.365\\
+			total\_code\_lns  &  7.27 &   3.054 &   2.381 &   0.017\\
+			TeamSize        &  8.448   & 3.092  & 2.732   & 0.006\\
+			LanguageRisk    &  $-$0.976  &  0.645   & $-$1.513   & 0.130\\ 
+			& & & & \\  
+			$AssetValue =\sim$     & & & & \\                                    		
+			cvss\_conf\_mpct  &  1.000  &	&	&                  \\
+			cvss\_intg\_mpct  &  0.743  &  0.129 &   5.770  &  0.000\\
+			cvss\_aval\_mpct  &  0.481 &   0.110 &   4.364 &   0.000\\
+			package\_pplrty  &  0.378 &   1.099  &  0.344 &   0.731\\	
+			& & & & \\  
+			$Outcomes =\sim$    & & & & \\                                     
+			logCVECount     &  1.000  & & & \\                          
+			& & & & \\  
+			$Adherence =\sim$   & & & & \\                                      
+			adherence    &     1.000        & & & \\    
+			twlv\_mnth\_cnt\_  &  3.852  &  0.951  &  4.051 &   0.000\\
+			CodeComments    &  $-$0.486  &  0.353  &  $-$1.376  &  0.1695\\
+			TeamActivity    &  0.123  &  0.352 &   0.350 &   0.726\\	
+			
+			Regressions:  & & & & \\  
+			%& Estimate & Std.Err & z$-$value & $P(>|z|)$ \\
+			$Outcomes \sim$         & & & & \\                                     
+			SoftwareRisk   &  $-$6.314 &   4.033 & $-$1.566 &   0.117 \\
+			Adherence       &  4.210  & 2.340  &  1.80  &  0.072\\
+			AssetValue     &   $-$1.312  &  0.418  &  $-$3.142 &   0.002\\
+			$SoftwareRisk \sim$        & & & & \\                                  
+			Adherence     &    -0.003 &   0.035  &  -0.086 &   0.931\\
+			Covariances:  & & & & \\  
+			%& Estimate & Std.Err & z$-$value & $P(>|z|)$ \\
+			$AssetValue \sim\sim$          & & & & \\                                 
+			Adherence     &    $-$0.003 &   0.035  &  $-$.086 &   0.931\\
+		\end{tabular}
+	\end{center}
+\end{table}
+
+In terms of global fit, the Combined No Net model was inside or near the range of traditional fit criteria, as measured by the fit indexes. The Combined Net model was outside the traditional fit criteria on all measurements. In terms of the parameter estimates for our hypothesized factor relationships, we have the following:
+\begin{itemize}
+	\item  Asset Value - Security Outcomes were negative ($-$0.619, $-1$1.312), contrary to our hypothesis. 
+	\item Software Risk - Security Outcomes is positive (73.08), as hypothesized. 
+	\item Practice Adherence is slightly postitively associated (0.045) with Software Risk 
+\end{itemize}	
+Only the Asset Risk-Outcome estimate was statistically significant.

@@ -1,0 +1,351 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Calibri;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww16360\viewh14520\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 # Model zero cii\
+\
+library(psych)\
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\fs30 \cf0 # fact_activity=actv2num(cii$fact_activity)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\fs24 \cf0 # fact_activity: 
+\f1 Decreasing Y-O-Y development activity, Stable Y-O-Y development activity,  Increasing Y-O-Y development activity,
+\f0 \
+act2num <- function(v) \{ return(ifelse(v == "Decreasing Y-O-Y development activity",1,ifelse(v == "Stable Y-O-Y development activity",2,ifelse(v == "Increasing Y-O-Y development activity",3,0)))) \}\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\fs30 \cf0 # fact_age=age2num(cii$fact_age)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\fs24 \cf0 # fact_age: 
+\f1 Decreasing Y-O-Y development activity, Stable Y-O-Y development activity,  Mature, well-established codebase
+\f0 \
+age2num <- function(v) \{ return(ifelse(v == "Short source control history",1,ifelse(v == "Young, but established codebase",2,ifelse(v == "Well-established codebase",3,ifelse(v == "Mature, well-established codebase",4,0))))) \}\
+\
+\
+# comments\
+cmt2num <- function(v) \{\
+	switch(v,\
+		"Very few source code comments" = 1,   \
+		"Few source code comments" = 2,\
+		"Average number of code comments" = 3,\
+		"Well-commented source code" = 4,  \
+		"Very well-commented source code" = 5\
+		)\
+\}\
+\
+cmt2num <- function(v) \{\
+	return (ifelse(v == "Very few source code comments", 1,   \
+		ifelse(v == "Few source code comments", 2,\
+		ifelse(v == "Average number of code comments", 3,\
+		ifelse(v == "Well-commented source code",4,  \
+		ifelse(v == "Very well-commented source code", 5,-1\
+		))))))\
+\}\
+\
+# team_size \
+tsz2num <- function(v) \{\
+	return(\
+		ifelse(v == "No recent development activity", 0,\
+		ifelse(v == "Only a single active developer",1,   \
+		ifelse(v == "Small development team",2,\
+		ifelse(v == "Average size development team",3,\
+		ifelse(v == "Large, active development team", 4,  \
+		ifelse(v == "Very large, active development team", 5, -1\
+		)))))))\
+\}\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+# ciicooked[,c("total_code_lines", "total_contributor_count","LanguageRisk", "PopularityRisk", "ExposureRisk", "direct_network_exposure", "process_network_data", "potential_privilege_escalation", "CVERisk", "CVE", "CVE_since_2010")]\
+\
+ciiraw <- read.csv("~/Dropbox/github/cii-census/results.csv")\
+\
+ciiraw$DevChurnAdh <-  ciiraw$total_contributor_count / ciiraw$total_code_lines\
+\
+ciiraw$CVE <- ciiraw$CVE_since_2010\
+ciiraw$RiskIndex <- ciiraw$risk_index\
+\
+ciiraw$RiskIndex <- as.numeric(ciiraw$risk_index)\
+\
+ciiraw$TeamActivity <- as.numeric(act2num(ciiraw$fact_activity))\
+ciiraw$CodeAge <- as.numeric(age2num(ciiraw$fact_age))\
+ciiraw$CodeComments <- as.numeric(cmt2num(ciiraw$fact_comments))\
+ciiraw$TeamSize <- as.numeric(tsz2num(ciiraw$fact_team_size))\
+\
+assignRiskIndexFields <- function(row) \{\
+	for (c in strsplit(as.character(row$risk_index_components),",")) \{fields <- strsplit(c,":")\}\
+\
+row[["WebsiteRisk"]] = as.integer(fields[[1]][2])\
+row[["CVERisk"]] = as.integer(fields[[2]][2])\
+row[["ContributorRisk"]] = as.integer(fields[[3]][2])\
+row[["PopularityRisk"]] = as.integer(fields[[4]][2])\
+row[["LanguageRisk"]] = as.integer(fields[[5]][2])\
+row[["ExposureRisk"]] = as.integer(fields[[6]][2])\
+row[["DataRisk"]] = as.integer(fields[[7]][2])\
+row \
+\}\
+\
+ciiraw[["WebsiteRisk"]] = NA\
+ciiraw[["CVERisk"]] = NA\
+ciiraw[["ContributorRisk"]] = NA\
+ciiraw[["PopularityRisk"]] = NA\
+ciiraw[["LanguageRisk"]] = NA\
+ciiraw[["ExposureRisk"]] = NA\
+ciiraw[["DataRisk"]] = NA\
+\
+for (i in 1:length(ciiraw$project_name)) \{ciiraw[i,] <- assignRiskIndexFields(ciiraw[i,]) \}\
+\
+\
+ciicooked <- ciiraw[!is.na(ciiraw$DevChurnAdh),c(1,16,6,13,14,15,22,25,26,27,28,31,32,33,34,35,36,37,38,39,40,41,42,43)]\
+\
+\
+ciicooked$total_code_lines <- log(ciicooked$total_code_lines/1000)\
+ciicooked$total_contributor_count <- log(ciicooked$total_contributor_count)\
+ciicooked$package_popularity <- log(ciicooked$package_popularity)\
+\
+ciicooked$twelve_month_contributor_count <- log(ciicooked$twelve_month_contributor_count+1)\
+ciicooked$CVE_since_2010 <- log(ciicooked$CVE_since_2010+1)\
+\
+scaled.cii <- data.frame(apply(ciicooked[,-c(1,2)],2,scale))\
+\
+\
+# One awful stepwise refinement session later, \'85\
+model.one.cii <- '\
+AssetValue =~ PopularityRisk + direct_network_exposure + process_network_data + potential_privilege_escalation\
+Adherence =~ TeamActivity + CodeAge + CodeComments + TeamSize\
+SoftwareRisk =~  total_code_lines + LanguageRisk  + Adherence\
+Outcomes ~ SoftwareRisk + AssetValue\
+Adherence ~ SoftwareRisk\
+Outcomes =~ CVECount'\
+\
+# awful tweaked\'85\
+model.one.cii <- '\
+AssetValue =~ PopularityRisk + direct_network_exposure + process_network_data + potential_privilege_escalation\
+Adherence =~ TeamActivity + CodeAge + CodeComments + TeamSize\
+SoftwareRisk =~  total_code_lines + LanguageRisk  + Adherence\
+Outcomes ~ SoftwareRisk + AssetValue\
+Adherence ~ SoftwareRisk\
+Outcomes =~ CVE\
+SoftwareRisk ~~ 1*SoftwareRisk\
+AssetValue ~~ 1*AssetValue\
+Adherence ~~ 1*Adherence\
+Outcomes ~~ 1*Outcomes\
+'\
+\
+\
+\
+# Excellent fit:\
+model.combined <- '\
+ SoftwareRisk =~ cvss_access_vector + cvss_access_complexity + cvss_auth + process_network_data + CodeComments + LanguageRisk\
+ Outcomes =~  logCVECount \
+ Outcomes ~ SoftwareRisk + Adherence + AssetValue\
+ Adherence =~ adherence + log12mcc \
+ SoftwareRisk ~  Adherence\
+ AssetValue =~ cvss_conf_impact + cvss_integ_impact + cvss_avail_impact + PopularityRisk'\
+\
+\
+model.zero.cii <- '\
+Likelihood =~  total_code_lines + total_contributor_count+ LanguageRisk + direct_network_exposure + process_network_data + potential_privilege_escalation\
+Impact =~ PopularityRisk \
+Outcomes =~ CVERisk \
+Outcomes ~ Likelihood + Impact\
+Likelihood ~  Impact'\
+\
+# augmented baseline model built from dataset\
+model.zero.cii <- '\
+ SoftwareRisk =~  total_contributor_count + total_code_lines + LanguageRisk +  direct_network_exposure + process_network_data + potential_privilege_escalation + CodeAge + TeamSize + ContributorRisk\
+ AssetValue =~ package_popularity\
+Outcomes =~  CVECount  + CVERisk \
+ Adherence =~  TeamActivity + CodeComments + WebsiteRisk + twelve_month_contributor_count\
+ Outcomes ~ SoftwareRisk + Adherence + AssetValue\
+ SoftwareRisk ~  Adherence\
+SoftwareRisk ~~ 1*SoftwareRisk\
+AssetValue ~~ 1*AssetValue\
+Adherence ~~ 1*Adherence\
+Outcomes ~~ 1*Outcomes\
+ '\
+\
+# actual data baseline model\
+model.zero.cii <- '\
+ SoftwareRisk =~  total_contributor_count + total_code_lines + LanguageRisk +  direct_network_exposure + process_network_data + potential_privilege_escalation + CodeAge \
+ AssetValue =~ package_popularity\
+Outcomes =~  CVE_since_2010  \
+ Adherence =~  TeamActivity + CodeComments + WebsiteRisk + twelve_month_contributor_count\
+ Outcomes ~ SoftwareRisk + Adherence + AssetValue\
+ SoftwareRisk ~  Adherence\
+SoftwareRisk ~~ 1*SoftwareRisk\
+AssetValue ~~ 1*AssetValue\
+Adherence ~~ 1*Adherence\
+Outcomes ~~ 1*Outcomes\
+ '\
+\
+\
+model.one.cii <- '\
+AssetValue =~ PopularityRisk + direct_network_exposure + process_network_data + potential_privilege_escalation\
+Adherence =~ TeamActivity + CodeAge + CodeComments + TeamSize\
+SoftwareRisk =~  total_code_lines + LanguageRisk  + Adherence\
+Outcomes ~ SoftwareRisk + AssetValue\
+Adherence ~ SoftwareRisk\
+Outcomes =~ CVE\
+SoftwareRisk ~~ 1*SoftwareRisk\
+AssetValue ~~ 1*AssetValue\
+Adherence ~~ 1*Adherence\
+Outcomes ~~ 1*Outcomes\
+'\
+\
+model.one.cii <- '\
+EnvironmentalImpact =~ PopularityRisk + direct_network_exposure + process_network_data + potential_privilege_escalation\
+Adherence =~ TeamActivity + CodeAge + CodeComments + TeamSize\
+SoftwareQuality =~  total_code_lines + LanguageRisk  + Adherence\
+Outcomes =~ CVERisk + SoftwareQuality + EnvironmentalImpact\
+Adherence ~ EnvironmentalImpact\
+SoftwareRisk ~~ 1*SoftwareRisk\
+AssetValue ~~ 1*AssetValue\
+Adherence ~~ 1*Adherence\
+Outcomes ~~ 1*Outcomes\
+'\
+\
+fit <- sem(model.zero.cii,data=ciicooked,estimator="WLSMV")\
+summary(fit)\
+\
+\
+# scaling\
+\
+scaled.cii <- data.frame(apply(ciicooked[c(2:5,11:15,17:25)],2,scale))\
+\
+fit <- sem(model.zero.cii,data=scaled.cii,estimator="WLSMV")\
+summary(fit)\
+\
+fit <- sem(model.one.cii,data=ciicooked,estimator="WLSMV",ordered=c("CVERisk","PopularityRisk","TeamSize","TeamActivity","CodeAge","CodeComments","LanguageRisk"))\
+summary(fit)\
+\
+cor.plot(ciicooked[c(2:5,11:15,17:25)])\
+cor.plot(scaled.cii)\
+\
+\
+model.zero.nvd <- '\
+ SoftwareRisk =~ cvss_access_vector + cvss_access_complexity + cvss_auth\
+ Outcomes =~  CVECount \
+ Outcomes ~ SoftwareRisk + Adherence + AssetValue\
+ Adherence =~ adherence\
+ SoftwareRisk ~  Adherence\
+ AssetValue =~ cvss_conf_impact + cvss_integ_impact + cvss_avail_impact'\
+\
+# Zooming in on cii int the nvd, but only if you have the NVD\
+# extract list of projects and their CVE\'92s from NVD based on the CII project names\
+\
+ciiplist <- unique(levels(ciicooked$project_name))\
+\
+# nvd[nvd$software %in% ciiplist,]\
+# rolled[rolled$software %in% ciiplist,]\
+\
+rolledcii <- group_by(nvdxlated[nvdxlated$software %in% ciiplist,],software,pubyear,add=TRUE) %>% summarise(CVECount=n(),cvss_score=mean(cvss_score),adherence=mean(adherence),cvss_auth=mean(cvss_auth),cvss_access_vector=mean(cvss_access_vector),cvss_access_complexity=mean(cvss_access_complexity),cvss_conf_impact=mean(cvss_conf_impact), cvss_integ_impact=mean(cvss_integ_impact), cvss_avail_impact=mean(cvss_avail_impact))\
+\
+oldrolled <- rolled\
+rolled <- rolledcii\
+\
+rolled_software_cii <- data.frame(baseCVECount=rolled$CVECount, CVECount=log(rolled$CVECount+1),cvss_score=rolled$cvss_score,adherence=scale(rolled$pubyear) + abs(min(scale(rolled$pubyear),na.rm=TRUE)),cvss_auth=rolled$cvss_auth,cvss_access_vector=rolled$cvss_access_vector,cvss_access_complexity=rolled$cvss_access_complexity,cvss_conf_impact=rolled$cvss_conf_impact, cvss_integ_impact=rolled$cvss_integ_impact, cvss_avail_impact=rolled$cvss_avail_impact)\
+\
+summary(lm(\
+ CVECount ~ cvss_access_vector + cvss_access_complexity + cvss_auth + adherence\
+ + cvss_conf_impact + cvss_integ_impact + cvss_avail_impact\
+,data=rolled_software_cii))\
+# DO YOU HAVE NVD LOADED?  PROBABLY NOT, YO\
+\
+# HERE\'92S THE COMBINED DATA and PLOT\
+\
+rolledcii_project <- group_by(nvdxlated[nvdxlated$software %in% ciiplist,],software,add=TRUE) %>% summarise(CVECount=n(),cvss_score=mean(cvss_score),adherence=mean(adherence),cvss_auth=mean(cvss_auth),cvss_access_vector=mean(cvss_access_vector),cvss_access_complexity=mean(cvss_access_complexity),cvss_conf_impact=mean(cvss_conf_impact), cvss_integ_impact=mean(cvss_integ_impact), cvss_avail_impact=mean(cvss_avail_impact))\
+\
+nvdr2s <- group_by(nvdxlated,software) %>% summarise(CVECount=n(),cvss_score=mean(cvss_score),adherence=mean(adherence),cvss_auth=mean(cvss_auth),cvss_access_vector=mean(cvss_access_vector),cvss_access_complexity=mean(cvss_access_complexity),cvss_conf_impact=mean(cvss_conf_impact), cvss_integ_impact=mean(cvss_integ_impact), cvss_avail_impact=mean(cvss_avail_impact))\
+\
+nvdr2sp <- data.frame(CVECount=nvdr2s$CVECount, logCVECount=log(nvdr2s$CVECount+1),cvss_score=nvdr2s$cvss_score,adherence=mean(nvdr2s$adherence),cvss_auth=nvdr2s$cvss_auth,cvss_access_vector=nvdr2s$cvss_access_vector,cvss_access_complexity=nvdr2s$cvss_access_complexity,cvss_conf_impact=nvdr2s$cvss_conf_impact, cvss_integ_impact=nvdr2s$cvss_integ_impact, cvss_avail_impact=nvdr2s$cvss_avail_impact)\
+\
+clist <- ciicooked[ciicooked$project_name %in% nvdr2s$software,]$project_name\
+df <- data.frame()\
+for (pname in clist) \{df <- rbind(df,cbind(nvdr2s[nvdr2s$software == pname,],ciicooked[ciicooked$project_name == pname,]))\}\
+\
+\
+# FA\
+library(nFactors)\
+mydata <- df[,-c(1,2,11,16:20,26,39)]\
+ev <- eigen(cor(mydata,use="complete"))\
+ap <- parallel(subject=nrow(mydata),var=ncol(mydata),\
+  rep=100,cent=.05)\
+nS <- nScree(x=ev$values, aparallel=ap$eigen$qevpea)\
+plotnScree(nS)\
+fa(df[-c(1,2,11,16:20,26,39)],fm="pa",nfactors=6)\
+\
+\
+df$log12mcc <- log(df$twelve_month_contributor_count+1)\
+df$logCVE2010 <- log(df$CVE_since_2010+1)\
+df$logCVECount <- log(df$CVECount+1)\
+rolled$logCVECount <- log(rolled$CVECount+1)\
+\
+\
+model.combined <- '\
+ SoftwareRisk =~ cvss_access_vector + cvss_access_complexity + cvss_auth + LanguageRisk + total_code_lines + TeamSize \
+ Outcomes =~  logCVECount \
+ Outcomes ~ SoftwareRisk + Adherence + AssetValue\
+ Adherence =~ adherence + NRecentContribs + CodeComments + TeamActivity\
+ SoftwareRisk ~  Adherence\
+ AssetValue =~ cvss_conf_impact + cvss_integ_impact + cvss_avail_impact'\
+\
+df$NRecentContribs <- df$log12mcc\
+\
+fit <- sem(model.combined,data=df)\
+summary(fit,fit.measures=TRUE)\
+\
+semPaths(fit,,"std",title=FALSE,sizeLat=10,sizeMan=9,nCharNodes=25,residuals=FALSE,intercepts=FALSE,layout="spring",structural=FALSE)\
+\
+\
+library(scatterplot3d)\
+fit <- sem(model.zero.cii,data=scaled.cii)\
+summary(fit,fit.measures=TRUE)\
+lpfit<- lavPredict(fit)\
+scatterplot3d(lpfit[,c("SoftwareRisk")],lpfit[,c("Adherence")],lpfit[,c("Outcomes")])\
+\
+\
+\
+# Plotly\
+\
+library(plotly)\
+\
+lpfit<- lavPredict(fit)\
+lpdf <- data.frame(SoftwareRisk=lpfit[,c("SoftwareRisk")],AssetValue=lpfit[,c("AssetValue")],Adherence=lpfit[,c("Adherence")],Outcomes=lpfit[,c("Outcomes")])\
+\
+\
+plot_ly(data.frame(lpfit), x = ~SoftwareRisk, y = ~AssetValue, z = ~Adherence, \
+        marker = list(color = ~Outcomes, colorscale = c('#FFE1A1', '#683531'), showscale = TRUE)) %>%\
+  add_markers() %>%\
+  layout(scene = list(xaxis = list(title = 'SW Risk'),\
+                     yaxis = list(title = 'Env Risk'),\
+                     zaxis = list(title = 'Adherence')))\
+\
+plot_ly(scaled.cii, x = ~total_code_lines, y = ~total_contributor_count, z = ~DevChurnAdh, \
+        marker = list(color = ~CVE_since_2010, colorscale = c('#FFE1A1', '#683531'), showscale = TRUE)) %>%\
+  add_markers() %>%\
+  layout(scene = list(xaxis = list(title = 'SW Risk'),\
+                     yaxis = list(title = 'Env Risk'),\
+                     zaxis = list(title = 'Adherence')))\
+\
+\
+\
+tyx <- gather(rolledcii,variable=c(3:10))\
+\
+dev.new()\
+ggplot(tyx[tyx$pubyear > 2000 & tyx$key %in% c("cvss_access_vector","cvss_access_complexity","cvss_auth"),]) + aes(pubyear,value,group=key,fill=key) + geom_smooth()\
+dev.new()\
+ggplot(tyx[tyx$pubyear > 2000 & tyx$key %in% c("cvss_conf_impact","cvss_integ_impact","cvss_avail_impact"),]) + aes(pubyear,value,group=key,shape=key,fill=key) + geom_smooth()\
+\
+\
+ggplot(tyx[tyx$pubyear > 2000 & tyx$key %in% c("cvss_access_vector","cvss_access_complexity","cvss_auth","cvss_conf_impact","cvss_integ_impact","cvss_avail_impact"),]) + aes(pubyear,value,group=key,linetype=key) + geom_smooth(sr=FALSE)\
+}

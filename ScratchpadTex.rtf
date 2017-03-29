@@ -1,0 +1,50 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww10800\viewh9000\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 Software development teams attend to security during the development process to minimize vulnerabilities in the software they produce. Many practices for controlling and measuring software security quality have been proposed and evaluated by the research community, for example design patterns~\\cite\{uzunov2015comprehensive\}, static and dynamic analysis~\\cite\{austin2013comparison\}, and attack surface analysis~\\cite\{theisen2015approximating\}. Practitioner recognition of security practices can be seen in the appearance of published lists of security practices, for example the Building Security in Maturity Model~\\cite\{mcgraw2013bsimm\} (BSIMM). However, the BSIMM does not provide practice recommendations. Software development teams must collect and evaluate their own evidence for what practices are suitable for a given software development project. \
+At the same time, research into vulnerability prediction has yielded metrics that can help teams identify whether the software they are developing may be at risk of attack. For example, the Common Infrastructure Initiative (CII) census of open source projects needing security investments, Wheeler ~\\cite\{wheeler2015open\}. The census researchers identified common metrics linked to vulnerabilities, for example Source Lines of Code (SLOC), and produced a list of at-risk software, but did not investigate the practices employed by the software projects in the census. At present, it is difficult for a software development team to assess whether their security practices are proportional to their vulnerability risk.\
+\
+To specify our model, we follow the guidelines of Structural Equation Modeling (SEM) [13]. SEM is a family of statistical techniques for specifying and assessing models for causal inference. Causal inference [14], [15] augments standard statistical methods with tools for indicating assumptions about cause and effect, and testing the conditions under which those assumptions hold. Two features of SEM make it suitable to our purposes; latent variables and causal inference. Latent variables [13] represent hypothetical (\'91plausible\'92) constructs, e.g. \'91intelligence\'92 or \'91security criticality\'92, that cannot be directly measured, but that can be indirectly measured in terms of one or more observed variables. Causal inference enables reasoning about causality based on observational data.\
+\
+We structure case study data collection for our model using the Security Practices Evaluation Framework ~\\cite\{morrison2016spefsite\} (SP-EF) . SP-EF is designed to enable assessing how software development security practices affect security outcomes, and to enable the development of a body of knowledge on the effect of security practice use in software development.\
+In this paper, we present the hypotheses underlying the SP-EF data elements and practices, and how they combine to form an explanatory model for security practice use and outcomes in software development. We then collect SP-EF data from two open source projects, OpenSSL and phpMyAdmin, to assess our data collection and analysis procedures for the model. \
+\
+\\subsection\{Structural Equation Modeling\}\
+\
+\\begin\{quotation\}\
+	\\textit\{\'93So long as we want to try to describe complex real-life phenomena as they\
+		occur in their natural settings, it seems that our chief alternatives are the\
+		literary essay and the path model\'94\} - John Loehlin ~\\cite\{loehlin1986latent\}\
+\\end\{quotation\}\
+Pearl~\\cite\{pearl2012causal\} defines SEM as a causal inference method with three inputs and three outputs.  The inputs are a set of causal hypotheses, a set of questions about causal relations among variables of interest, and data.  The outputs are numeric estimates of model parameters for hypothesized effects, a set of logical implications of the model, and a measure of the degree to which the testable implications of the model are supported by the data. \
+SEM studies are organized around six steps~\\cite\{kline2015principles\}: specification, identification, data selection and collection, estimation, re-specification, and reporting. In model specification, researchers express the hypothesized relationships between observed variables and latent variables, typically in the form of a graphical model. Each edge in the graph represents a parameter to be estimated, indicating the strength of the relationship between the nodes connected by the edge. In addition to nodes for the observed and latent variables, nodes representing error terms are included in typical models. During specification, a list of theoretically justified possible changes to the model should be developed, should the original model\'92s fit to the data be inadequate. In identification, the specified model is checked against statistical theory for whether all of the model\'92s parameters can be estimated. If the original model cannot be identified, it must be revised in light of both statistical theory and the theory the researcher is expressing in the model. In data selection and collection, data for each of the model\'92s observed variables is chosen, and collected. In estimation, the observed data and the model are checked for fit.  If appropriate fit is achieved, the parameter estimates can be interpreted for implications of the theorized relationships and the observed data. If appropriate fit is not achieved, the list of model changes developed during specification should be considered in re-specifying the model.  When reporting the results of SEM studies, the model, parameter estimates, and fit measures should be included in the report.\
+Examples of SEM use in software engineering and information technology include Capra et al.~\\cite\{capra2008empirical\}, Wallace and Sheetz~\\cite\{wallace2014adoption\}, and Gopal et al.~\\cite\{gopal2005impact\} \
+\
+\
+To underpin the experience and theories bearing on these questions, we propose collecting and analyzing empirical evidence for security practice use and security outcomes in software development. \
+\
+From prediction to explanation...\
+\
+Start with VPM\
+While we aim to build an explanatory model, we draw from past experience with vulnerability prediction models\
+Typical VPM: predict vulns (external, CVE) in terms of a set of metrics - SLOC, Churn, \'85.\
+We want to add information about what was done to produce the SLOC, etc across the SDLC so we can understand, explain, intervene\
+We expand the basic prediction model format in two ways\
+\
+\
+We draw on research in defect prediction and vulnerability prediction to identify and select metrics for measuring security outcomes and criticality. \
+\
+Modeling section (Just enough modeling to be dangerous)\
+Statistical literature references three categories of models; descriptive, predictive, and explanatory. \
+[Explanatory as distinguished from predictive, descriptive a theory for how practices affect software development]\
+[Need latent variable motivation, definition]\
+We construct our model in light of a) explanatory in terms of purpose, evaluated via structural equation modeling in terms of analysis technique.\
+\
+\
+We link Impact and Likelihood to two distinct sets of context factors associated with each project. We identify three classes of context factors; Environmental Context Factors (ECF), Standard Context Factors (SCF), and Security Specific Context Factors (SSCF). ECFs are part of our theory, but not part of our analytical models; for example, we collect data on the software's domain and on the software development project's methodology to enable description and subject selection, but we do not yet include these elements in our analytical models.  SCFs represent traditional context factors used to describe software development projects. SSCFs represent factors historically and/or theoretically associated with high security risk. \
+\
+\
+}

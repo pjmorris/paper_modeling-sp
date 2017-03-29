@@ -1,0 +1,550 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\froman\fcharset0 TimesNewRomanPSMT;\f2\fswiss\fcharset0 ArialMT;
+\f3\froman\fcharset0 Times-Roman;\f4\fmodern\fcharset0 Courier;\f5\fnil\fcharset0 Menlo-Regular;
+\f6\fnil\fcharset0 Calibri;}
+{\colortbl;\red255\green255\blue255;\red26\green26\blue26;\red28\green0\blue207;\red162\green189\blue144;
+\red191\green191\blue191;}
+\margl1440\margr1440\vieww17900\viewh9080\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+	Modeling\
+		Did you answer the RQ\'92s?  \
+			Asset Risk is a distinct factor from Software Risk in explaining Vulnerabilities\
+\
+		Embellish on what the studies say about the available metrics, and about the gaps between what\'92s there and what we need.\
+		What does standardized mean?\
+		How much is explained by the given data? Rsquared? What else? What instead?\
+		Incorporate Parnin modeling improvement suggestions\
+			pick example project(s), table for row values, how they get summed, attached to model\
+\
+		Go back over every little thing\
+		Revise, polish Combined case study\
+		Try a couple A/B testing runs with NVD, CII models ala the Combined A/B test\
+\
+Modeling\
+	Rename cvss_ blah to your invented Risk names in the dataset, in the model, in the estimate outputs, and in the path diagrams.\
+\
+	Filed windows:\
+		fse-modeling.pdf\
+		nv\
+		R data, plots for NVD model\
+		PaperReplicationNotes.R\
+		Kline\
+		Discussion Sections.docx\
+		Reporting Structural\
+\
+	{\field{\*\fldinst{HYPERLINK "http://www.statmethods.net/stats/rdiagnostics.html"}}{\fldrslt http://www.statmethods.net/stats/rdiagnostics.html}}\
+\
+Write the modeling discussion \
+	summary of findings, as compared to expectations, hypotheses\
+			list of theorized relationships, subset actually used\
+		
+\b\fs28 what we saw in CII
+\b0\fs24 \
+		what we saw in the combination\
+	what\'92s present in what we measured\
+	what\'92s lacking in what we measured\
+\
+	Interpretation\
+	Next steps/future work\
+	Why this matters\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 	Discussion\
+\
+	Limitations\
+	Model fit for all raw data was poor\'85 but we have shown how to link to data sources and check for fit.\
+	Combined Model with good fit is only one possible model\'85 but we have shown how to evaluate fit, and put all our cards on the table about what\'92s in and what\'92s out\
+	Progress toward understanding software security must account for context\'85 this is a start.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 	Discussion\
+			Measuring practice adherence: \'93You are a kite dancing in a hurricane, Mr. Bond\'94 (kangaroo scale feather)\
+\
+			ref: As the summary of our findings, the main factors that influence the security maintenance effort are the amount of lines of code of a FOSS component and the age of the component. We have also observed that the external popularity of a FOSS component has statistically significant but small impact on the effort, meaning that only large changes in popularity will have a visible effect. - On the Security Cost of Using a Free and Open\
+Source Component in a Proprietary Product - Stanislav Dashevskyi1,3 , Achim D. Brucker2,3? , Fabio Massacci1\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 \
+\
+Return to\
+\pard\pardeftab720\ri720
+
+\f1 \cf0 \
+	A level playing field for comparing security practices and outcomes
+\f0 \
+\pard\pardeftab720\sa256
+
+\f2\fs26 \cf2 \
+	Next:\
+	Intro\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 \
+	Motivation\
+	On the model versus results discussion. I will be happy to emphasize the results in the paper, as I think there are some interesting things to say. But focusing on them leaves something lacking for me. I\'92m going to pitch here why I think there\'92s more to be said for the model: (see above)\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\pardirnatural
+\cf0 		In a sea of software and security measurements, I need to be able to justify the measurements I choose and don\'92t choose for my framework (as it happens, everyone else needs to justify their choices as well). To do so, I\'92m building a theoretical model of the factors that influence software security that, given empirical data, can indicate the relative importance of each measurement and each factor. With sufficient data, we can identify the value (or lack thereof) of each measurement and factor in terms of its contribution to measuring security outcomes. We can use those value judgements to refine the factors and measurements that are part of the model, improving it over time.  I think this meets a metric \'91hard problem\'92 goal by setting a foundation under the rationale for choosing a given set of metrics as well as my more near-term need of justifying why I have the metrics I do in SP-EF.\
+\
+		The structural/measurement distinction, with the math, enables users of the framework to, over time, collect empirical evidence on what matters or not in terms of how important the measured variables are to the constructs effects, and what matters or not in terms of the constructs and their relationships. The strengths and weaknesses of various measurements can be set in context, and the accuracy of the constructs in modeling software quality, asset value, and practice adherence can be studied, and the model revised accordingly.  It sets what has been art on a theoretical foundation. That seems worth noting and bringing out. \
+\
+\pard\pardeftab720\sa256
+
+\f2\fs26 \cf2 	So, emphasizing the fact that you have a set of metrics that you collect as inputs into your model, and, as a new section, guidelines for how to collect data to apply this model to another project. This section is basically an explanation of the difficulties you had in collecting data for your model from the CIC, and how you fixed those issues. You talk through your data collection process in the case study section; now, explain how you would tackle it if you had to do it again. I think these two things would mitigate Laurie's "so what" question.
+\f0\fs24 \cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\pardirnatural
+\cf0 	"Towards a Security Metrics Taxonomy\'85"\
+\pard\pardeftab720
+
+\f3\fs26 \cf0  	According to Lennon of NIST [20],\
+	\'93the universe of possible metrics, based on existing policies\
+	and procedures, will be quite large. Metrics must be prioritized\
+	to ensure that the final set selected for initial implementation\
+	facilitates improvement of high priority security control\
+	implementation. Based on current priorities, no more than 10 to\
+	20 metrics at a time should be used. This ensures that an IT\
+	security metrics program will be manageable.\'94
+\f0\fs24 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+	Abstract\
+\
+Modeling - converting this to outline of paper\
+	Top five cited VPMs\'85 control variables?\
+\
+	argument: environmental factors have to be considered alongside software quality factors to correctly measure, assess, control security outcomes\
+			evidence: 15 years of vuln history, cross-section of security-relevant projects\
+\
+\
+	Why? \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f4 \cf0 	> fit <- sem(model.combinedl,data=df[df$direct_network_exposure==1,]); summary(fit,fit.measures=TRUE)\
+	** WARNING ** lavaan (0.5-22) did NOT converge after 3050 iterations\
+	** WARNING ** Estimates below are most likely unreliable\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0 \cf0 \
+	 summary(lm(logCVECount  ~ cvss_access_vector + cvss_access_complexity + cvss_auth + total_code_lines + TeamSize \
+ 	+ adherence + twelve_month_contributor_count + CodeComments + TeamActivity + cvss_conf_impact + cvss_integ_impact + cvss_avail_impact,data=df))\
+\
+	Scope remaining work - pick domain examples, fit model to one example, see how it does on other examples\
+		language\
+		domain\
+			libs\
+			browsers\
+			db\'92s\
+			compilers\
+			service/non-service\
+			web server\
+			cmd line vs. service\
+		license\
+		risk_index in multiple ranges\
+		\
+	Plan out exact steps\
+	\
+\
+	pretty table gen, gen cii, nod, nvd-cii model results tables\
+\
+	Discussion\
+\
+	lav_lavaanList_methods.R:lav_lavaanList_summary <- function(object,\
+	admins-MacBook-Pro-3:R admin$ vi lav_lavaanList_methods.R\
+\
+	{\field{\*\fldinst{HYPERLINK "http://users.ugent.be/~yrosseel/lavaan/AlexBeaujean.pdf"}}{\fldrslt http://users.ugent.be/~yrosseel/lavaan/AlexBeaujean.pdf}}\
+	Generating docx for paper: 
+\f5\fs22 \CocoaLigature0 pandoc -s fse-modeling.tex -o fsem.docx\
+
+\f0\fs24 \CocoaLigature1 \
+\
+	Abstract\
+	Intro\
+		To measure the effect of security practices on security outcomes, we have to account for the other influences on security outcomes.\
+		We developed a theory and a set of measurements, but the world is large and our data is small. So, we look at other data sets\'85\
+				(Gelman\'92s feather on a bucking bronco/scale analogy)\
+			motivating, illustrative example\
+		To account for factors influencing security outcomes, we build an analytical model representing the factors and the outcomes.\
+		We study factors and outcomes at three levels: NVD, CII, Chrome components\
+		Revisit CVSSImpactTrends.rtf\
+	Motivation for modeling\
+		multiple causes, multiple tools - wheeler\
+		X -> V\'92s are like D\'92s, V\'92s are not like D\'92s\'85 what\'92s the context?  \
+		If there are common factors underneath all those observations, identifying them supports theory. prediction, and control\
+		To model X, we have to account for Y and Z\
+			Recognize risky situations before vulnerabilities start appearing\
+\
+	Background\
+\
+		Useful: {\field{\*\fldinst{HYPERLINK "http://statwiki.kolobkreations.com/index.php?title=Main_Page"}}{\fldrslt http://statwiki.kolobkreations.com/index.php?title=Main_Page}}\
+			{\field{\*\fldinst{HYPERLINK "http://statwiki.kolobkreations.com/index.php?title=Guidelines"}}{\fldrslt http://statwiki.kolobkreations.com/index.php?title=Guidelines}}\
+			{\field{\*\fldinst{HYPERLINK "http://statwiki.kolobkreations.com/index.php?title=Structural_Equation_Modeling"}}{\fldrslt http://statwiki.kolobkreations.com/index.php?title=Structural_Equation_Modeling}}\
+	Model\
+\
+\
+		Kline\
+		Model graphs and code.rtf\
+		Directory folder: \'91PsychometricTheoryWithApplicationsinR\'92\
+			Esp. psych package and Chapter 6\
+\
+		Measuring asset, environment, quality, performance\'85 multi-dimensional, so you need latent variables\
+		latent variables interact, so you need a graph of equations, not just an equation\
+		Performance, Criticality, Effort\
+		Model performance in terms of (reduced) impact\
+		Model Criticality in terms of access vector, access_complexity, authentication\
+		Model Effort in terms of year\'85 more effort as time goes on, higher year = higher performance (cite Kaminsky)\
+\
+		CC Screenshot model without actors:\
+			Risk ~= Assets + Threats + Countermeasures\
+			Assets ~~ Threats\
+		figure out real cvss model\
+		figure out lavaan/mplus model\
+\
+		Constructs\
+			AggregatedRisk = AssetRisk + EnvironmentRisk + SofwareRisk\
+			SoftwareRisk = SoftwareSize + SoftwareQuality + AdherenceEffort\
+			Adherence = Software Quality Assurance Effort\
+			Software Risk\
+			Environment Risk\
+\
+			Risk ~ Impact + Likelihood\
+			Outcomes ~ Risk + Adherence \
+			| Outcomes ~ Impact + Likelihood + Adherence\
+\
+		http://stats.stackexchange.com/questions/154588/how-to-use-formative-indicators-in-covariance-based-sem-with-lavaan\
+\
+\pard\tx560\pardeftab560\pardirnatural
+
+\f5\fs22 \cf0 \CocoaLigature0 		cvss.model <- \
+\pard\tx560\pardeftab560\pardirnatural
+\cf3 		'Performance =~ count(cve_id) | cvss_score | cvss_conf_impact + cvss_integ_impact + cvss_avail_impact\
+		Criticality =~ cvss_access_vector + cvss_auth \
+		Effort =~   pub_year \
+		Criticality =~ Performance\
+		Effort =~ Performance \
+		Criticality ~~ Effort\
+		'\
+
+\f0\fs24 \cf0 \CocoaLigature1 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 	Methodology\
+		Follow and cite \'91Reporting Structural Equation Modeling and Confirmatory Factor Analysis Results: A Review\'92\
+	Case Studies\
+		data collection\
+\
+		High: build NVD model (based on CC + your best/latest so far). pull CII data. \
+			link Chrome-components.\
+				see chromium-issues_security.csv\
+					can you pull issues lists based on \'91Component\'92 field values, loop over distinct security components?\
+\
+		mapping\
+				Convert NVD_CII_Chrome_ModelingScratchpad.SecondTry to table for paper\
+		results\
+			descriptive stats? - e.g. cor.plot(ciicooked[c(2:5,11:15,17:25)])\
+		NVD\
+			nvdall2.csv/xlsx have the latest CVE\'92s (put the crawl, scrape, and assemble details in a script on a repo\
+			model_zero_nvd.rtf\
+				after all tries, do writeup for Dr. Stallings\
+			floor adherence at 0, start adherence at 2000? 2002? 2004?\
+			scale the data?\
+			try bootstrapping for smaller populations (mfgr, cwe, \'85)\
+			try grouping my mfgr, by sw type (e.g. os, db, web server, library, \'85)\
+			Write up NVD, model, data transformations, results for Dr. Stallings\
+\
+		CII\
+			model_zero_cii.rtf - are you sure?\
+		Chrome\
+			How do you roll up chromium nod recs, commits, and issues to component level?\
+				PopularityRisk + direct_network_exposure + process_network_data\
+				TeamActivity + CodeAge + CodeComments + TeamSize  \
+					aggregated team size\
+					aggregated 12 month commuters\
+					aggregated code churn\
+					aggregated code lines\
+					language(s)\
+					age of oldest source file\
+					(count unique devs, unique bug reporters/commenters/closers, unique reviewers)\
+					count of adherence labels\
+				total_code_lines + LanguageRisk  + potential_privilege_escalation + Adherence\
+				CVERisk + SoftwareQuality + EnvironmentalImpact\
+				EnvironmentalImpact			\
+\
+		\
+			Chrome SPEF-like indicators\
+			How do you get the bug-to-Component data?\
+			By Chrome component:\
+			Lang, OS, age of oldest code, SLOC of aggregate, Churn over last ~year, lifetime?, \
+				Team size lifetime aggregate, Env net flags+io, Adherence labels\
+				filepath\
+				chromium issue component did\
+					ex.\
+\
+\
+	Conclusion\
+		\
+	New file fse-modeling.tex\
+\
+	Interesting, but later:\
+		Modeling paper - FSE - 2/27 (NVDCVE, CII, A tale of two browsers, IMAP/POP3, Boa, Case Study data)\
+		RE Data Track data?\
+		Firefox collection\
+		Chrome Collection\
+		Auto, manual samples from SP-EF\
+\
+	Interesting, but probably out of scope:\
+		Jackson and Near seem like a good example of security in requirements/design, mapped to implementation\
+		- see \'91the morning paper\'92 2/7\
+	 \
+		write Paul Black, ask about 2007 shift, temporal, environmental metrics\
+\
+		port vuln2csv to use latest nvd data\
+			- Simple script to pull CVE info from NVD, parse the XML and import/update it to a mongodb\
+			https://gist.github.com/mountainstorm/d6baecf3cd4c500cdcc6\
+		-> port vuln2csv to use postgres rather than cvs
+\f5\fs22 \cf3 \CocoaLigature0 \
+\pard\tx560\pardeftab560\pardirnatural
+\cf3 \
+		Idea: Do chi-square test on NVD, last 10 years, top mfgr, top CWE\'92s to see if\'85\
+
+\f0\fs24 \cf0 \CocoaLigature1 			different mfgrs have different profiles from avg\
+			certain CWE\'92s decline differently over time at different mfgrs\
+			Like above, but for comparable software, e.g. linux/openbsd, chrome/firefox, \'85. \
+		
+\f6 \cf1 CWE-119\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clcbpat4 \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx720
+\clvertalc \clcbpat4 \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx1440
+\clvertalc \clcbpat4 \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clcbpat4 \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clcbpat4 \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx3600
+\clvertalc \clcbpat4 \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clcbpat4 \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx5040
+\clvertalc \clcbpat4 \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clcbpat4 \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clcbpat4 \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx7200
+\clvertalc \clcbpat4 \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx7920
+\clvertalc \clcbpat4 \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1
+\cf1 \cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf1 5\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf1 5\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf1 10\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf1 34\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf1 82\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf1 74\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf1 106\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf1 197\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf1 144\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf1 66\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf1 723\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx720
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx1440
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx3600
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx5040
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx7200
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx7920
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720
+\cf0 chrome\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 \cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 \cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 6\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 18\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 56\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 55\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 28\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 10\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 19\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 12\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 204\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx720
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx1440
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx3600
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx5040
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx7200
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx7920
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720
+\cf0 firefox\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 3\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 3\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 3\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 15\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 15\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 17\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 18\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 4\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 27\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 17\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 122\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx720
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx1440
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx3600
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx5040
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx7200
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx7920
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720
+\cf0 ie\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 2\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 \cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 1\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 1\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 11\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 1\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 \cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 \cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 \cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 \cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 16\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx720
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx1440
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx3600
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx5040
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx7200
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx7920
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw15\brdrcf4 \clbrdrl\brdrs\brdrw20\brdrcf5 \clbrdrb\brdrs\brdrw15\brdrcf4 \clbrdrr\brdrs\brdrw20\brdrcf5 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720
+\cf0 internet_explorer\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 \cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 2\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 \cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 \cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 \cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 1\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 60\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 183\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 98\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 37\cell 
+\pard\intbl\itap1\pardeftab720\qr
+\cf0 381\cell \lastrow\row
+\pard\tx560\pardeftab560\pardirnatural
+
+\f0 \cf0 											\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+\
+\\begin\{table\}\
+	\\begin\{center\}	\
+	\\caption\{Measurement Model Details\}\
+	\\begin\{small\}	\
+	\\begin\{tabular\}\{p\{2cm\}p\{1cm\}||p\{3cm\}|p\{3cm\}|p\{3cm\}\}\
+	Global Fit Measure &	Thresholds	& NVD	& 	CII	& Chrome \\\\\
+\
+	Model chi-square with degrees of freedom and p-value. & small & $42$ & $42$ & $42$ \\\\\
+	Stieger-Lind Root Mean Square Error of Approximation (RMSEA) & $.10$ & $42$ & $42$ & $42$  \\\\\
+	Bentler Comparative Fit Index (CFI) & $.90$ & $42$ & $42$ & $42$ \\\\\
+	Standardized Root Mean Square Residual (SRMR) & $.9$ & $42$ & $42$ & $42$ \\\\\
+	Akaike Information Criteria (AIC) & compare between models, smaller & $42$ & $42$ & $42$ \\\\\
+\
+	%\\bottomline\
+	\\end\{tabular\}\
+	\\label\{tab:results_fit\}\
+	\\end\{small\}\
+	\\end\{center\}\
+\\end\{table\}\
+\
+\
+Modeling\
+	Modeling Paper ToDos.rtfd\
+	Add motivation, rationale to start of modeling section\
+	Add tutorial example for SEM, maybe using VPM data for the domain of the example\
+		Be great to pick existing dataset, add moderator variable \
+		Could start with answering question like \'91How much does language contribute to criticality?\'94\
+	Add \'91simple\'92 picture of model, suitable for layering actual data over\
+\
+}

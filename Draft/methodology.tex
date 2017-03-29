@@ -1,20 +1,29 @@
 \section{Methodology}
 \label{sec:methodology}
-
 In this section, we present the steps required for analyzing a data set in terms of the security outcomes theoretical model.
-\begin{itemize}
-\item Subject Selection
-Select a dataset containing measurements of variables that can be related to the structural model's Asset Value, Software Risk, adherence, and outcomes constructs.  
 
-\item Link data source variables to model constructs 
-Use theoretical relationships to link measurement model data source variables to structural model relationships. Consider each variable in the dataset, and assign eligible variables to the appropriate model construct. For example, if the dataset contains a code churn metric, associate it with the Software Risk construct. 
+\subsection{Subject Selection}
+Select a dataset containing measurements of variables that can be related to the structural model's Asset Risk, Software Risk, Adherence, and Outcomes constructs.  
 
-Standard SEM approaches assume linear relationships between variables in both structural and measurement models, requiring researchers to pre-examine the data for non-linear relationships. Potential solutions include excluding outliers and adding appropriate power terms.
- 
-\item Estimate SEM model 
+\subsection{Link data source variables to model constructs}
+Use theoretical relationships to link measurement model data source variables to structural model constructs. Consider each variable in the dataset, and assign eligible variables to the appropriate model construct, per the model construct definitions and the variable listed in \ref{tab:model_spef_metrics}. For example, if the dataset contains a code churn metric, associate it with Software Risk. 
 
-Encode the combined structural and measurement models in a SEM modeling tool, and run the tool to obtain estimates for the model.
-\item Report model fit measures recommended by Kline~\cite{kline2015principles}:
+\subsection{Evaluate collected data for fit problems}
+Standard SEM approaches assume linear relationships between variables in both structural and measurement models, requiring researchers to pre-examine the data for non-linear relationships. Potential solutions where nonlinear data is found include excluding outliers and adding appropriate power terms.
+
+As SEM solves for the covariance or correlation of variables with each other, SEM depends on the variances of the measured variables to be within an order of magnitude of each other, and typically in the range of 1$-$10. Transform high-variance variables, by taking their logs, or square roots, or by standardizing them. In this work, where a measured variable variance exceeds the variances of other measured variables by an order of magnitude or more, we create a transformed variable taking the log of the sum of the original variable value and a small constant, 1. For example, lines of code varies widely, and  we transform logSLOC = (total\_code\_lines+1).
+
+Collinearity between measurement variables affects model fit. We check for collinearity between measurement variables in the dataset, and drop collinear variables (as measured by a Spearman correlation coefficient greater than 0.7) that are theoretical alternatives. For example total\_contributor\_count and TeamSize are collinear in the CII dataset, and we choose logContributorCount to represent the concept.
+
+\subsection{Estimate SEM model} 
+The specified relationships in the structural and measurement models represent a system of equations. SEM software is written to solve these systems of equations. In this work, we apply lavaan.  Encode the combined structural and measurement models in a SEM modeling tool, and run the tool to obtain estimates for the model. 
+
+\subsection{Model Fit}
+% TODO [Paragraph explaining model fit and indicators]
+Once a set of estimates has been generated for a given model and dataset, SEM users evaluate fit measures and residuals to assess the suitability of the model. Model fit indicators and residuals both represent the degree of misfit between the model and the dataset. 
+
+No single SEM fit measure captures all of the diagnostic information available, so SEM theorists and practitioners recommend reporting multiple goodness-of-fit and badness of fit measures.
+The model fit measures recommended by Kline~\cite{kline2015principles} are as follows:
 \begin{itemize}
 	\item Model chi-square with degrees of freedom and p-value. Ratio of 3 or less for chi-square to degrees of freedom indicates acceptable fit.
 	\item Stieger-Lind Root Mean Square Error of Approximation (RMSEA) - RMSEA is a `badness-of-fit' measure, where values less than 0.10 indicate acceptable fit.
@@ -22,20 +31,20 @@ Encode the combined structural and measurement models in a SEM modeling tool, an
 	\item Standardized Root Mean Square Residual (SRMR) - SRMR is a `badness-of-fit' measure of the difference between the observed and predicted correlations. Zero is a perfect score, scores below 0.08 are viewed as sufficient.
 \end{itemize}
 
-\item Model Fit and Re-specification
-% TODO [Paragraph explaining model fit and indicators]
+\subsection{Re-specification}
+Kline~\cite{kline2015principles} and Loehlin ~\cite{loehlin2004principles} both offer methodologies for diagnosing fit problems and revising the data and the model in principled ways. We present a set of steps derived from these sources for application to our data and measurement model. We declare alterations to the structural model out of scope for the present work, as the work is intended to assess our structural model. 
 
 If model fit indicators show poor fit between the data and the model, consider adding, dropping, or moving measurement variables, if theory supports doing so. In the present study, we do not alter the constructs or relationships in the structural model, but we do allow a list of transformations for the measurement model, as follows:
 \begin{itemize}
+	\item SEM requires measurement model variable variances to be within a narrow range of each other. Transforming a variable by taking its log, square root, or multiplying by a constant is at the discretion of the researcher (transformation must be documented).
 	\item Choice of measurement variable to construct association is at the discretion of the researcher. 
 	\item Where more than one measurement variable measures the same concept (e.g. team size measured by a count and by an ordinal variable), variable choice is at the discretion of the researcher. 
-	\item SEM requires measurement model variable variances to be within a narrow range of each other. Transforming a variable by taking its log, square root, or multiplying by a constant is at the discretion of the researcher (transformation must be documented).
 \end{itemize} 
 
-In addition to the global fit indicators presented above, researchers must examine residuals to assess local model fit. Residuals, also called error terms, are associated with each measurement variable, and represent variance not explained by the factor with which the measurement is associated. Residual values near zero indicate that the factor accounts for the bulk of the variance in the measurement variable. Residual values near one indicate that the factor does not account for the bulk of the variance in the measurement variable, and should prompt investigation, re-specification, and/or explanation. Residual values provide a diagnostic of model fit.
+If transforming the data does not yield adequate fit, the next step is to evaluate the measurement model. Loehlin~\cite{loehlin2004latent} recommends, as a first step for respecification,  fitting the data to a model in which the latent variables are completely intercorrelated, yielding a perfectly fitting structural model, and revealing fit difficulties rooted in the measurement model. 
 
-\item Report Results
+In addition to the global fit indicators presented above, researchers must examine residuals to assess local model fit. Residuals, also called error terms, are associated with each measurement variable, and represent variance not explained by the construct with which the measurement is associated. Residual values near zero indicate that the construct accounts for the bulk of the variance in the measurement variable. Residual values near one indicate that the construct does not account for the bulk of the variance in the measurement variable, and should prompt investigation, re-specification, and/or explanation. Residual values provide a diagnostic of model fit.
+
+\subsection{Report Results}
 % See page 464 of Kline for details
-Report model fit in both the terms of the global fit indicators, and in terms of comparison between the expected theoretical relationships embedded in the model and the actual parameter magnitudes and signs observed in the data. In this work, we apply basic interpretations, focusing only on the sign and relative magnitude of each parameter estimate, as compared to our theorized expectations. For the parameter estimates of measurement variables associated with a single latent variable, sign indicates direction of influence, and (standardized) parameter estimates indicate the relative importance of each measurement variable's effect on the latent variable. For latent variable relationships, sign indicates the direction of influence, and magnitudes indicate the relative importance of the latent variable's effect on the receiving latent variable, as compared with the magnitude of the other latent variable parameter estimates.
-
-\end{itemize}
+Kline~\cite{kline2015principles} recommends reporting model fit in the terms of the global fit indicators, and in terms of comparison between the expected theoretical relationships embedded in the model and the actual parameter magnitudes and signs observed in the data. In this work, we apply basic interpretations, focusing only on the sign and relative magnitude of each parameter estimate, as compared to our theorized expectations, where sign indicates direction of influence, and magnitude indicates effect size. For the parameter estimates of measurement variables associated with a single latent variable, sign indicates direction of influence, and (standardized) parameter estimates indicate the relative importance of each measurement variable's effect on the latent variable. For latent variable relationships, sign indicates the direction of influence, and magnitude indicate the relative importance of the latent variable's effect on the receiving latent variable, as compared with the magnitude of the other latent variable parameter estimates.

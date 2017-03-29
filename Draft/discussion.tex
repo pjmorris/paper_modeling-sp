@@ -1,15 +1,33 @@
 \section{Discussion}
 \label{sec:discussion}
 
-In this section, we discuss the implications of our case study results.
+In this section, we compare our expectations and findings across our case study results, and discuss the implications for our method, model, and data.
 
-Our analysis of the NVD data supported our hypotheses that higher Asset Values and higher Software Risk are associated with worse Security Outcomes, as measured by CVSS metrics and project CVE counts. Our time-based metric for practice Adherence was positively associated with Software Risk, contrary to our hypothesis. We, further, found Access Complexity to not fit within our current model, suggesting further understanding and, perhaps, model revision is required. Our data suggest that the network attack vector has become predominant in the vulnerabilities reported in the NVD, but that access control attacks are growing more difficult for attackers, as measured by the CVSS Access Vector and Access Complexity metrics. 
+%	actual(expected)magnitude*statsig
+%		== signs 'as hypothesized'
+%		
+%			NVD				CII
+%	AR-SO	+(+)0.05*		-(+)0.14*
+%	SR-SO	+(+)0.12*		+(+)0.28*
+%	PA-SR	+(-)0.78*		-(-)0.44
+Asset Impact positively (NVD, as hypothesized) and negatively (CII, contrary to hypothesis) affected Outcomes, and was statistically significant in both the NVD and CII datasets. The 0.14 magnitude in the CII dataset was roughly triple the 0.05 magnitude in the NVD dataset. We attribute the magnitude difference primarily to the different metrics used to assess Software Risk in each dataset. Asset Impact was proportionally smaller than Software Risk for both datasets. The data available in the NVD and CII datasets are a subset of the metrics we expect to influence Asset Impact, and both datasets are constrained to a subset of software projects, by construction. We conjecture that more accurate asset data, as well as a broader selection of projects, would affect the proportion of Asset Impact. In the case of CII's Asset Impact being negatively associated with Outcomes, we observe that the sole measure of CII Asset Impact is package popularity, an indicator within the Debian ecosystem of the number of systems with that package installed. While in the present case, running on more machines is associated with fewer vulnerabilities, contrary to our hypothesis, the effect may be an illustration of Eric Raymond's 'many eyes make all bugs shallow', as measured by the number of eyeballs of users of the software. A number of studies have examined Linus' law in the context of developer attention (e.g. ~\cite{meneely2013when}) rather than user attention, as measured here. 
 
+Software Risk, as hypothesized, positively affected Outcomes, and was statistically significant, in both the NVD and CII datasets. The 0.28 magnitude in the CII dataset was roughly double the 0.12 magnitude in the NVD dataset. We attribute the magnitude difference primarily to the different metrics used to assess Software Risk in each dataset. We conjecture that the metrics available in each dataset are of value for assessing Software Risk.  Of particular note are the network risk metrics each dataset provides. Both NVD cvss\_access\_vector and the similar CII direct\_network\_exposure metrics were statistically significant and contributors to Software Risk. A Software Risk-related implication of our study is that existing measures, particularly number of contributors/developer, and SLOC, capture Outcome-related effects on software. Larger projects, as measured by code size and team size, are more likely to have CVE's reported against them. While not a new finding, our data and model are in agreement with prior research (long list of cites goes here).
+
+Adherence positively (NVD, contrary to hypothesis) and negatively (CII, as hypothesized) affected Software Risk, and was statistically significant in the NVD dataset. The 0.78 magnitude in the NVD dataset was roughly double the magnitude in the CII dataset, again something we attribute to the different metrics used to assess Adherence in each dataset.  Our NVD data did not confirm Kaminsky's hypothesis that software quality is improving over time, with our adherence-over-time measure increasing Software Risk. Our Our CII data did not contain a similar metric. However, we observed several counter-trends in the underlying NVD data. We observed an improvement in CVSS Authentication Risk (Figure \ref{fig:nvd_cvss_auth}). On average, vulnerabilities are requiring more authentications over time, implying that development teams are putting an increasing amount of functionality behind access control. One implication of our study is the evident need to collect and evaluate a set of adherence metrics for assessing Adherence and its effects on mitigating Software Risk.
+
+The datasets we studied did not contain a complete set of the measurement model metrics we are interested in, as listed in Table \ref{tab:model_spef_metrics}. For the metrics the datasets did contain, we found statistically significant support for each of them, with the exceptions of process\_network\_data, potential\_privilege\_escalation, Code Comments, and Website Risk from CII. 
+
+For the structural model, while our current evidence for the constructs and their relationships is, in part, equivocal, we have a set of conjectures and the data they require, to establish whether we can retain the model. 
+
+We view our contributions in this work to be the following:
 \begin{itemize}
-	\item Revise this once you have the actual NVD discussion rewritten. The NVD data offers per-manufacturer, per-project overview of reporter interest in software vulnerabilities, evidence that per-vulnerability severity is decreasing, and confirmation that the network is an important attack vector.
-	\item The CII data offers evidence that SLOC and team size are correlated with manifest vulnerabilities. 
-	\item Combined NVD-CII data supports better model fit, and offers theoretical support for X, Y, Z elements of the SP-EF measurement model. 
-	\item Stepping back from the specifics of the case studies, SEM offers means of assessing the relative importance of the measurements taken for software security assessement.
-	\item Asset Value, Software Risk, Adherence, and Outcomes appear to be a reasonable place to start for organizing studies of the factors behind software security success and failure. 
-\end{itemize}
+	\item A proposed model of the constructs affecting software development security outcomes
+	\item A proposed set of metrics to measure for assessing security posture in software development
+	\item Empirical evaluation of the proposed model and metrics using two open source datasets
+	\item A process for revising the model and metrics, supported by SEM for statistical analysis of model and metric fit. 
+\end{itemize}	
 
+Stepping back from the details of the case study measurements, we can use the current model, its estimates, and its residuals, as a baseline for where we stand in terms of measuring the effects of multiple constructs on security outcomes in software development. In particular, we can use the model as 'straw man' for evaluating alternative constructs affecting software security outcomes, we can use the parameter estimates as to assess the relative effects of the constructs we measure, and we can use the residuals as a guide to improving measurement of the constructs we choose. 
+
+We opened the paper with the example of Cloudbleed, illustrating the need to assess software context as well as software quality. We have built a modeling process, identified metrics to collect, collected data, and analyzed the data, supporting the notion that Asset Impact is a component of security Outcomes, in addition to Software Risk. Further development of the model and its constructs, and the metrics and their measurement and collection should provide further insight into the software development and usage constructs affecting security outcomes for the software's developers, managers, and users.

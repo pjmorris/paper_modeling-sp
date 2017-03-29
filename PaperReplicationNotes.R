@@ -1,5 +1,40 @@
 # Goes in to the paper…
 
+# For paper
+
+setwd("/Users/admin/Dropbox/github/paper_modeling-sp/Draft")
+semPaths(fit,,"std",title=FALSE,sizeLat=20,nCharNodes=15,residuals=FALSE,intercepts=FALSE,layout="spring",structural=TRUE,filetype="png",filename="modelzero",height=2,width=3)
+
+# Another try for the paper
+model.zero <- '
+SoftwareRisk =~ SoftwareContextFactors
+AssetRisk =~ AssetContextFactors
+Outcomes =~ OutcomesContextFactors 
+Adherence =~ AdherenceContextFactors
+Outcomes ~ SoftwareRisk + AssetRisk
+SoftwareRisk ~ Adherence
+
+AssetRisk ~~  Adherence
+SoftwareRisk ~~ 0*AssetRisk
+Adherence ~~ 0*Outcomes'
+
+semzero <- simulateData(model.zero,sample.nobs=8000L)
+fit <- sem(model.zero,data=semzero)
+semPaths(fit,,"std",title=FALSE,sizeLat=12,sizeMan=10,nCharNodes=25,residuals=FALSE,intercepts=FALSE,layout="spring",structural=TRUE,thresholds=FALSE,filetype="png",filename="modelzeroB",height=2,width=3)
+
+model.syntax <- 'LatentVariable =~ MeasuredVariable1 + MeasuredVariable2'
+semsyntax <- simulateData(model.syntax,sample.nobs=500L)
+fit <- sem(model.syntax,data=semsyntax)
+semPaths(fit,,"std",title=FALSE,sizeLat=12,sizeMan=10,nCharNodes=25,residuals=FALSE,intercepts=FALSE,layout="spring",structural=FALSE,thresholds=FALSE,filetype="png",filename="syntax_asmeasuredby",height=2,width=3)
+
+semPaths(fit,,"std",title=FALSE,sizeLat=12,sizeMan=10,nCharNodes=25,residuals=FALSE,intercepts=FALSE,layout="spring",structural=FALSE,thresholds=FALSE,height=2,width=3)
+
+model.syntax <- 'LatentVariable =~ MeasuredVariable1; LatentVariable2 =~ MeasuredVariable2; LatentVariable3 =~ MeasuredVariable3; LatentVariable ~ LatentVariable2 + LatentVariable3'
+semsyntax <- simulateData(model.syntax,sample.nobs=8000L)
+fit <- sem(model.syntax,data=semsyntax)
+semPaths(fit,,"std",title=FALSE,sizeLat=12,sizeMan=10,nCharNodes=25,residuals=FALSE,intercepts=FALSE,layout="spring",structural=FALSE,filetype="png",filename="syntax_latentregress",thresholds=FALSE,height=2,width=3)
+
+
 # latest table: variable, value low, value medium, value high
 # recoded as 		1		2		3
 # Case study details for the NVD dataset
@@ -104,7 +139,7 @@ SoftwareRisk =~ cvss_access_vector + cvss_access_complexity + cvss_auth
 AssetRisk =~ cvss_conf_impact + cvss_integ_impact + cvss_avail_impact
 Adherence =~ adherence
 Outcomes =~ CVECount
-Outcomes ~ SoftwareRisk + Adherence
+Outcomes ~ SoftwareRisk + AssetRisk
 SoftwareRisk ~  Adherence'
 
 fit <- sem(model.zero.nvd,data=nvdxlated)
@@ -148,7 +183,7 @@ AssetRisk ~~  Adherence
 SoftwareRisk ~~ 0*AssetRisk
 Adherence ~~ 0*Outcomes
 '
-nvd_respecified_fit <- sem(model.respecified.nvd,data=rolled_software[rolled_software$CVECount > 1 & rolled_software$CVECount < 50,]); summary(fit,fit.measures=TRUE)
+nvd_respecified_fit <- sem(model.respecified.nvd,data=rolled_software[rolled_software$CVECount > 1 & rolled_software$CVECount < 50,])
 summary(nvd_respecified_fit,fit.measures=TRUE)
 
 # generate figure
@@ -322,6 +357,20 @@ Adherence ~~ 0*Outcomes'
 fit <- sem(model.respecified.cii,data=ciicooked)
 summary(fit,fit.measures=TRUE)
 
+# Best fit attained for a respecified CII model
+model.respecified.cii <- '
+SoftwareRisk =~ logContributorCount + ContributorRisk + logSLOC  + direct_network_exposure + process_network_data + potential_privilege_escalation + CodeAge
+AssetRisk =~ logPackagePopularity
+Outcomes =~ logCVECount 
+Adherence =~ TeamActivity + CodeComments + WebsiteRisk
+Outcomes ~ SoftwareRisk + AssetRisk
+SoftwareRisk ~ Adherence
+
+AssetRisk ~~  Adherence
+SoftwareRisk ~~ 0*AssetRisk
+Adherence ~~ 0*Outcomes'
+fit <- sem(model.respecified.cii,data=ciicooked)
+summary(fit,fit.measures=TRUE)
 
 ciiplist <- unique(levels(ciicooked$project_name))
 
@@ -378,10 +427,10 @@ rolled$logCVECount <- log(rolled$CVECount+1)
 model.combined <- '
  SoftwareRisk =~ cvss_access_vector + cvss_access_complexity + cvss_auth + LanguageRisk + total_code_lines + TeamSize 
  Outcomes =~  logCVECount 
- Outcomes ~ SoftwareRisk + Adherence + AssetValue
+ Outcomes ~ SoftwareRisk + AssetRisk
  Adherence =~ adherence + twelve_month_contributor_count + CodeComments + TeamActivity
  SoftwareRisk ~  Adherence
- AssetValue =~ cvss_conf_impact + cvss_integ_impact + cvss_avail_impact'
+ AssetRisk =~ cvss_conf_impact + cvss_integ_impact + cvss_avail_impact'
 
 fit <- sem(model.combined,data=df)
 summary(fit,fit.measures=TRUE)
@@ -396,10 +445,10 @@ summary(lm(logCVECount  ~ cvss_access_vector + cvss_access_complexity + cvss_aut
 model.combinedl <- '
  SoftwareRisk =~ cvss_access_vector + cvss_access_complexity + cvss_auth + total_code_lines + TeamSize + LanguageRisk
  Outcomes =~  logCVECount 
- Outcomes ~ SoftwareRisk + Adherence + AssetValue
+ Outcomes ~ SoftwareRisk + AssetRisk
  Adherence =~ adherence + twelve_month_contributor_count + CodeComments + TeamActivity 
  SoftwareRisk ~  Adherence
- AssetValue =~ cvss_conf_impact + cvss_integ_impact + cvss_avail_impact + package_popularity'
+ AssetRisk =~ cvss_conf_impact + cvss_integ_impact + cvss_avail_impact + package_popularity'
 
 
 fit <- sem(model.combinedl,data=df[df$process_network_data==0,]); summary(fit,fit.measures=TRUE)
@@ -407,5 +456,10 @@ fit <- sem(model.combinedl,data=df[df$process_network_data==0,]); summary(fit,fi
 fit <- sem(model.combinedl,data=df[df$process_network_data==1,]); summary(fit,fit.measures=TRUE)
 
 
+
+# How many NVD projects?
+rolled_software <- data.frame(software=rolled$software,CVECount=rolled$CVECount, logCVECount=log(rolled$CVECount+1),cvss_score=rolled$cvss_score,adherence=scale(rolled$pubyear) + abs(min(scale(rolled$pubyear),na.rm=TRUE)),cvss_auth=rolled$cvss_auth,cvss_access_vector=rolled$cvss_access_vector,cvss_access_complexity=rolled$cvss_access_complexity,cvss_conf_impact=rolled$cvss_conf_impact, cvss_integ_impact=rolled$cvss_integ_impact, cvss_avail_impact=rolled$cvss_avail_impact,AuthenticationRisk=rolled$AuthenticationRisk,AccessVectorRisk=rolled$AccessVectorRisk,AccessComplexityRisk=rolled$AccessComplexityRisk)
+length(as.character(unique(rolled_software[rolled_software$CVECount > 1 & rolled_software$CVECount < 50,]$software)))
+# 6695
 
 

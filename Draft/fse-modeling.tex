@@ -8,7 +8,6 @@
 \usepackage{amsthm}
 \citestyle{acmnumeric}
 
-
 % Copyright
 %\setcopyright{none}
 \setcopyright{acmcopyright}
@@ -29,8 +28,7 @@
 \acmISBN{123-4567-24-567/08/06}
 
 %Conference
-\acmConference[ESEC/FSE'17]{ACM conference}{September 2017}{El
-	Paderborn, Germany} 
+\acmConference[Targeting ESEM, but this format saves paper]{ACM conference}{March 2017}{} 
 \acmYear{2017}
 \copyrightyear{2017}
 
@@ -73,22 +71,20 @@
 	%\postcode{43017-6221}
 }
 \email{williams@csc.ncsu.edu}
-
 	
 \begin{abstract}
 \label{sec:abstract}
-Context: Researchers and practitioners have proposed and evaluated many practices for measuring and improving software security during software development. However, assessing the effectiveness of security practices requires measuring not only the practices and their effects on software, but the software's characteristics and the context in which the software is used. 
+Context: Researchers and practitioners have proposed and evaluated a wide variety of metrics for measuring software and software development process characteristics and their impact on software security. However, assessing software security requires measuring not only software and development process characteristics, but the context in which the software is used. 
 
-Goal:  \textit{The goal of this research is to support researchers and practitioners in measuring the effect of security practice use on software vulnerabilities by building and evaluating an explanatory model for software development security practice use.} 
+Goal:  \textit{The goal of this research is to support researchers and practitioners in measuring the effect of software and environmental context factors and security practice adherence on software security outcomes by building and evaluating an explanatory model using structural equation modeling.} 
 
-Method: In this work, we develop a model hypothesizing relationships between security outcomes, adherence to security practices, software context factors, and environmental context factors.  We evaluate the model quantitatively, using two existing datasets: The National Vulnerability Database (NVD), containing 79,533 vulnerabilities, and the Core Infrastructure Initiative (CII) census dataset of 428 security-critical projects.  
+Method: In this work, we develop a model hypothesizing relationships between software context factors, environmental context factors, adherence to security practices, and security outcomes.  We evaluate the model and our hypotheses quantitatively, applying Structural Equation Modeling (SEM) to two existing datasets: 6695 projects sampled from the National Vulnerability Database (NVD), and the 428 projects from the Core Infrastructure Initiative (CII) census dataset.  
 
-Results: As measured in our data, both environmental context factors and software characteristics had strong correlations with security outcomes. The NVD case study results agreed with previous research suggesting that software security has improved over the last decade, as measured by decreasing CVSS scores and increasing access complexity required of attackers. The CII case study results agreed with previous research suggesting that team size and effort, and code size, are among the most significant influences on vulnerabilities. 
-Conclusion: The developed model and results from the two case studies offer a guide to the metrics suitable for prioritizing management of software context factors and security outcomes. 
+Results: As measured in our data from both case studies, software characteristics, environmental context factors, and adherence each have statistically significant effects on security outcomes. The NVD case study results indicate that software security has declined over the last decade, as measured by the complete set of CVSS access metrics, although we did find evidence for increasing access complexity required of attackers. The CII case study results agreed with previous research suggesting that team size and code size are among the most significant influences on vulnerabilities. In both studies, network exposure had a measurable negative effect on security outcomes.
 
+Conclusion: The developed model and results from the two case studies offer a guide to the metrics suitable for prioritizing management of software context factors, adherence measures, and security outcomes. SEM offers means for assessing model fit and iteratively refining the model to more accurately model the factors that drive security outcomes.
 
 \end{abstract}
-
 %\ccsdesc[500]{Keywords got to go~Redundancy}
 %\ccsdesc[300]{Computer systems %organization~Redundancy}
 %\ccsdesc{Computer systems organization~Robotics}
@@ -106,6 +102,9 @@ Conclusion: The developed model and results from the two case studies offer a gu
 \input{themodel}
 \input{methodology}
 \input{evaluation}
+\input{evaluation_nvd}
+\input{evaluation_cii}
+\input{evaluation_combined}
 \input{discussion}
 \input{limitations}
 \input{conclusion}
