@@ -27,6 +27,16 @@ semsyntax <- simulateData(model.syntax,sample.nobs=500L)
 fit <- sem(model.syntax,data=semsyntax)
 semPaths(fit,,"std",title=FALSE,sizeLat=12,sizeMan=10,nCharNodes=25,residuals=FALSE,intercepts=FALSE,layout="spring",structural=FALSE,thresholds=FALSE,filetype="png",filename="syntax_asmeasuredby",height=2,width=3)
 
+model.syntax <- 'SoftwareRisk =~ Language + OperatingSystem + Domain + ProductAge + SLOC + CodeChurn + TeamSize'
+semsyntax <- simulateData(model.syntax,sample.nobs=500L)
+fit <- sem(model.syntax,data=semsyntax)
+semPaths(fit,,"std",title=FALSE,sizeLat=12,sizeMan=10,nCharNodes=25,residuals=TRUE,intercepts=FALSE,layout="spring",structural=FALSE,thresholds=FALSE,filetype="png",filename="syntax_swrisk_asmeasuredby",height=2,width=3)
+
+model.syntax <- 'SoftwareRisk =~ Language + OperatingSystem + Domain + ProductAge + SLOC + CodeChurn + TeamSize'
+semsyntax <- simulateData(model.syntax,sample.nobs=500L)
+fit <- sem(model.syntax,data=semsyntax)
+semPaths(fit,,"std",title=FALSE,sizeLat=12,sizeMan=10,nCharNodes=25,residuals=TRUE,intercepts=FALSE,layout="spring",structural=FALSE,thresholds=FALSE,filetype="png",filename="syntax_swrisk_asmeasuredby",height=2,width=3)
+
 semPaths(fit,,"std",title=FALSE,sizeLat=12,sizeMan=10,nCharNodes=25,residuals=FALSE,intercepts=FALSE,layout="spring",structural=FALSE,thresholds=FALSE,height=2,width=3)
 
 model.syntax <- 'LatentVariable =~ MeasuredVariable1; LatentVariable2 =~ MeasuredVariable2; LatentVariable3 =~ MeasuredVariable3; LatentVariable ~ LatentVariable2 + LatentVariable3'
@@ -458,6 +468,7 @@ fit <- sem(model.combinedl,data=df[df$process_network_data==1,]); summary(fit,fi
 
 
 # How many NVD projects?
+rolled <- group_by(nvdxlated,software,pubyear) %>% summarise(CVECount=n(),cvss_score=mean(cvss_score),adherence=mean(adherence),cvss_auth=mean(cvss_auth),cvss_access_vector=mean(cvss_access_vector),cvss_access_complexity=mean(cvss_access_complexity),cvss_conf_impact=mean(cvss_conf_impact), cvss_integ_impact=mean(cvss_integ_impact), cvss_avail_impact=mean(cvss_avail_impact),AuthenticationRisk=mean(AuthenticationRisk),AccessVectorRisk=mean(AccessVectorRisk),AccessComplexityRisk=mean(AccessComplexityRisk))
 rolled_software <- data.frame(software=rolled$software,CVECount=rolled$CVECount, logCVECount=log(rolled$CVECount+1),cvss_score=rolled$cvss_score,adherence=scale(rolled$pubyear) + abs(min(scale(rolled$pubyear),na.rm=TRUE)),cvss_auth=rolled$cvss_auth,cvss_access_vector=rolled$cvss_access_vector,cvss_access_complexity=rolled$cvss_access_complexity,cvss_conf_impact=rolled$cvss_conf_impact, cvss_integ_impact=rolled$cvss_integ_impact, cvss_avail_impact=rolled$cvss_avail_impact,AuthenticationRisk=rolled$AuthenticationRisk,AccessVectorRisk=rolled$AccessVectorRisk,AccessComplexityRisk=rolled$AccessComplexityRisk)
 length(as.character(unique(rolled_software[rolled_software$CVECount > 1 & rolled_software$CVECount < 50,]$software)))
 # 6695

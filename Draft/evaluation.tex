@@ -1,13 +1,12 @@
 \section{Evaluation}
 \label{sec:evaluation}
-
 This section describes how we evaluated our model through two case studies of existing software development security data.
 
-We presented the data elements to be collected for our full model in Section ~\ref{sec:model_measurement}, and the data collection guide for the measurement model gives instructions on how to collect the data for a software development project~\cite{morrison2016spefsite}.  SEM is a large-sample technique, with median sample size in the literature of 200 cases~\cite{kline2015principles}. The need for large quantities of software development security data leads us to examine existing software development security datasets. In addition to the practical considerations of requiring large amounts of data, confirmation of our hypothesized structural and measurement relationships in data we did not author would strengthen the case for the theorized relationships.
+We presented the data elements to be collected for our full model in Section ~\ref{sec:model_measurement}, and the data collection guide for the measurement model gives instructions on how to collect the data for a software development project~\cite{morrison2016spefsite}.  SEM is a large-sample technique, with median sample size in the literature of 200 observations~\cite{kline2015principles}. The need for large quantities of software development security data leads us to examine existing software development security datasets. In addition to the practical considerations of requiring large amounts of data, confirmation of our hypothesized structural and measurement relationships in data we did not generate strengthens the case for the theorized relationships.
 We have identified two candidate data sets, of increasing detail and decreasing observation count: 
 \begin{itemize}
 \item The National Vulnerability Database contains vulnerability records for a wide variety of software, over a long timespan.
 \item The Core Infrastructure Initiative project census contains high-level project data for over 400 Debian~\footnote{https://www.debian.org/} packages.
 \end{itemize}
 
-We give further details for each of these datasets in their case study sections, below. We used the R~\footnote{https://www.r-project.org}  lavaan~\cite{roseel2012lavaan} (LAtent VAriable ANalysis) package to conduct our SEM analysis, as well as the ggplot2, semPlot and psych R packages.
+For each dataset, the project is our unit of analysis. In the case of the NVD, which reports vulnerabilities, we collect all vulnerabilities for a given project and summarize them. Each CII record represents a single project. We assume the data points collected for each project are independent of other projects.  We give further details for each of these datasets in their case study sections, below. We used the R~\footnote{https://www.r-project.org}  lavaan~\cite{roseel2012lavaan} (LAtent VAriable ANalysis) package to conduct our SEM analysis, as well as the ggplot2, semPlot and psych R packages.

@@ -11,7 +11,7 @@ The project record contains descriptive data, e.g. project name and version, and
 The CII package\_popularity field contains Debian package popularity contest~\footnote{http://popcon.debian.org/} results, a measure of the frequency of use of each package on each system, aggregated to the relative usage of the package within the Debian ecosystem. We reason that paclage popularity is proportional to our theorized `Number of Machines'  metric, and, so, should be modeled as a component of Asset Value.
 
 \textbf{Software Risk}
-We model total\_contributor\_count, Contributor Risk, and total\_code\_lines as components of Software Risk, on the rationale that multiple studies (e.g. ~\cite{,camilo2015do,dashevskyi2016on}) have identified team size and code size as contributors to software vulnerability. The CII metrics direct\_network\_exposure and process\_network\_data, and potential\_privilege\_escalation are similar in concept to the CVSS Access metrics, and we, similarly, model them as components of Software Risk, theorizing that their values change based on design choices made by the software development team. We do not use the CII risk index measures, as they are composites, and we wish to examine the behavior of each of the index components.
+We model total\_contributor\_count, Contributor Risk, and total\_code\_lines as components of Software Risk, on the rationale that multiple studies (e.g. ~\cite{camilo2015do,dashevskyi2016on}) have identified team size and code size as contributors to software vulnerability. The CII metrics direct\_network\_exposure and process\_network\_data, and potential\_privilege\_escalation are similar in concept to the CVSS Access metrics, and we, similarly, model them as components of Software Risk, theorizing that their values change based on design choices made by the software development team. We do not use the CII risk index measures, as they are composites, and we wish to examine the behavior of each of the index components.
 
 \textbf{Adherence}
 CII census data related to Adherence includes measurements of recent developer activity, and documentation effort. Developer activity is measured in the CII census data via a count of developers committing within the last year, twelve\_month\_contrib, and in terms of an ordinal categorical variable, fact\_activity, which we label TeamActivity. Documentation effort is measured in the CII census data via ordinal categorical variables in the risk index description for the amount and quality of comments, fact\_comments, which we label CodeComments, and by the presence of a website documenting the project, which we label WebsitePoints.
@@ -33,9 +33,8 @@ To illustrate how data is prepared for use in SEM estimation, Table \ref{tab:cii
 		\label{tab:cii_data_examples}
 	\begin{tabular}{@{\extracolsep{5pt}} crr} 
 		\\[-1.8ex]\hline \\[-1.8ex] 
-		& 1 & 2 \\ 
+		Metric/Project & libexpat1 & procmail \\ 
 		\hline \\[-1.8ex] 
-		project\_name & libexpat1 & procmail \\ 
 		main\_language\_name & C & C \\ 
 		CVE\_since\_2010 & 5 & 2 \\ 
 		twelve\_month\_contributor\_count & 0 & 0 \\ 
@@ -46,7 +45,6 @@ To illustrate how data is prepared for use in SEM estimation, Table \ref{tab:cii
 		process\_network\_data & 1 & 0 \\ 
 		potential\_privilege\_escalation & 0 & 0 \\ 
 		risk\_index & 13 & 13 \\ 
-		DevChurnAdh & 0.0004403347 & 0.0002574665 \\ 
 		CVE & 5 & 2 \\ 
 		RiskIndex & 13 & 13 \\ 
 		TeamActivity & 2 & 2 \\ 
@@ -67,8 +65,6 @@ To illustrate how data is prepared for use in SEM estimation, Table \ref{tab:cii
 		logSLOC & 10.03060 &  9.65098 \\ 
 		logContributorCount & 2.302585 & 1.386294 \\ 
 		logPackagePopularity & 12.07040 & 11.94067 \\ 
-		logDevsPerSLOC & 4.183087 & 5.996491 \\ 
-		DevsPerSLOC & 2064.636 & 3107.400 \\ 
 		\hline \\[-1.8ex] 
 	\end{tabular} 
 \end{table} 
@@ -146,7 +142,7 @@ The initial model did not converge, after 678 iterations over the CII dataset. W
 \subsubsection{Re-specification}
 Given that the initial model did not converge, we took the following steps to revise the model.
 
-To assess fit difficulties in the measurement model, we fit the data to a model in which the latent variables are completely intercorrelated. In this step, the model converged, but yielded very poor fit (CFI 0.076, NFI -.152, RMSEA 0.214, SRMR 0.167), revealing that the initial set of measurement variables is poorly matched to the structural model.  
+To assess fit difficulties in the measurement model, per Loehlin~\cite{loehlin1986latent}, we fit the data to a model in which all latent variables are correlated with each other, which has the effect of removing structural model fit concerns, allowing measurement model fit to be examined. In this step, the model converged, but yielded very poor fit (CFI 0.076, NFI -.152, RMSEA 0.214, SRMR 0.167), revealing that the initial set of measurement variables is poorly matched to the structural model.  
 
 Given that the fit results did not meet standard fit criteria thresholds, we consider a set of alternative measurement models, guided by our theoretical justification for each choice of measurement variable. We conduct an exploratory analysis, retaining the structural model, and altering the measurement model one measurement variable at a time. For each measurement variable in the Software Risk and Asset Impact constructs, we drop a single measurement variable and re-estimate the model fit. 
 

@@ -1,14 +1,11 @@
 \section{Model}
 \label{sec:model}
-\begin{quotation}
-	"All models are wrong; some models are useful" - George Box
-\end{quotation}
 
 % Sanders~\cite{sanders2009security} argues that existing security metrics should be integrated to provide a comprehensive, quantified view of systems through their lifecycle.  
 
- If we are to measure and understand how security practice use influences security outcomes, we need to account for the other influences on security outcomes. We recognize that both software quality factors, such as code size, and factors external to software development, such as the amount of money managed by the software, influence security outcomes. Software quality and software usage context factors are multi-faceted, with multiple contributing causes. For example, software quality attributes with effects on security outcomes include code size ~\cite{alhazmi2007measuring}, code churn ~\cite{shin2011evaluating}, and language ~\cite{ray2014a}. Software usage context factors are not limited to the amount of money managed directly by software; attackers also focus on users and on machines. 
+The IEEE defines security~\cite{ieee1990glossary} as 'all aspects related to defining, achieving, and maintaining confidentiality, integrity, availability, non-repudiation, accountability, authenticity, and reliability of a system.'. While defining how a system will support the various security properties lies within the control of the development team, achieving and maintaining security over time depends on factors outside of the development team's direct control. We recognize that both software quality factors, such as code size, and factors external to software development, such as the amount of money managed by the software, influence security outcomes. Software quality and software usage context factors are multi-faceted, with multiple contributing causes. For example, software quality attributes with effects on security outcomes include code size ~\cite{alhazmi2007measuring}, code churn ~\cite{shin2011evaluating}, and language ~\cite{ray2014a}. Software usage context factors are not limited to the amount of money managed directly by software; attackers also focus on users and on machines. 
  
- We seek a model of the factors influencing security outcomes in software development to enable assessment of how varying security practice use affects those outcomes. 
+We seek a model of the factors influencing security outcomes in software development to enable assessment of how varying security practice use affects those outcomes. 
  
  The Common Criteria (CC) introduction~\cite{common2012common} lists a set of \textbf{security concepts} (concepts bolded) and relationships, summarized as follows:
  \begin{itemize}
@@ -16,25 +13,23 @@
  	\item Threat Agents give rise to \textbf{Threats} that affect \textbf{Assets} and increase \textbf{Risk}.
  \end{itemize}
  
- Considering the CC concepts, we propose a four construct structural model, described below, to capture the distinction between software quality factors and software usage factors when measuring practice usage's effect on security outcomes. We expect our model to be useful in assessing the relative impact of software quality factors and software usage factors on security outcomes, and in assessing the effect of security practice adherence on software quality. Given the complexity of software security, we expect that this initial model will be wrong to some degree, and we will use our data collection to evaluate the model and to evaluate possible refinements.
+ Considering the CC concepts, we propose a model, described below, to capture the distinction between software quality factors and software usage factors when measuring practice usage's effect on security outcomes. We expect our model to be useful in assessing the relationship of software quality factors and software usage factors with security outcomes, and in assessing the effect of security practice adherence on software quality. Given the complexity of software security, we expect that this initial model will be misspecified to some degree, and we will use our data collection to evaluate the model and to evaluate possible refinements.
 
 We have theorized relationships between measurement variables and each construct in our model, for example we theorize that the already mentioned code size and code churn metrics influence Software Risk. We present our list of measurements in Section \ref{sec:model_measurement}.
 
 \subsection{Structural Model Constructs}
  \label{sec:model_structual}
-In this section, we define the Software Risk, Asset Impact, Adherence, and Outcomes constructs, and the relationships we expect between each construct. 
-
-To make claims about how security practices affect security outcomes, we need to account for other influences on security outcomes.
+To make claims about how security practices affect security outcomes, we need to account for other influences on security outcomes. In this section, we define the Software Risk, Asset Impact, Adherence, and Outcomes constructs, and the relationships we expect between each construct. 
 
 \subsubsection{Software Risk}
-Software Risk (measurement of CC \textbf{Risk} potential) represents the characteristics of the software under the control of the development team that are associated with Outcomes. In the case of software vulnerabilities, for example, high code churn and defect-prone languages have been correlated with vulnerabilities.
+Software Risk (measurement of CC \textbf{Risk} potential) represents the characteristics of the software under the control of the development team that are associated with defects and vulnerabilities. In the case of software vulnerabilities, for example, high code churn and defect-prone languages have been correlated with vulnerabilities.
 
 \subsubsection{Asset Impact}
 Asset Impact (CC \textbf{Assets}) represents the characteristics of the software's purpose and usage context that are associated with attacker interest. One component of attacker interest is the value of the objects managed by the software. For example, we hypothesize that software tracking valuable or sensitive data, such as PII or credit card data is more likely to be attacked than software tracking, say, baseball scores. As another example, attacker control over a machine enables the machine's participation in a botnet, making the number of machines on which a piece of software runs a consideration in evaluating the software's Asset Impact.
 
 \subsubsection{Adherence}
 \label{sec:model_contruct_adherence}
-Adherence (CC \textbf{Countermeasures}) represents the efforts the team takes to prevent and discover vulnerabilities. We adapt an IEEE definition of practice~\cite{ieee1990glossary} `3. a specific type of professional or management activity that contributes to 
+Adherence (CC \textbf{Countermeasures}) represents the efforts the team takes to prevent and discover vulnerabilities. We adapt an IEEE definition of practice~\cite{ieee1990glossary} `a specific type of professional or management activity that contributes to 
 the execution of a process and that may employ one or more techniques and tools' to define a software development security practice to be an action a software development team member takes to prevent, identify, or resolve a vulnerability, possibly guided by a tool or reference. We measure the Adherence construct in terms of the frequency  of security practice use by the team.  
 % emails - spec
 % commit messages - code
@@ -44,13 +39,15 @@ the execution of a process and that may employ one or more techniques and tools'
 
 \subsubsection{Outcomes}
 \label{sec:model_contruct_outcome}
-The Outcomes  ((measurement of CC \textbf{Risk} realized)) construct represents security-related events associated with a piece of software over the course of the software's life cycle. Security-related events may be positive or negative. 
+The Outcomes (measurement of CC \textbf{Risk} realized) construct represents indications of the failure or achievement of security associated with a piece of software over the course of the software's life cycle.
+
 \begin{itemize}
-	\item Positive outcomes: Meneely~\cite{meneely2016security} observes that security is negatively defined, the absence of issues in a system's confidentiality, integrity, and availability. We posit that measures of the absence of security issues over time would prove valuable in management, development team, and user assessment of software. However, we are aware of no such measures.
-	\item Negative outcomes: At present, the presence of security issues, termed vulnerabilities, is the most common means of measuring security in software~\cite{morrison2014mapping}. Following Krsul~\cite{krsul1998software} and Ozment~\cite{ozment2007vulnerability}, we define a software vulnerability as “an instance of a mistake in the specification, development, or configuration of software such that its execution can violate the explicit or implicit security policy." We distinguish between undiscovered (`latent') and discovered (`manifest') security issues. We, further, distinguish between vulnerabilities identified after the software is released (`Post-release'), and vulnerabilities identified before the software is released (`Pre-release'). 
+	\item Negative outcomes: At present, counting security failures, termed vulnerabilities, is the most common means of measuring security in software~\cite{morrison2014mapping}. Following Krsul~\cite{krsul1998software} and Ozment~\cite{ozment2007vulnerability}, we define a software vulnerability as “an instance of a mistake in the specification, development, or configuration of software such that its execution can violate the explicit or implicit security policy." We distinguish between undiscovered (`latent') and discovered (`manifest') security issues. We, further, distinguish between vulnerabilities identified after the software is released (`Post-release'), and vulnerabilities identified before the software is released (`Pre-release'). 
+	\item Positive outcomes: 
+	At present, the presence of security is primarily measured through the absence of issues in a system's security properties.  However, we are aware of no measures of the absence of confidentiality, integrity, and/or availability issues at present. We posit that measures of the presence of security, e.g. through measuring the absence of vulnerabilities over time, would prove valuable in management, development team, and user assessment of software.	
 \end{itemize} 
 
-We measure the Outcomes construct in terms of manifest vulnerabilities and the timing of their discovery and resolution. Low total values for manifest vulnerabilities are preferable, and a high proportion of vulnerabilities discovered pre-release rather than post-release is also preferable. 
+We measure the Outcomes construct in terms of manifest vulnerabilities and the timing of their discovery and resolution. Low total values for manifest vulnerabilities are preferable, and a high proportion of vulnerabilities discovered pre-release rather than post-release is also preferable. Low vulnerability counts must be interpreted wth caution, as they may reflect low use of the system, or low vulnerability discovery effort by the development team, rather than the absence of latent vulnerabilities. 
 
 \subsection{Structural Model Relationships}
 We hypothesize that the four constructs are related as follows:
@@ -64,30 +61,33 @@ For example, a carefully-written piece of widely-used software that manages fina
 
 In this work, we use the lavaan~\cite{roseel2012lavaan} model syntax to express the modeled constructs and relationships.  We now introduce the syntax in both its textual and graphical representations, and explain the semantics of each syntax element.
 
-Figure~\ref{fig:model_constructs} depicts the constructs and their relationships.  Each circle in the figure represents a construct, modeled as a `latent variable'. We model the constructs using latent variables to indicate that our measures for each construct are aggregates of observed variables containing some level of measurement error with respect to the construct~\cite{kline2015principles,borsboom2008latent}. 
+Figure~\ref{fig:model_constructs} depicts the constructs and their relationships.  Each circle in the figure represents a construct, modeled as a `latent variable'. We model the constructs using latent variables to indicate that our measures for each construct are aggregates of the measurement (observed) variables ~\cite{kline2015principles,borsboom2008latent}. 
 
-Directed edges from circles to other circles, for example the arrow from AssetImpact to Outcomes in Figure \ref{fig:model_constructs}, represent a source latent variable's effect on the target latent variable. The size of the effect is established by determining a parameter estimate for the edge. A one unit change on the source side of the relationship is associated with a parameter-estimate-sized-change on the target side of the relationship, in the direction of the sign of the parameter estimate. In the lavaan software we use in this paper, these regression relationships between latent variables are specified using the $\sim$  operator (see Table \ref{tab:model_lavaan_syntax}), for example $Outcomes ~ SoftwareRisk + AssetImpact$ (SoftwareRisk is also modeled as affecting Outcomes).   Establishing a parameter estimate for this relationship allows us to test hypothesis \textbf{H1} Asset Impact is positively associated with negative Security Outcomes.
+Directed edges from circles to other circles, for example the arrow from Asset Impact to Outcomes in Figure \ref{fig:model_constructs}, represent a source latent variable's effect on the target latent variable, as for regression, indicated by the sign and magnitude of the parameter estimate on the edge between the latent variables. The magnitudes of the parameter estimates are affected by the scales of the measurement variables and by any transformations applied to the measurement variables. These attributes limit the interpretation of parameter estimates to describing that changes in a source latent variable are correlated with changes in a target latent variable in the direction of the parameter estimate's sign and of a magnitude comparable to other parameter estimates. 
+
+In the lavaan software we use in this paper, these regression relationships between latent variables are specified using the $\sim$  operator (see Table \ref{tab:model_lavaan_syntax}), for example $Outcomes \sim SoftwareRisk + AssetImpact$ (SoftwareRisk is also modeled as affecting Outcomes). Establishing a parameter estimate for this relationship allows us to test the hypothesis that \textbf{H1} Asset Impact is positively associated with negative Security Outcomes.
 
 Dual arrows between circles/constructs, for example between Adherence and AssetImpact in Figure \ref{fig:model_constructs}, represent covariances between the constructs, implying that a relationship exists, but that the direction of influence is not specified. Dual arrows starting and ending at the same variable indicate residual variance, the amount of variation in the observed variable not explained by the model. In the lavaan software we use in this paper, these covariance relationships are specified using the $\sim\sim$ operator.
 
-Each square in Figure \ref{fig:model_example_syntax_asmeasuredby} represents a measurement variable associated with each construct. Directed edges (single arrows) from circles to squares, for example from SoftwareRisk to SLOC as shown in Figure \ref{fig:model_example_syntax_asmeasuredby}, represent that a construct `is measured by' a measurement variable relationship. The parameter estimate on these relationships represents the sign and magnitude of the relative contribution of the measurement variable to the construct value.The `is measured by' relationships are specified as follows: $LatentVariable =\sim MeasuredVariable1 [+ MeasuredVariable2]$. We present the list of measurements for each construct in the measurement guidebook~\footnote{http://pjmorris.github.io/Security-Practices-Evaluation-Framework/guidebook.html}, and we present the measurement variables that we select from each dataset in the case studies.  
+Each square in Figure \ref{fig:model_example_syntax_asmeasuredby} represents a measurement variable associated with each construct. Directed edges (single arrows) from circles to squares, for example from SoftwareRisk to SLOC as shown in Figure \ref{fig:model_example_syntax_asmeasuredby}, represent that a construct `is measured by' a measurement variable relationship. that is to say that the effect of the construct can be measured by the measurement variable. The parameter estimate on these relationships represents the sign and magnitude of the relative contribution of the measurement variable to the construct value. The latent variable-measurement variable relationships are specified as follows: $LatentVariable =\sim MeasuredVariable1 + ...$. We present the list of measurements for each construct in the measurement guidebook~\footnote{http://pjmorris.github.io/Security-Practices-Evaluation-Framework/guidebook.html}, and we present the measurement variables that we select from each dataset in the case studies.  
 
-Dashed lines indicate fixed estimates, set either by the modeler, or by the software. We have two examples of modeled fixed parameters in our structural model: We specify the absence of a direct relationship between Asset Impact and Software Risk (syntax: $SoftwareRisk \sim\sim 0*AssetImpact$), as we expect the constructs to be independent of each other. We specify the absence of a direct relationship between Adherence and Outcomes, as we expect Adherence to affect Outcomes through being moderated by overall Software Risk. The remaining dashed lines are estimates fixed by the software, where it has estimated starting values in the course of solving the system of equations expressed by the model. 
+Dashed lines indicate estimates established by the modeler, or by the software. We have two examples of modeled fixed parameters in our structural model: We specify the absence of a direct relationship between Asset Impact and Software Risk (syntax: $SoftwareRisk \sim\sim 0*AssetImpact$), as we expect the constructs to be independent of each other. We specify the absence of a direct relationship between Adherence and Outcomes, as we expect Adherence to affect Outcomes through being moderated by overall Software Risk. The remaining dashed lines are estimates fixed by the software, where it has estimated starting values in the course of solving the system of equations expressed by the model. 
 
 The lavaan model syntax for the complete set of structural model constructs and relationships (but not the measurement model) is as follows:
  
- \begin{align*}
- SoftwareRisk =\sim SoftwareContextFactors\\
- AssetImpact =\sim AssetContextFactors\\
- Outcomes =\sim OutcomesContextFactors\\ 
- Adherence =\sim AdherenceContextFactors\\
- Outcomes \sim SoftwareRisk + AssetImpact\\
- SoftwareRisk \sim Adherence\\
- \\
- AssetImpact \sim\sim  Adherence\\
- SoftwareRisk \sim\sim 0*AssetImpact\\
- Adherence \sim\sim 0*Outcomes\\
- \end{align*}
+ \begin{equation} \label{eq:1}
+ \begin{split}
+ SoftwareRisk &=\sim SoftwareContextFactors\\
+ AssetImpact &=\sim AssetContextFactors\\
+ Outcomes &=\sim OutcomesContextFactors\\ 
+ Adherence &=\sim AdherenceContextFactors\\
+ Outcomes &\sim SoftwareRisk + AssetImpact\\
+ SoftwareRisk &\sim Adherence\\
+ AssetImpact &\sim\sim  Adherence\\
+ SoftwareRisk &\sim\sim 0*AssetImpact\\
+ Adherence &\sim\sim 0*Outcomes\\
+ \end{split}
+ \end{equation}
  
  \begin{figure}
  	\includegraphics[width=\columnwidth]{modelzeroB.png}
@@ -99,14 +99,14 @@ The lavaan model syntax for the complete set of structural model constructs and 
 	\caption{Lavaan Syntax} 
 	\label{tab:model_lavaan_syntax} 
 	\begin{small}
-		\begin{tabular}{p{.75cm}p{1.25cm}p{1cm}p{5cm}p{4cm}} 
+		\begin{tabular}{p{.75cm}p{1.25cm}p{2cm}p{5cm}p{4cm}} 
 			&&&&\\[-1.8ex]\hline 
 			\hline&&&& \\[-1.8ex] 
 			Syntax & Symbol & Name & Description & Example \\ 
 			\hline &&&&\\[-1.8ex]  
 			$=\sim$	& $\bigcirc \rightarrow \Box$ & is measured by & $=\sim$ specifies how a latent variable (left side) is measured by the constituent variables listed on the right side & $SoftwareRisk =\sim SLOC + Churn$\\	
 			 $\sim$ & $\bigcirc \leftarrow \bigcirc$ & regression & $\sim$ specifies a regression of the dependent variable on the left-hand side to the independent variables on the right hand side of the expression. & Outcomes $\sim$ SoftwareRisk $+$ AssetImpact  \\	
-			 $\sim\sim$ & $\bigcirc \leftrightarrow \bigcirc$ $\Box \leftrightarrow \Box$ & undirected covariance & model a covariance relationship, but leave the direction of influence unspecified & $Adherence \sim\sim Adherence$\\
+			 $\sim\sim$ & $\bigcirc \leftrightarrow \bigcirc$ $\Box \leftrightarrow \Box$ & undirected covariance & model a covariance relationship, but leave the direction of influence unspecified. When  & $AssetRisk \sim\sim Adherence$\\
 			\hline &&&&\\[-1.8ex] 
 			\hline &&&&\\[-1.8ex] 
 		\end{tabular} 
@@ -144,17 +144,17 @@ Through literature review~\cite{morrison2014mapping} and analysis~\cite{morrison
 	\caption{Model Metrics and Hypotheses} 
 	\label{tab:model_spef_metrics} 
 	\begin{small}
-		\begin{tabular}{@{\extracolsep{5pt}}p{3cm}p{1cm}p{2cm}p{10cm}} 
+		\begin{tabular}{@{\extracolsep{5pt}}p{4cm}p{1cm}p{2cm}p{8cm}} 
 			\\[-1.8ex]\hline 
 		\hline \\[-1.8ex] 
 		Metric & \multicolumn{1}{c}{Effect} & \multicolumn{1}{c}{Construct} & \multicolumn{1}{c}{Rationale} \\ 
 		\hline \\[-1.8ex]  
-			Language	& influences &	Software Risk &   Ray et al. ~\cite{ray2014a} and Walden et al. ~\cite{walden2010idea} found small but significant effects of programming language on software quality. \\
+			Language	& influences &	Software Risk &   Ray et al. ~\cite{ray2014a} and Walden et al. ~\cite{walden2010idea} found small but significant effects of programming language on software quality. Zhang~\cite{zhang2014towards} identifies language as a key context factor. \\
 			Operating System	& influences &	Software Risk & \\	
 			Domain &	influences &	Software Risk	 & Different risks are associated with different software domains~\cite{williams2004xpef,jones2000software} \\
 			Product Age	& increases &	Software Risk & Kaminsky et al.~\cite{kaminsky2011showing} and Morrison et al.~\cite{morrison2015challenges} have found evidence of code age effects on the presence of vulnerabilities. \\
 			
-			Source Lines of Code (SLOC)	& influences	& Software Risk & Source code size is correlated with vulnerabilities ~\cite{shin2011evaluating}, ~\cite{alhazmi2007measuring}. \\
+			Source Lines of Code (SLOC)	& influences	& Software Risk & Source code size is correlated with vulnerabilities ~\cite{shin2011evaluating}, ~\cite{alhazmi2007measuring}. Zhang~\cite{zhang2014towards} identifies SLOC as a key context factor. \\
 			Churn &	increases &	Software Risk  &  Code churn is correlated with vulnerabilities ~\cite{shin2011evaluating}.\\
 			Team Size	& influences	& Software Risk & Shin et al. ~\cite{shin2011evaluating} and Zimmermann et al. ~\cite{zimmerman2010searching} found correlations between team size and vulnerabilities. \\			
 			\hline \\[-1.8ex] 
@@ -182,7 +182,7 @@ Through literature review~\cite{morrison2014mapping} and analysis~\cite{morrison
 			Perform Security Training &	increases &	Adherence	& (Proposed) Development team knowledge of security risks and mitigations supports reducing Software Risk~\cite{morrison2017surveying}.\\		
 			\hline \\[-1.8ex] 
 			Vulnerabilities	& represent & Outcomes &  Vulnerabilities are, by definition, a negative security outcome, e.g. ~\cite{alhazmi2007measuring}.\\
-			Defects & represent & Outcomes	& \\		
+			Defects & represent & Outcomes	& Zhang~\cite{zhang2014towards} identifies defect tracking as a key context factor.\\		
 			\hline \\[-1.8ex] 
 			\hline \\[-1.8ex] 
 		\end{tabular} 
