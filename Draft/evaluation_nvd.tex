@@ -1,4 +1,4 @@
-\subsection{National Vulnerability Database Case Study}
+\subsection{NVD Case Study}
 \label{sec:evaluation_nvd}
 The U.S. National Institute of Standards and Technology (NIST) maintains the National Vulnerability Database (NVD) ~\footnote{https://nvd.nist.gov/}, an online database of publicly reported software vulnerabilities, with over 79,000 vulnerabilities dating back to 1988. Vulnerability reporters assign each vulnerability a Common Vulnerability Scoring System (CVSS) score and associated CVSS base metrics, according to the scheme defined in the CVSS guide~\cite{mell2007complete}.  
 
@@ -72,7 +72,7 @@ To illustrate how data is prepared for use in SEM estimation, Table \ref{tab:nvd
 				Conf Impact & PARTIAL & 2 & PARTIAL & 2 & 2\\
 				Integ Impact & PARTIAL & 2 & PARTIAL & 2 & 2\\
 				Avail Impact & NONE & 1 & NONE & 1 & 1 \\
-				\hline &&&&&\\[-1.8ex] 				
+				\hline &&&&&\\[-1.8ex] 		
 			\end{tabular}
 		\end{scriptsize}
 	\end{center}
@@ -139,7 +139,7 @@ In terms of global fit, the fit index results for the initial NVD model were out
 \subsubsection{Re-specification}
 The base adherence and CVE Count metrics had variances two magnitudes larger than the other variables. We scaled adherence, and took the log of CVE Count to bring them within range of the other variables. The variation among the 22,000+ projects with exactly one vulnerability caused numeric problems for the estimation algorithm, and we elected to treat the group as outliers and drop them from consideration. We, further, excluded projects with 50 or more vulnerabilities as outliers (79 projects). After the exclusions, 10621 projects remained in the analyzed dataset.
 
-The re-specified model (post-rescaling and outlier exclusion) had global fit characteristics within the traditional fit criteria thresholds, as shown in the Respecified NVD column of Table \ref{tab:results_fit_all}. We present the parameter estimates for the Respecified NVD model in the results, and discuss the implications in Section \label{sec:case_nvd_discussion}.
+The re-specified model (post-rescaling and outlier exclusion) had global fit characteristics within the traditional fit criteria thresholds, as shown in the Respecified NVD column of Table \ref{tab:results_fit_all}. We present the parameter estimates for the Respecified NVD model in the results, and discuss the implications in Section \ref{sec:case_nvd_discussion}.
 
 \subsubsection{Reporting Results}
 \label{sec:case_nvd_results}
@@ -251,6 +251,6 @@ Per the descriptions of the metrics in Section \ref{sec:evaluation_nvd_selection
 
 Our overall model data did not confirm Kaminsky's hypothesis that software quality is improving over time, with our adherence-over-time measure increasing Software Risk. However, we observed several counter-trends in the underlying data. We observed an improvement in CVSS Authentication Risk (Figure \ref{fig:nvd_vulns_auth}). On average, vulnerabilities are requiring more authentications over time, implying that development teams are putting an increasing amount of functionality behind access control.
 
-We also observe from Figure \ref{fig:nvd_vulns_auth} that Access Complexity Risk has trended downward over time, in opposition to Authentication Risk and Access Vector Risk (Regressing Access Complexity Risk on adherence, controlling for the remaining measurement variables has a slope of -.09 for adherence, p-value $\textless$ 0.001). The trend suggests that, on average, over time, vulnerabilities are becoming more complicated for attackers, likely for a variety of causes, but potentially implying that access control is being implemented more frequently over time by development teams.
+We also observe from Figure \ref{fig:nvd_vulns_auth} that Access Complexity Risk has trended downward over time, in opposition to Authentication Risk and Access Vector Risk (Regressing Access Complexity Risk on adherence, controlling for the remaining measurement variables has a slope of -.09 for adherence, p-value \textless 0.001). The trend suggests that, on average, over time, vulnerabilities are becoming more complicated for attackers, likely for a variety of causes, but potentially implying that access control is being implemented more frequently over time by development teams.
 
 On the other hand, CVSS Access Vector Risk has increased in parallel to the decrease in Authentication Risk, indicating that vulnerabilities are increasingly prone to remote attacks from across the network.

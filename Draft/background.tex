@@ -45,7 +45,7 @@ Structural Equation Modeling (SEM) is a family of statistical techniques for tes
 	\end{center}
 \end{table}
 
-We rely, in particular, on two features of SEM to support our investigation: the distinction between observed variables and latent variables, and the distinction between structural and measurement models.  
+We rely, in particular, on two features of SEM to support our investigation: the distinction between observed variables and latent variables, and the distinction between structural and measurement models. 
 
 Observed variables are the data researchers collect to study a construct of interest. However, not every quantity we wish to measure can be measured directly. For example, in psychological studies of `general intelligence', \textit{g}, researchers examine correlations between various and multiple observed test scores and the notion, or `construct' of general intelligence. Latent variables are a tool for analyzing combinations of observed variables that correspond to hypothetical constructs, which are presumed to reflect a continuum that is not directly observable ~\cite{kline2015principles}. Researchers commonly investigate the effects of unobservables like intelligence by statistically relating covariation between observed variables to latent variables~\cite{borsboom2003theoretical}.  
 
@@ -54,8 +54,7 @@ We adopt latent variables as a suitable tool for relating observed data to the c
 
 The distinction between structural and measurement models parallels the distinction between latent variables and observed variables. Structural models are representations of the latent variables and the relationships between them. Measurement models are representations of observed variables and the relationships between them.  A measurement model may be linked to a structural model to indicate relationships between observed and latent variables. Repeated studies with a single structural-measurement model combination contribute evidence for accepting or rejecting the combined models. A single structural model may be associated, serially, with a variety of measurement models, reflecting a variety of approaches to measuring a theoretical construct.  Observations of similar trends using different data sets and measurement approaches lends strength to the underlying theory~\cite{basili1999building,wohlin2000experimentation}. 
 
-A number of software packages, including sem~\footnote{https://cran.r-project.org/web/packages/sem/index.html}, MPlus~\footnote{https://www.statmodel.com/}, and lavaan~\cite{roseel2012lavaan}, provide tools for specifying SEM models and a variety of estimation algorithms to match the characteristics of models and datasets. 
-
+A number of software packages, including sem~\footnote{https://cran.r-project.org/web/packages/sem/index.html}, MPlus~\footnote{https://www.statmodel.com/}, and lavaan~\cite{roseel2012lavaan} (LAtent VAriable ANalysis), provide tools for specifying SEM models and a variety of estimation algorithms to match the characteristics of models and datasets. 
 SEM studies are organized around six steps (which may be iterated over, as called for by the needs of the study): 
 \begin{itemize}
 \item \textit{Model specification} Express the hypothesized relationships between observed variables and latent variables, typically in the form of a graphical model. Each edge in the graph represents a parameter to be estimated, indicating the strength of the relationship between the nodes connected by the edge.

@@ -15,26 +15,7 @@
 % First comes an example EPS file -- just ignore it and
 % proceed on the \documentclass line
 % your LaTeX will extract the file if required
-\begin{filecontents*}{example.eps}
-%!PS-Adobe-3.0 EPSF-3.0
-%%BoundingBox: 19 19 221 221
-%%CreationDate: Mon Sep 29 1997
-%%Creator: programmed by hand (JK)
-%%EndComments
-gsave
-newpath
-  20 20 moveto
-  20 220 lineto
-  220 220 lineto
-  220 20 lineto
-closepath
-2 setlinewidth
-gsave
-  .4 setgray fill
-grestore
-stroke
-grestore
-\end{filecontents*}
+
 %
 \RequirePackage{fix-cm}
 %
@@ -60,8 +41,8 @@ grestore
 \usepackage{flushend}
 \usepackage{tabularx}
 \usepackage{framed}
-\usepackage{subcaption}
-\captionsetup{compatibility=false}
+%\usepackage{subcaption}
+%\captionsetup{compatibility=false}
 
 %\lstset{language=C}
 %\input{macros}
@@ -95,7 +76,6 @@ grestore
 
 %\authorrunning{Short form of author list} % if too long for running head
 
-
 \institute{Patrick J. Morrison, Laurie Williams \at
 	Department of Computer Science,\\
 	North Carolina State University, North Carolina, USA\\
@@ -108,6 +88,9 @@ grestore
 }
 \date{Received: date / Accepted: date}
 % The correct dates will be entered by the editor
+
+\newcommand{\ModelName}{Security Outcomes Theoretical Model }
+\newcommand{\ModelAbbr}{SOTM }
 
 \maketitle
 
