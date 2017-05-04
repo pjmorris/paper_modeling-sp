@@ -48,11 +48,16 @@ We hypothesize that the four constructs are related as follows:
 	\item \textbf{H3} Practice Adherence is associated with Software Risk 	
 \end{itemize}
 
-For example, a carefully-written piece of widely-used software that manages financial data (high Asset Impact, low Software Risk, e.g. Bitcoin with 22 CVEs~\footnote{\url{https://www.cvedetails.com/vulnerability-list/vendor_id-12094/Bitcoin.html}}) might have worse Outcomes than a less well written baseball scores program used by a few hundred users (low Asset Impact, high Software Risk, no CVEs reported) because attackers expend more effort on the software managing financial data. We would expect Adherence to be correlated with Asset Impact, as teams adopted security practices in proportion to the security needs of their software, its usage context, and their users. In practice, for example in the case of the CloudBleed example from the introduction of this paper, users (especially attackers) sometimes surprise development teams in the uses of their software, unexpectedly increasing the software's Asset Impact out of proportion to the team's Adherence. 
-
+For example, a carefully-written piece of widely-used software that manages financial data (high Asset Impact, low Software Risk, e.g. Bitcoin with 22 CVEs~\footnote{\url{https://www.cvedetails.com/vulnerability-list/vendor_id-12094/Bitcoin.html}}) might have poorer Outcomes than a less well written baseball scores program used by a few hundred users (low Asset Impact, high Software Risk, no CVEs reported) because attackers expend more effort on the software managing financial data. We would expect Adherence to be correlated with Asset Impact, as teams adopted security practices in proportion to the security needs of their software, its usage context, and their users. In practice, for example in the case of the CloudBleed example from the introduction of this paper, users (especially attackers) sometimes surprise development teams in the uses of their software, unexpectedly increasing the software's Asset Impact out of proportion to the team's Adherence. 
 
 Figure~\ref{fig:model_constructs} depicts the constructs and their relationships.  Each circle in the figure represents a construct, modeled as a `latent variable'. We model the constructs using latent variables to indicate that our measures for each construct are aggregates of the measurement (observed) variables ~\cite{kline2015principles,borsboom2008latent}. 
 
+ \begin{figure}
+ 	\includegraphics[width=\columnwidth]{modelzeroB.png}
+ 	\caption{Structural Model Overview}
+ 	\label{fig:model_constructs}
+ \end{figure}
+ 
 Directed edges from circles to other circles, for example the arrow from Asset Impact to Outcomes in Figure \ref{fig:model_constructs}, represent a source latent variable's effect on the target latent variable, indicated by the sign and magnitude of the parameter estimate on the edge between the latent variables. The magnitudes of the parameter estimates are affected by the scales of the measurement variables and by any transformations applied to the measurement variables. These attributes limit the interpretation of parameter estimates to describing that changes in a source latent variable are correlated with changes in a target latent variable in the direction of the parameter estimate's sign and of a magnitude comparable to other parameter estimates. 
 
 Dual arrows between circles/constructs, for example between Adherence and AssetImpact in Figure \ref{fig:model_constructs}, represent covariances between the constructs, implying that a relationship exists, but that the direction of influence is not specified. Dual arrows starting and ending at the same variable indicate residual variance, the amount of variation in the observed variable not explained by the model.
@@ -63,10 +68,10 @@ Each square in Figure \ref{fig:model_example_syntax_asmeasuredby} represents a m
 \label{sec:model_measurement}
 %~\cite{morrison2014mapping}
 %~\cite{morrison2016spefsite}
-Through literature review~\cite{morrison2014mapping} and analysis~\cite{morrison2017surveying,morrison2017measuring}, we have developed a set of measurements that we expect to capture security-related constructs for software development. To collect empirical data, we have developed a data collection framework for the measurement model, available online~\footnote{\url{http://pjmorris.github.io/Security-Practices-Evaluation-Framework}}. In Table \ref{tab:model_spef_metrics}, we name each data element, give our hypothesis about its relationship to the structural model construct, and cite a rationale for the data element's presence. 
+Through literature review~\cite{morrison2014mapping} and analysis~\cite{morrison2017surveying,morrison2017measuring}, we have developed a set of measurements that we expect to capture security-related constructs for software development. To collect empirical data, we have developed a data collection framework for the measurement model, available online~\footnote{\url{http://pjmorris.github.io/Security-Practices-Evaluation-Framework}}. In Table \ref{tab:model_spef_metrics}, we name each data element, give our hypothesis about its relationship to the structural model construct, and cite a rationale for the data element's presence. The metrics associated with Software Risk and Asset Impact are termed Context Factors. The metrics associated with Adherence and Outcomes are termed Measures. 
 		
 \begin{table*}[!htbp] \centering 
-	\caption{Model Metrics and Hypotheses} 
+	\caption{Model Context Factors, Measures, and Hypotheses} 
 	\label{tab:model_spef_metrics} 
 	\begin{scriptsize}
 		\begin{tabular}{p{1.75cm}p{1cm}p{1cm}p{6cm}} 

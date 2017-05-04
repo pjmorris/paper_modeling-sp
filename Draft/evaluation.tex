@@ -2,10 +2,10 @@
 \label{sec:evaluation}
 This section describes how we evaluated our model through two case studies of existing software development security data.
 
-We presented the data elements to be collected for our full model in Section ~\ref{sec:model_measurement}, and the data collection guide for the measurement model gives instructions on how to collect the data for a software development project~\cite{morrison2016spefsite}.  SEM is a large-sample technique, with median sample size in the literature of 200 observations~\cite{kline2015principles}. The need for large quantities of software development security data leads us to examine existing software development security datasets. Further, confirmation of our hypothesized structural and measurement relationships in data we did not generate would strengthen the case for the theorized relationships.
+We presented the data elements to be collected for our full model in Section ~\ref{sec:model_measurement}, and the data collection guide for the measurement model gives instructions on how to collect the data for a software development project~\cite{morrison2016spefsite}. SEM is a large-sample technique, with median sample size in the literature of 200 observations~\cite{kline2015principles}. The need for large quantities of software development security data leads us to examine existing software development security datasets. Further, confirmation of our hypothesized structural and measurement relationships in data we did not generate would strengthen the case for the theorized relationships.
 We have identified two candidate data sets, of increasing detail and decreasing observation count: 
 \begin{itemize}
-\item The NVD contains vulnerability records for a wide variety of software, over a long timespan.
+\item The NVD contains vulnerability records for a wide variety of software.
 \item The CII project census contains high-level project data for over 400 Debian~\footnote{https://www.debian.org/} packages.
 \end{itemize}
 
@@ -18,40 +18,6 @@ For each dataset, the project is our unit of analysis. In the case of the NVD, w
 \item Dashed lines indicate estimates established by the modeler, or by the software. We have two examples of modeled fixed parameters in our structural model: We specify the absence of a direct relationship between Asset Impact and Software Risk (syntax: $SoftwareRisk \sim\sim 0*AssetImpact$), as we expect the constructs to be independent of each other. We specify the absence of a direct relationship between Adherence and Outcomes, as we expect Adherence to affect Outcomes through being moderated by overall Software Risk. The remaining dashed lines are estimates fixed by the software, where it has estimated starting values in the course of solving the system of equations expressed by the model.
 \end{itemize}
 
-We now present the complete set of structural model contstructs and relationships, first in English, then in the lavaan model syntax: 
- 
- "Software Risk is measured by Software Context Factors"
- \begin{equation} \label{eq:0}
- \begin{split}
- SoftwareRisk &=\sim SoftwareContextFactors 
- \end{split}
- \end{equation}
-
-"Asset Impact is measured by Asset Context Factors"       
- \begin{equation} \label{eq:1}
- $AssetImpact =\sim AssetContextFactors$
- \end{equation}
- 
- \begin{equation} \label{eq:1}
- \begin{split}
- AssetImpact &=\sim AssetContextFactors 
-        - "Asset Impact is measured by Asset Context Factors"\\
- Outcomes &=\sim OutcomesContextFactors "Outcomes are measured by Outcome Context Factors\\ 
- Adherence &=\sim AdherenceContextFactors "Adherence is measured by Adherence Context Factors"\\
- Outcomes &\sim SoftwareRisk + AssetImpact "Outcomes are dependent on Software Risk and Asset Impact"\\
- SoftwareRisk &\sim Adherence "Software Risk is dependent on Adherence"\\
- AssetImpact &\sim\sim  Adherence "Asset Impact is correlated with Adherence"\\
- SoftwareRisk &\sim\sim 0*AssetImpact "Software Risk and Asset Impact are not directly correlated."\\
- Adherence &\sim\sim 0*Outcomes "Adherence and Outcomes are not directly correlated.\\
- \end{split}
- \end{equation}
- 
- \begin{figure}
- 	\includegraphics[width=\columnwidth]{modelzeroB.png}
- 	\caption{Structural and Measurement Model Overview}
- 	\label{fig:model_constructs}
- \end{figure}
-  
 \begin{table*}[!htbp] \centering 
 	\caption{Lavaan Syntax} 
 	\label{tab:model_lavaan_syntax} 
@@ -63,13 +29,27 @@ We now present the complete set of structural model contstructs and relationship
 			\hline &&&&\\[-1.8ex]  
 			$=\sim$	& $\bigcirc \rightarrow \Box$ & is measured by & $=\sim$ specifies how a latent variable (left side) is measured by the constituent variables listed on the right side & $SoftwareRisk =\sim SLOC + Churn$\\	
 			 $\sim$ & $\bigcirc \leftarrow \bigcirc$ & regression & $\sim$ specifies a regression of the dependent variable on the left-hand side to the independent variables on the right hand side of the expression. & Outcomes $\sim$ SoftwareRisk $+$ AssetImpact  \\	
-			 $\sim\sim$ & $\bigcirc \leftrightarrow \bigcirc$ $\Box \leftrightarrow \Box$ & undirected covariance & model a covariance relationship, but leave the direction of influence unspecified. When  & $AssetRisk \sim\sim Adherence$\\
+			 $\sim\sim$ & $\bigcirc \leftrightarrow \bigcirc$ $\Box \leftrightarrow \Box$ & undirected covariance & model a covariance relationship, but leave the direction of influence unspecified. When one side is multiplied by 0, the meaning is that the factors  explicitly do not covary. & $AssetRisk \sim\sim Adherence$  $Adherence \sim\sim 0*Outcomes$\\
 			\hline &&&&\\[-1.8ex] 
 			\hline &&&&\\[-1.8ex] 
 		\end{tabular} 
 	\end{small}
 \end{table*} 
+We now present the complete set of structural model constructs and relationships in the lavaan model syntax: 
 
+ \begin{equation} \label{eq:1}
+ \begin{split}
+ SoftwareRisk &=\sim SoftwareContextFactors\\ 
+  AssetImpact &=\sim AssetContextFactors\\
+  Outcomes &=\sim OutcomeMeasures\\
+  Adherence &=\sim AdherenceMeasures\\
+  Outcomes &\sim SoftwareRisk + AssetImpact\\
+   SoftwareRisk &\sim Adherence\\
+   AssetImpact &\sim\sim  Adherence\\
+   SoftwareRisk &\sim\sim 0*AssetImpact\\
+   Adherence &\sim\sim 0*Outcomes\\
+ \end{split}
+ \end{equation}     
 
 \begin{figure*}
 	\centering

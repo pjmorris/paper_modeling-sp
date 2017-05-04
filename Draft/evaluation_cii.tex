@@ -7,7 +7,7 @@ The CII census team has published the rationale behind their census and metrics 
 
 The project record contains descriptive data, e.g. project name and version, and security-relevant metrics, e.g. lines of code, contributor count, as well as an overall `risk index' based on the CII team's estimation of the importance of the metrics used to compute the index value.  Parallel to our translations of the CVSS metric score text to ordinal values, we translate the CII $fact\_activity$, $fact\_age$, $fact\_comments$, and $fact\_team\_size$ columns from text descriptions to ordinal values. We also parse the risk index components field to extract the ordinal ranks the CII team assigned each project for the risk index components: `Website points', `CVE Risk', `12 month contributors', `Popularity', `Language', and (network) `Exposure'. We now present our mapping of the CII metrics to our constructs.
 
-\textbf{Asset Value}
+\textbf{Asset Impact}
 The CII package\_popularity field contains Debian package popularity contest~\footnote{http://popcon.debian.org/} results, a measure of the frequency of use of each package on each system, aggregated to the relative usage of the package within the Debian ecosystem. We reason that paclage popularity is proportional to our theorized `Number of Machines'  metric, and, so, should be modeled as a component of Asset Value.
 
 \textbf{Software Risk}
@@ -213,20 +213,4 @@ We present the standardized parameter estimates, and the residuals, in the conte
 	\caption{Respecified CII Model}
 	\label{fig:cii_model_respecified_estimates}
 \end{figure*}
-
-\subsubsection{Discussion}
-\label{sec:case_cii_discussion}
-In our data, Adherence, as measured by Team Activity, Code Comments, and Website Points, has a negative effect on Software Risk that is not statistically significant. Given that the metrics we chose are a partial accounting of adherence effort, we conjecture that other metrics should be considered in addition to these metrics, and that the Adherence - Software Risk relationship should be investigated further. 
-
-We found small effects for both Asset Impact and Software Risk on Security Outcomes, with Software Risk having an effect (.28 standardized) roughly twice, in magnitude, that of Asset Impact (-0.14). We expect that the small (less than 28\%) effects of Asset Impact and Software Risk are due to the underlying measurement variables being incomplete accounts of the constructs they measure. 
-
-Asset Impact, as measured by the package popularity metric, has a correlation opposite of what we theorized. Our sole measure for Asset Impact in this measurement model is package popularity. If we assume that both the structural and the measurement model are correct, we conjecture that more popular packages may receive more quality control effort. The result bears further investigation.  
-
-Software Risk is affected most strongly by Contributor Count (.91 standardized), then by SLOC (.59 standardized), consistent with prior research correlating software quality attributes with vulnerabilities, e.g. Shin ~\cite{shin2011evaluating}.
-
-Parallel to the NVD data, the Software Risk constructs represented by SLOC and direct network exposure do not contain information on software churn, language, or the other constructs that have been identified as contributing to security issues in software. We dropped the existing CII measure of Language Risk from the model during re-specification, prompting the need for further investigation of alernative measures of the effect of language on Software Risk, as well as further investigation of the structural and measurement models. 
-
-In general, the (standardized) residual variance values are higher than the .35 guideline established in Kline~\cite{kline2015principles}.
-
-Per the descriptions of the metrics in Section \ref{sec:cii_selection}, we view each of the metrics as measuring a property of the software that the development team can influence.
-Team Activity can be altered through management decisions about allocation of budget and personnel to software development and security assurance tasks. Code Comments and Website Points may be direct measures, or indirect measures, of effort and thought put in to documentation, which correlates in our data with lower Software Risk, consistent with the CII teams's hypothesis. 
+ 
