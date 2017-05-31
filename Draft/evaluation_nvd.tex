@@ -1,4 +1,4 @@
-\subsection{National Vulnerability Database Case Study}
+\subsection{NVD Case Study}
 \label{sec:evaluation_nvd}
 The U.S. National Institute of Standards and Technology (NIST) maintains the National Vulnerability Database (NVD) ~\footnote{https://nvd.nist.gov/}, an online database of publicly reported software vulnerabilities, with over 79,000 vulnerabilities dating back to 1988. Vulnerability reporters assign each vulnerability a Common Vulnerability Scoring System (CVSS) score and associated CVSS base metrics, according to the scheme defined in the CVSS guide~\cite{mell2007complete}.  
 
@@ -6,14 +6,14 @@ The U.S. National Institute of Standards and Technology (NIST) maintains the Nat
 \label{sec:evaluation_nvd_selection}
  We translate the CVSS metrics into the terms of our model constructs and measurements. For each structural model construct, we present our metric associations and the rationale behind them.
  
-\textbf{Asset Value}
-The CVSS Confidentiality Impact, Integrity Impact, and Availability Impact metrics measure the degree of loss of confidentiality, integrity, and availability represented by a reported vulnerability~\cite{mell2007complete}. The CVSS Impact values:
+\textbf{Asset Impact}
+CVSS has three impact metrics: Confidentiality Impact, Integrity Impact, and Availability Impact. The impact metrics are measurements of the degree of loss of confidentiality, integrity, and availability caused by the exploited vulnerability~\cite{mell2007complete}. Each impact metric is measured on the following scale of impact to the system:
 	\begin{itemize}
 		\item 'None' indicates no impact, 
 		\item 'Partial' indicates partial impact, and 
-		\item 'Complete' indicates 'Complete' impact to the CIA property of the system by the exploited vulnerability.  
+		\item 'Complete' indicates 'Complete' impact.  
 	\end{itemize}
-We model each Impact metric as a component of Asset Value, theorizing that confidentiality, integrity, and availability impacts change based on the usage context in which the software is run, e.g. the value of the assets managed. We translate None/Partial/Complete to an ordinal scale to model increasing CIA impact risk.
+We model each Impact metric as a component of Asset Value, theorizing that confidentiality, integrity, and availability impacts change based on the usage context in which the software is run, e.g. the value of the assets managed. We translate None/Partial/Complete to an ordinal scale (values 1,2,3 increasing with impact) to model increasing CIA impact risk.
 
 \textbf{Software Risk}
 \label{sec:evaluation_nvd_selection_risk}
@@ -23,25 +23,25 @@ The CVSS Access Vector, Access Complexity, and Authentication metrics capture ho
 	\begin{itemize}
 		\item 'Local' requires the attacker to have physical access or an account on the system, \item 'Adjacent Network' requires access to the physical network on which the vulnerable software resides, and \item 'Network' requires only logical network acccess, e.g. remote access. 
 	\end{itemize}
-	We model Access Vector Risk as a component of Software Risk, theorizing that the vector value changes based on design choices made by the software development team. We translate the CVSS Access Vector values to an ordinal scale to model increasing `Access Vector Risk'.
+	We model Access Vector Risk as a component of Software Risk, theorizing that the vector value changes based on design choices made by the software development team. We translate the CVSS Access Vector values (1,2,3, increasing with network distance) to an ordinal scale to model increasing `Access Vector Risk'.
 	\item Access Complexity - measures the complexity of attack required to exploit a vulnerability once an attacker has gained access. Values: 
 	\begin{itemize}
 		\item 'High' indicates specialized/elevated access is required to exploit the vulnerability, 
 		\item 'Medium' indicates that some access is required to exploit the vulnerability, and \item 'Low' indicates that the vulnerability can be exploited with default/no special access.  
 	\end{itemize}
-	We model Access Complexity Risk as a component of Software Risk, theorizing that the complexity value changes based on design choices made by the software development team. We translate the CVSS Access Complexity  to an ordinal scale to model increasing `Access Complexity Risk'.
+	We model Access Complexity Risk as a component of Software Risk, theorizing that the complexity value changes based on design choices made by the software development team. We translate the CVSS Access Complexity  to an ordinal scale (values 1,2,3, increasing with ease of access) to model increasing `Access Complexity Risk'.
 	\item Authentication - measures the number of times an attacker must authenticate to exploit a vulnerability. Values: 
 	\begin{itemize}
 		\item 'Multiple' indicates an attacker must authenticate two or more times to exploit the vulnerability, 
 		\item 'Single' indicates that an attacker must authenticate once to exploit the vulnerability, and 
 		\item 'None' indicates that the vulnerability can be exploited without authenticating.  
 	\end{itemize}
-	We model Authentication as a component of Software Risk, theorizing that the authentication requirement changes based on design choices made by the software development team. We translate CVSS Authentication values to an ordinal scale to model increasing `Authentication Risk'.
+	We model Authentication as a component of Software Risk, theorizing that the authentication requirement changes based on design choices made by the software development team. We translate CVSS Authentication values to an ordinal scale (values 1,2,3, increasing with ease of authentication) to model increasing `Authentication Risk'.
 \end{itemize}
   
 \textbf{Adherence}
-We model Adherence via the passage of time; we take the year each vulnerability is reported as indicative of the state of security practice adherence at the time the vulnerability was reported. We define an `adherence' metric for each vulnerability as the difference, in years, between the vulnerability's publication date and the initial year in the NVD database. If software quality (presumed to be caused by practice adherence) is increasing, we would expect to see a positive correlation between year and the CVSS impact metrics.  In an earlier test of this hypothesis, Kaminsky et al. ~\cite{kaminsky2011showing} fuzzed ten years of office software releases, confirming that software quality had improved over the previous decade, as measured by crash counts per software release over time. 
-    
+Kaminsky et al. ~\cite{kaminsky2011showing} hypothesized that software quality has increased over the past decade. To test their hypothesis, they fuzzed ten years of Microsoft Office software releases, confirming that software quality had improved over the previous decade, as measured by crash counts per software release over time. We adapt their hypothesis to the security realm, modeling security practice adherence via the passage of time. We take the year each vulnerability is reported as indicative of the state of security practice adherence at the time the vulnerability was reported. We define an `adherence' metric for each vulnerability as the difference, in years, between the vulnerability's publication date and the initial year in the NVD database. If software quality, presumed to be caused by security practice adherence, is increasing, we would expect to see a negative covariance between the Adherence construct and the SoftwareRisk construct. 
+
 \textbf{Outcomes}
 We obtain a metric for Outcomes by counting per-project, per-year vulnerabilities. We treat each unique software name in the NVD records as a distinct project, and sum all vulnerabilities for a project, reflecting our theorized post-release vulnerability count metric. We group each project by its (software) name, and by publication year, taking the mean of the remaining CVSS metrics to represent that project/publication year. 
 % plot vuln count over time
@@ -50,11 +50,11 @@ We obtain a metric for Outcomes by counting per-project, per-year vulnerabilitie
 % plot three access metrics	
 
 \textbf{NVD Data Examples}
-To illustrate how data is prepared for use in SEM estimation, Table \ref{tab:nvd_data_examples} presents data from an example project, the Amazon flexible payments service, which experienced two vulnerabilities in 2012. The table presents the original data rows, the translated version of each row, and the project summary row, assembled from the translated rows, used in SEM estimation.
+To illustrate how data is prepared for use in SEM estimation, Table \ref{tab:nvd_data_examples} presents data from an example project. The Amazon flexible payments service experienced two vulnerabilities in 2012. The table presents the original data rows, the translated version of each row, and the project summary row, assembled from the translated rows. The project summary row is used in SEM estimation.
 
 \begin{table}
 	\begin{center}	
-		\caption{NVD Original and Summarized Data for Example Project ()Amazon flexible\_payments\_service)}
+		\caption{NVD Original and Summarized Data for Example Project (Amazon flexible\_payments\_service)}
 		\label{tab:nvd_data_examples}
 		\begin{scriptsize}
 			\begin{tabular}{p{3cm}p{1.5cm}p{1cm}p{1.5cm}p{1cm}p{1cm}}
@@ -72,7 +72,7 @@ To illustrate how data is prepared for use in SEM estimation, Table \ref{tab:nvd
 				Conf Impact & PARTIAL & 2 & PARTIAL & 2 & 2\\
 				Integ Impact & PARTIAL & 2 & PARTIAL & 2 & 2\\
 				Avail Impact & NONE & 1 & NONE & 1 & 1 \\
-				\hline &&&&&\\[-1.8ex] 				
+				\hline &&&&&\\[-1.8ex] 		
 			\end{tabular}
 		\end{scriptsize}
 	\end{center}
@@ -80,7 +80,7 @@ To illustrate how data is prepared for use in SEM estimation, Table \ref{tab:nvd
 			
 			
 \subsubsection{Data collection}
-We collected the entire NVD dataset as of February 2017, but limit our analysis to complete years, from the year 2001 to 2016. The dataset includes vulnerabilities dating to 1988, but years previous to 2001 had relatively low activity (we measured activity for a year as the ratio of vulnerabilities reported that year to the average vulnerabilities per year over the NVD history. Activity first exceeded half of the overall average in 2001.) We show NVD Vulnerability counts per year in Figure ~\ref{fig:nvd_vulns_year}.
+We collected the entire NVD dataset as of February 2017, but limit our analysis to complete years, from the year 2001 to 2016. The dataset includes vulnerabilities dating to 1988, but years prior to 2001 had relatively low activity. We measured activity for a year as the ratio of vulnerabilities reported that year to the average vulnerabilities per year over the NVD history. Activity first exceeded half of the overall average in 2001. We show NVD Vulnerability counts per year in Figure ~\ref{fig:nvd_vulns_year}.
 
 \begin{figure}
 	\centering
@@ -134,17 +134,17 @@ Combining the structural and measurement models we have defined with the CVSS da
 \end{equation}		
 
 \subsubsection{Model Fit} 
-In terms of global fit, the fit index results for the initial NVD model were outside the range of standard fit criteria thresholds, as shown in the NVD column of Table \ref{tab:results_fit_all}, making the parameter estimates unreliable. 
+In terms of global fit, the fit index results for the initial NVD model were outside the range of standard fit criteria thresholds, as shown in the NVD column of Table \ref{tab:results_fit_all}. 
 
 \subsubsection{Re-specification}
-The base adherence and CVE Count metrics had variances two magnitudes larger than the other variables. We scaled adherence, and took the log of CVE Count to bring them within range of the other variables. The variation among the 22,000+ projects with exactly one vulnerability caused numeric problems for the estimation algorithm, and we elected to treat the group as outliers and drop them from consideration. We, further, excluded projects with 50 or more vulnerabilities as outliers (79 projects). After the exclusions, 10621 projects remained in the analyzed dataset.
+The base adherence and CVE Count metrics had variances two magnitudes larger than the other variables. We scaled adherence, and took the log of CVE Count to bring them within range of the other variables. The variation among the 18,000+ projects with exactly one vulnerability caused numeric problems for the estimation algorithm, and we elected to treat the group as outliers and drop them from consideration. After the exclusions, 6695 projects remained in the analyzed dataset.
 
-The re-specified model (post-rescaling and outlier exclusion) had global fit characteristics within the traditional fit criteria thresholds, as shown in the Respecified NVD column of Table \ref{tab:results_fit_all}. We present the parameter estimates for the Respecified NVD model in the results, and discuss the implications in Section \label{sec:case_nvd_discussion}.
+The re-specified model (post-rescaling and outlier exclusion) had global fit characteristics within the traditional fit criteria thresholds, as shown in the Respecified NVD column of Table \ref{tab:results_fit_all}. We present the parameter estimates for the Respecified NVD model in the results, and discuss the implications in Section \ref{sec:case_nvd_discussion}.
 
 \subsubsection{Reporting Results}
 \label{sec:case_nvd_results}
 
-Table \ref{tab:results_fit_all} presents the fit measure results for the NVD  and Respecified NVD models (as well as for the other case study models). We report the estimated parameter values, unstandardized, for the Respecified NVD structural and measurement models in \ref{tab:results_nvd}. We present the standardized parameter estimates, and the residuals, in the context of the full structural and measurement models in Figure \ref{fig:nvd_model_respecified_estimates}.
+Table \ref{tab:results_fit_all} presents the fit measure results for the NVD  and Respecified NVD models (as well as for the other case study models). We report the estimated parameter values, unstandardized, for the Respecified NVD structural and measurement models in Table \ref{tab:results_nvd}. We present the standardized parameter estimates, and the residuals, in the context of the full structural and measurement models in Figure \ref{fig:nvd_model_respecified_estimates}.
 
 \begin{table*}
 	\begin{center}	
@@ -235,22 +235,3 @@ We plot how the three impact risk scores change over time in Figure \ref{fig:nvd
 	\caption{NVD CVSS Access Control Risk by Year}
 	\label{fig:nvd_vulns_auth}
 \end{figure}
-\subsubsection{Discussion}
-\label{sec:case_nvd_discussion}
-In our data, Adherence has a strong effect on Software Risk (0.78 standardized). Translated to the measurements we used, more recent years are associated with higher Software Risk, Access Vector Risk has been increasing (CVSS access vector metrics have been deteriorating) over the last 15 years, and Authentication Risk has been decreasing (CVSS authentication metrics have been improving). The increase in web usage over the last 15 years correlates with the increase in network attacks represented by the access vector metric increase. However, the higher effort required by attackers over time is perhaps a positive reflection on the efforts of development teams to secure their software.  
- 
-We found effects for both Asset Impact and Software Risk on Security Outcomes, with Software Risk having an effect (.12 standardized) roughly two and a half times that of Asset Impact (0.05). We expect that at least one reason for the small (less than 15\%) effects of Asset Impact and Software Risk are due to the underlying measurement variables being incomplete accounts of the constructs they measure. For example, the impact metrics say something about potential risks, but do not say anything about the environments in which the software runs, or about the kind of data maintained by the software in the contexts from which vulnerabilities were reported. Similarly, the software risk constructs represented by CVSS access vector, and Authentication do not contain information on software size, churn, language, or the other constructs that have been identified as contributing to security issues in software. 
-
-Asset Impact is correlated most strongly by the Confidentiality Impact measurement (.88 standardized), however the Integrity Impact (.76) and Availability Impact (.70) are in the same range and direction. Software Risk is correlated most strongly by Authentication Risk (0.38). Higher Authentication Risk, meaning lower number of authentications required by attackers, may imply that insufficient access control remains a significant development concern, although further investigation is warranted. Given the single measurements, we have no information on the relative importance of the measurements for Adherence and Outcomes constructs.
-
-In general, the (standardized) residual variance values are higher than the .35 guideline established in Kline~\cite{kline2015principles}. The impact metric components of Asset Impact tend to have lower residuals as a group, suggesting that the three impact metrics may be reasonably explained in terms of a common construct. The Access metrics have high residuals, suggesting that the Access metrics may not be reasonably explained in terms of a common construct. 
-
-We have to explain the unexpected negative association of Access Complexity Risk with Software Risk. One possible explanation is that Access Complexity is a poor measurement. The maintainers of the CVSS standard have acknowledged the overloaded nature of Access Complexity, stating that when it is applied it is impossible to tell if it is being used for user interaction from social engineering, from a race condition, uncommon configuration, attacker starting privileges, or anything else~\footnote{https://www.first.org/cvss}. However, each of the listed causes could be construed to be what we seek to measure for Software Risk. Version 3 of the CVSS (CVSSv3) scoring system includes a separate `User Interaction' metric to disambiguate between user-driven and software-driven reasons. In future work, we can update the measurement model to account for the updated CVSSv3 metrics. A second possible explanation is that measurement model is incorrect, via the Access Complexity metric being associated with the wrong construct, or a broader problem with assignments of metrics to constructs. To test this notion, we fit the model with Access Complexity associated with Asset Impact rather than Software Risk, but model fit was worse than when Access Complexity was associated with Software Risk. A third explanation is that our structural model is incorrect, either in the relationships between the constructs, or in missing one or more constructs with which Access Complexity could be associated. We put altering the structural model out of scope for the present work, but could investigate refinements of the structural model in future work. 
-
-Per the descriptions of the metrics in Section \ref{sec:evaluation_nvd_selection_risk}, we view each of the metrics as measuring a property of the software that the development team can influence. Access Complexity Risk and Authentication Risk might be change through the addition, or refinement, of access control mechanisms. Alternatively, they might be increased by attacker discovery of alternate access paths.   Access Vector Risk might be reduced through care taken with validation of network inputs, or through greater care taken with implementation of network code, or increased through attacker path discovery. Authentication Risk might be reduced through stricter access controls, as with Access Complexity Risk, however the variables are not collinear in our data (as measured by Pearson's , Variance Inflation Factor). Authentication Risk might be increased, again by attacker discovery of alternative paths. Changes over time in each of the Access metrics may be due to development team efforts, or to attacker efforts, and we do not have the data here to distinguish between the two cases. We have assumed, in our modeling, that development team effort is the primary component for each metric. If attacker effort were the primary component, the metric should be modeled as part of Asset Impact.  If the three metrics we have were affected by different proportions of development team and attacker effort.
-
-Our overall model data did not confirm Kaminsky's hypothesis that software quality is improving over time, with our adherence-over-time measure increasing Software Risk. However, we observed several counter-trends in the underlying data. We observed an improvement in CVSS Authentication Risk (Figure \ref{fig:nvd_vulns_auth}). On average, vulnerabilities are requiring more authentications over time, implying that development teams are putting an increasing amount of functionality behind access control.
-
-We also observe from Figure \ref{fig:nvd_vulns_auth} that Access Complexity Risk has trended downward over time, in opposition to Authentication Risk and Access Vector Risk (Regressing Access Complexity Risk on adherence, controlling for the remaining measurement variables has a slope of -.09 for adherence, p-value $\textless$ 0.001). The trend suggests that, on average, over time, vulnerabilities are becoming more complicated for attackers, likely for a variety of causes, but potentially implying that access control is being implemented more frequently over time by development teams.
-
-On the other hand, CVSS Access Vector Risk has increased in parallel to the decrease in Authentication Risk, indicating that vulnerabilities are increasingly prone to remote attacks from across the network.

@@ -1,15 +1,15 @@
 \section{Methodology}
 \label{sec:methodology}
-In this section, we present the steps required for analyzing a data set in terms of the security outcomes theoretical model.
+In this section, we present the steps required for analyzing a data set in terms of the \ModelAbbr.
 
-\subsection{Select case study subject}
-Select a dataset containing measurements of variables that can be related to the structural model's Asset Risk, Software Risk, Adherence, and Outcomes constructs.  
+\subsection{Step 1: Select case study subject}
+Select, or prepare, a data set containing measurements of  variables that can be related to the structural model's Asset Impact, Software Risk, Adherence, and Outcomes constructs. The unit of analysis is a software project at a point in time (e.g. OpenSSL as of April 2017), and measurements must be taken, or aggregated to the level of the project as of the data collection date. For example, a given value for SLOC is dependent on when the project is measured, and may need to be aggregated to the project level from a list of SLOCS for the component files of the project. Table ~\ref{tab:model_spef_metrics} is a specification for a complete data set of measurement model metrics and how they relate to the constructs. However, studies using data representative of the constructs but not identical to the specified measurement model enable theoretical replications of the structural model.     
 
-\subsection{Link data source variables to model constructs}
+\subsection{Step 2: Link data source variables to model constructs}
 Consider each variable in the dataset and whether it corresponds to one of the measurement variable definitions as described in Table \ref{tab:model_spef_metrics}. Where the dataset variable corresponds to a measurement variable, associate the dataset variable with the measurement variable's construct. For example, if the dataset contains a code churn metric, associate it with Software Risk.
 
-\subsection{Evaluate collected data for fit problems}
-Data problems, for example, noisy or non-normally distributed data, can cause model fit problems independent of the model's quality. We excerpt Kline's~\cite{kline2015principles} advice on data preparation, focusing on the recommendations we applied in the course of our investigation. 
+\subsection{Step 3: Evaluate collected data for fit problems}
+Data problems, for example noisy or non-normally distributed data, can cause model fit problems independent of the model's quality. We excerpt Kline's~\cite{kline2015principles} advice on data preparation, focusing on the recommendations we applied in the course of our investigation. 
 \begin{itemize}
 \item{Normality}:
 Standard SEM approaches assume linear relationships between variables in both structural and measurement models, requiring researchers to pre-examine the data for non-linear relationships. Potential solutions where nonlinear data is found include excluding outliers and transformations such as log or square root.
@@ -21,10 +21,10 @@ Outliers are values that are very different from other values for the variable, 
 As SEM solves for the covariance or correlation of variables with each other, SEM depends on the variances of the measured variables to be within an order of magnitude of each other, and typically in the range of 1$-$10. In this work, where a measured variable variance exceeds the variances of other measured variables by an order of magnitude or more, we create a transformed variable taking the log of the sum of the original variable value and a small constant, 1. For example, lines of code varies widely, and  we transform logSLOC = (total\_code\_lines+1).
 \end{itemize}
 
-\subsection{Estimate SEM model} 
-The specified relationships in the structural and measurement models represent a system of equations, as listed in equation \ref{eq:1}. SEM software is written to solve these systems of equations. In this work, we apply lavaan.  Encode the combined structural and measurement models in a SEM modeling tool, and run the tool to obtain estimates for the model. 
+\subsection{Step 4: Estimate SEM model} 
+The specified relationships in the structural and measurement models represent a system of equations, as listed in Equation \ref{eq:1}. Encode the combined structural and measurement models in a SEM modeling tool, and run the tool to obtain estimates for the model. 
 
-\subsection{Model Fit}
+\subsection{Step 5: Test Model Fit}
 % TODO [Paragraph explaining model fit and indicators]
 Once a set of estimates has been generated for a given model and dataset, SEM users evaluate fit measures and residuals to assess the suitability of the model. Model fit indicators and residuals both represent the degree of misfit between the model and the dataset. 
 
@@ -37,7 +37,7 @@ The model fit measures recommended by Kline~\cite{kline2015principles} are as fo
 	\item Standardized Root Mean Square Residual (SRMR) - SRMR is a `badness-of-fit' measure of the difference between the observed and predicted correlations. Zero is a perfect score, scores below 0.08 indicate acceptable fit.
 \end{itemize}
 
-\subsection{Re-specification}
+\subsection{Step 6: Perform Re-specification if necessary}
 Kline~\cite{kline2015principles} and Loehlin ~\cite{loehlin2004principles} both offer methodologies for diagnosing fit issues and revising the model in principled ways. We present a set of steps derived from these sources for application to our data and measurement model. We declare alterations to the structural model out of scope for the present work, as the work is intended to assess our structural model. 
 
 If model fit indicators show poor fit between the data and the model, it is common to consider adding, dropping, or moving measurement variables, if theory supports doing so. Modifying the model to achieve good fit is only good practice if justified by the theory underlying the model variables and relationships. In the present study, we do not alter the constructs or relationships in the structural model, as we are testing the constructs and their relationships, but we do allow a list of transformations for the measurement model, as follows:
@@ -51,6 +51,6 @@ If transforming the data does not yield adequate fit, the next step is to evalua
 
 In addition to the global fit indicators presented above, researchers must examine residuals to assess local model fit. Residuals, also called error terms, are associated with each measurement variable, and represent variance not explained by the construct with which the measurement is associated. Residual values near zero indicate that the construct accounts for the bulk of the variance in the measurement variable. Residual values near one indicate that the construct does not account for the bulk of the variance in the measurement variable, and should prompt investigation, re-specification, and/or explanation. Residual values provide a diagnostic of model fit.
 
-\subsection{Report Results}
+\subsection{Step 7: Report Results}
 % See page 464 of Kline for details
 Kline~\cite{kline2015principles} recommends reporting model fit in the terms of the global fit indicators, and in terms of comparison between the expected theoretical relationships embedded in the model and the actual parameter magnitudes and signs observed in the data. In this work, we apply basic interpretations, focusing only on the sign and relative magnitude of each parameter estimate, as compared to our theorized expectations, where sign indicates direction of influence, and magnitude indicates effect size. For the parameter estimates of measurement variables associated with a single latent variable, sign indicates direction of influence, and (standardized) parameter estimates indicate the relative importance of each measurement variable's effect on the latent variable. For latent variable relationships, sign indicates the direction of influence, and magnitude indicate the relative importance of the latent variable's effect on the receiving latent variable, as compared with the magnitude of the other latent variable parameter estimates.
