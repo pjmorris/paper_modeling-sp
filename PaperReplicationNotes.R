@@ -1,4 +1,22 @@
+# Only cut/paste down to just before OpenHub... and stop being lazy, this should be a package
 # Goes in to the paper…
+
+# 
+# Another try for the paper
+model.zero <- '
+SoftwareRisk =~ SoftwareContextFactors
+AssetImpact =~ AssetContextFactors 
+Adherence =~ AdherenceMeasures
+Outcomes =~ OutcomeMeasures 
+Outcomes ~ SoftwareRisk + AssetImpact
+AssetImpact ~~ Adherence 
+SoftwareRisk ~~ 0*AssetImpact
+Adherence ~~ 0*Outcomes
+'
+semzero <- simulateData(model.zero,sample.nobs=8000L)
+fit <- sem(model.zero,data=semzero)
+semPaths(fit,,"std",title=FALSE,sizeLat=12,sizeMan=10,nCharNodes=25,residuals=FALSE,intercepts=FALSE,layout="spring",structural=TRUE,thresholds=FALSE,filetype="png",filename="modelzeroB",height=2,width=3)
+
 
 # For paper
 
@@ -9,8 +27,8 @@ semPaths(fit,,"std",title=FALSE,sizeLat=20,nCharNodes=15,residuals=FALSE,interce
 model.zero <- '
 SoftwareRisk =~ SoftwareContextFactors
 AssetRisk =~ AssetContextFactors
-Outcomes =~ OutcomesContextFactors 
-Adherence =~ AdherenceContextFactors
+Outcomes =~ OutcomeMeasures 
+Adherence =~ AdherenceMeasures
 Outcomes ~ SoftwareRisk + AssetRisk
 SoftwareRisk ~ Adherence
 
@@ -66,10 +84,6 @@ auth2num <- function(v) { return(ifelse(v == "MULTIPLE_INSTANCES",1,ifelse(v == 
 # impact: NONE PARTIAL COMPLETE
 imp2num <- function(v) { return(ifelse(v == "NONE",1,ifelse(v == "PARTIAL",2,ifelse(v == "COMPLETE",3,0)))) }
 
-# For conventional metric interpretation, rather than risk, use these:
-# acplx2num <- function(v) { return(ifelse(v == "HIGH",3,ifelse(v == "MEDIUM",2,ifelse(v == "LOW",1,0)))) }
-# auth2num <- function(v) { return(ifelse(v == "MULTIPLE_INSTANCES",3,ifelse(v == "SINGLE_INSTANCE",2,ifelse(v == "NONE",1,0)))) }
-
 # THESE FUNCTIONS TRANSLATE CVSS METRICS TO ORDINALS 
 # cvss_access_vector=avec2num(nvd$cvss_access_vector)
 # access_vector: LOCAL NETWORK ADJACENT_NETWORK
@@ -77,19 +91,15 @@ cvssavec2num <- function(v) { return(ifelse(v == "LOCAL",1,ifelse(v == "ADJACENT
 
 # cvss_access_complexity=acplx2num(nvd$cvss_access_complexity)
 # access_complexity: HIGH MEDIUM LOW
-cvssacplx2num <- function(v) { return(ifelse(v == "HIGH",3,ifelse(v == "MEDIUM",2,ifelse(v == "LOW",2,0)))) }
+cvssacplx2num <- function(v) { return(ifelse(v == "HIGH",1,ifelse(v == "MEDIUM",2,ifelse(v == "LOW",3,0)))) }
 
 # cvss_auth=auth2num(nvd$cvss_auth)
 # auth: MULTIPLE_INSTANCES SINGLE_INSTANCE NONE
-cvssauth2num <- function(v) { return(ifelse(v == "MULTIPLE_INSTANCES",3,ifelse(v == "SINGLE_INSTANCE",2,ifelse(v == "NONE",1,0)))) }
+cvssauth2num <- function(v) { return(ifelse(v == "MULTIPLE_INSTANCES",1,ifelse(v == "SINGLE_INSTANCE",2,ifelse(v == "NONE",3,0)))) }
 
 # cvss_conf_impact=imp2num(nvd$cvss_conf_impact)
 # impact: NONE PARTIAL COMPLETE
 cvssimp2num <- function(v) { return(ifelse(v == "NONE",1,ifelse(v == "PARTIAL",2,ifelse(v == "COMPLETE",3,0)))) }
-
-# For conventional metric interpretation, rather than risk, use these:
-# acplx2num <- function(v) { return(ifelse(v == "HIGH",3,ifelse(v == "MEDIUM",2,ifelse(v == "LOW",1,0)))) }
-# auth2num <- function(v) { return(ifelse(v == "MULTIPLE_INSTANCES",3,ifelse(v == "SINGLE_INSTANCE",2,ifelse(v == "NONE",1,0)))) }
 
 
 nvd <- read.csv("~/Dropbox/NCSU/Spring2013/CSC720_AI/NVD_PGM_Project/nvdall2.csv",stringsAsFactors=FALSE)
@@ -158,15 +168,15 @@ summary(fit,fit.measures=TRUE)
 
 rolled <- group_by(nvdxlated,software,pubyear) %>% summarise(CVECount=n(),cvss_score=mean(cvss_score),adherence=mean(adherence),cvss_auth=mean(cvss_auth),cvss_access_vector=mean(cvss_access_vector),cvss_access_complexity=mean(cvss_access_complexity),cvss_conf_impact=mean(cvss_conf_impact), cvss_integ_impact=mean(cvss_integ_impact), cvss_avail_impact=mean(cvss_avail_impact),AuthenticationRisk=mean(AuthenticationRisk),AccessVectorRisk=mean(AccessVectorRisk),AccessComplexityRisk=mean(AccessComplexityRisk))
 
-rolled_software <- data.frame(CVECount=rolled$CVECount, logCVECount=log(rolled$CVECount+1),cvss_score=rolled$cvss_score,adherence=scale(rolled$pubyear) + abs(min(scale(rolled$pubyear),na.rm=TRUE)),cvss_auth=rolled$cvss_auth,cvss_access_vector=rolled$cvss_access_vector,cvss_access_complexity=rolled$cvss_access_complexity,cvss_conf_impact=rolled$cvss_conf_impact, cvss_integ_impact=rolled$cvss_integ_impact, cvss_avail_impact=rolled$cvss_avail_impact,AuthenticationRisk=rolled$AuthenticationRisk,AccessVectorRisk=rolled$AccessVectorRisk,AccessComplexityRisk=rolled$AccessComplexityRisk)
+rolled_software <- data.frame(CVECount=rolled$CVECount, logCVECount=log(rolled$CVECount+1),cvss_score=rolled$cvss_score,adherence=scale(rolled$pubyear) + abs(min(scale(rolled$pubyear),na.rm=TRUE)),cvss_auth=rolled$cvss_auth,cvss_access_vector=rolled$cvss_access_vector,cvss_access_complexity=rolled$cvss_access_complexity,cvss_conf_impact=rolled$cvss_conf_impact, cvss_integ_impact=rolled$cvss_integ_impact, cvss_avail_impact=rolled$cvss_avail_impact,AuthenticationRisk=rolled$AuthenticationRisk,AccessVectorRisk=rolled$AccessVectorRisk,AccessComplexityRisk=rolled$AccessComplexityRisk,PubYear=rolled$pubyear)
 
 rolled_software$adherence <- scale(rolled_software$adherence) + abs(min(scale(rolled_software$adherence),na.rm=TRUE))
 
-rtrunc <- rolled_software[rolled_software$CVECount > 1 & rolled_software$CVECount < 50,]
+rtrunc <- rolled_software[rolled_software$CVECount > 1,]
 summary(lm(
  CVECount ~ cvss_access_vector + cvss_access_complexity + cvss_auth + adherence
  + cvss_conf_impact + cvss_integ_impact + cvss_avail_impact
-,data=rolled_software[rolled_software$CVECount > 1 & rolled_software$CVECount < 50,]))
+,data=rolled_software[rolled_software$CVECount > 1,]))
 
 # NVD: No constraints on latent variables
 model.zero.nvd.norules <- '
@@ -176,7 +186,7 @@ Adherence =~ adherence
 Outcomes =~ logCVECount
 '
 
-fit <- sem(model.zero.nvd.norules,data=rolled_software[rolled_software$CVECount > 1 & rolled_software$CVECount < 50,])
+fit <- sem(model.zero.nvd.norules,data=rolled_software[rolled_software$CVECount > 1,])
 summary(fit,fit.measures=TRUE)
 
 
@@ -193,7 +203,7 @@ AssetRisk ~~  Adherence
 SoftwareRisk ~~ 0*AssetRisk
 Adherence ~~ 0*Outcomes
 '
-nvd_respecified_fit <- sem(model.respecified.nvd,data=rolled_software[rolled_software$CVECount > 1 & rolled_software$CVECount < 50,])
+nvd_respecified_fit <- sem(model.respecified.nvd,data=rolled_software[rolled_software$CVECount > 1,])
 summary(nvd_respecified_fit,fit.measures=TRUE)
 
 # generate figure
@@ -470,7 +480,60 @@ fit <- sem(model.combinedl,data=df[df$process_network_data==1,]); summary(fit,fi
 # How many NVD projects?
 rolled <- group_by(nvdxlated,software,pubyear) %>% summarise(CVECount=n(),cvss_score=mean(cvss_score),adherence=mean(adherence),cvss_auth=mean(cvss_auth),cvss_access_vector=mean(cvss_access_vector),cvss_access_complexity=mean(cvss_access_complexity),cvss_conf_impact=mean(cvss_conf_impact), cvss_integ_impact=mean(cvss_integ_impact), cvss_avail_impact=mean(cvss_avail_impact),AuthenticationRisk=mean(AuthenticationRisk),AccessVectorRisk=mean(AccessVectorRisk),AccessComplexityRisk=mean(AccessComplexityRisk))
 rolled_software <- data.frame(software=rolled$software,CVECount=rolled$CVECount, logCVECount=log(rolled$CVECount+1),cvss_score=rolled$cvss_score,adherence=scale(rolled$pubyear) + abs(min(scale(rolled$pubyear),na.rm=TRUE)),cvss_auth=rolled$cvss_auth,cvss_access_vector=rolled$cvss_access_vector,cvss_access_complexity=rolled$cvss_access_complexity,cvss_conf_impact=rolled$cvss_conf_impact, cvss_integ_impact=rolled$cvss_integ_impact, cvss_avail_impact=rolled$cvss_avail_impact,AuthenticationRisk=rolled$AuthenticationRisk,AccessVectorRisk=rolled$AccessVectorRisk,AccessComplexityRisk=rolled$AccessComplexityRisk)
-length(as.character(unique(rolled_software[rolled_software$CVECount > 1 & rolled_software$CVECount < 50,]$software)))
+length(as.character(unique(rolled_software[rolled_software$CVECount > 1,]$software)))
 # 6695
 
 
+# ONLY CUT AND PASTE FROM HERE UP
+# merge with openhub
+
+# create mdddf
+mddraw <- read.csv("~/Dropbox/github/paper_modeling-sp/naggapan_2013_masterdata.txt",sep="\t")
+# cbind(nvdr2s[nvdr2s$software == "abuse",],mddraw[mddraw$url_name %in% "abuse",])
+mddplist <- unique(levels(mddraw$url_name))
+
+mdddf <- data.frame()
+for (pname in intersect(nvdr2s$software,mddplist)) {mdddf <- rbind(mdddf,cbind(nvdr2s[nvdr2s$software %in% pname,],mddraw[mddraw$url_name %in% pname,]))}
+mdddf$isCII <- FALSE
+mdddf[mdddf$software %in% intersect(mdddf$software,ciiplist),]$isCII <- TRUE
+intersect(mdddf$software,ciiplist)
+
+mdddf$VDensity <- round(mdddf$CVECount/(mdddf$total_code_lines/1000),2)
+
+
+mdddf$log12mcc <- log(mdddf$twelve_month_contributor_count+1)
+mdddf$logCVECount <- log(mdddf$CVECount+1)
+mdddf$KSLOC <- mdddf$total_code_lines/1000
+mdddf$logKSLOC <- log(mdddf$KSLOC+1)
+mdddf$logSLOC <- log(mdddf$total_code_lines+1)
+mdddf$loguser_count <- log(mdddf$user_count+1)
+mdddf$logcode_churn_12months <- log(mdddf$code_churn_12months+1)
+
+
+mdddf2 <- data.frame()#
+for (pname in intersect(rolled_software$software,mddplist)) {mdddf2 <- rbind(mdddf2,cbind(rolled_software[rolled_software$software %in% pname,],mddraw[mddraw$url_name %in% pname,]))}
+
+mdddf2$logSLOC <- log(mdddf2$total_code_lines+1)
+mdddf2$log12mcc <- log(mdddf2$twelve_month_contributor_count+1)
+mdddf2$logcc12m <- log(mdddf2$code_churn_12months+1)
+mdddf2$logRatingCount <- log(mdddf2$rating_count+1)
+mdddf2$logUserCount <- log(mdddf2$user_count+1)
+mdddf2$logDevChurnAdh <- ((mdddf2$twelve_month_contributor_count+1)/(mdddf2$total_code_lines+1))
+mdddf2$logDevChurnAdh <- log((mdddf2$twelve_month_contributor_count+1)/(mdddf2$total_code_lines+1))
+
+mdddf2$isCII <- FALSE
+mdddf2[mdddf2$software %in% intersect(mdddf2$software,ciiplist),]$isCII <- TRUE
+
+
+# focus on C/C++
+nvd_respecified_fit <- sem(model.respecified.nvd,data=mdddf2[mdddf2$main_language_name %in% c("C","C++"),])#
+
+mdddf2[mdddf2$main_language_name %in% c("C","C++"),]$total_code_lines
+mean(mdddf2[mdddf2$main_language_name %in% c("C","C++"),]$total_code_lines)
+mean(mdddf2[mdddf2$main_language_name %in% c("PHP"),]$total_code_lines)
+mean(mdddf2[mdddf2$main_language_name %in% c("Ruby"),]$total_code_lines)
+mean(mdddf2[mdddf2$main_language_name %in% c("Python"),]$total_code_lines)
+
+for (pname in int}
+df2 <- data.frame()#
+for (pname in intersect(mdddf2$software,unique(df$software))) {df2 <- rbind(df2,cbind(mdddf2[mdddf2$software %in% pname,],df[df$software %in% pname,]))}

@@ -1,0 +1,316 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 \
+\
+> model.combinedl <- '\
++ DevAttention ~~ DevAttention\
++ SoftwareRisk =~ total_code_lines  + project_age + code_churn_12months + twelve_month_contributor_count\
++ Outcomes =~  CVECount #\
++ Outcomes ~ SoftwareRisk + AssetRisk#\
++ Adherence =~ DevAttention#\
++ SoftwareRisk ~  Adherence#\
++ AssetRisk =~ user_count \
++ AssetRisk ~~  Adherence\
++ SoftwareRisk ~~ 0*AssetRisk\
++ Adherence ~~ 0*Outcomes\
++ \
++ total_code_lines ~~  code_churn_12months \
++ twelve_month_contributor_count ~~ code_churn_12months'; \
+> fitX <- sem(model.combinedl,data=scale(log(combined+1)),test = "Satorra-Bentler"); summary(fitX,fit.measures=TRUE,standardized=TRUE)\
+lavaan (0.5-22) converged normally after  66 iterations\
+\
+  Number of observations                           698\
+\
+  Estimator                                         ML      Robust\
+  Minimum Function Test Statistic              191.067      80.267\
+  Degrees of freedom                                10          10\
+  P-value (Chi-square)                           0.000       0.000\
+  Scaling correction factor                                  2.380\
+    for the Satorra-Bentler correction\
+\
+Model test baseline model:\
+\
+  Minimum Function Test Statistic             1644.776     904.202\
+  Degrees of freedom                                21          21\
+  P-value                                        0.000       0.000\
+\
+User model versus baseline model:\
+\
+  Comparative Fit Index (CFI)                    0.888       0.920\
+  Tucker-Lewis Index (TLI)                       0.766       0.833\
+\
+  Robust Comparative Fit Index (CFI)                         0.896\
+  Robust Tucker-Lewis Index (TLI)                            0.781\
+\
+Loglikelihood and Information Criteria:\
+\
+  Loglikelihood user model (H0)              -6202.577   -6202.577\
+  Loglikelihood unrestricted model (H1)      -6107.043   -6107.043\
+\
+  Number of free parameters                         25          25\
+  Akaike (AIC)                               12455.154   12455.154\
+  Bayesian (BIC)                             12568.859   12568.859\
+  Sample-size adjusted Bayesian (BIC)        12489.479   12489.479\
+\
+Root Mean Square Error of Approximation:\
+\
+  RMSEA                                          0.161       0.100\
+  90 Percent Confidence Interval          0.142  0.181       0.087  0.114\
+  P-value RMSEA <= 0.05                          0.000       0.000\
+\
+  Robust RMSEA                                               0.155\
+  90 Percent Confidence Interval                             0.124  0.187\
+\
+Standardized Root Mean Square Residual:\
+\
+  SRMR                                           0.066       0.066\
+\
+Parameter Estimates:\
+\
+  Information                                 Expected\
+  Standard Errors                             Standard\
+\
+Latent Variables:\
+                   Estimate  Std.Err  z-value  P(>|z|)   Std.lv  Std.all\
+  SoftwareRisk =~                                                       \
+    total_code_lns    1.000                               0.675    0.675\
+    project_age       0.837    0.070   11.973    0.000    0.565    0.565\
+    cd_chrn_12mnth    0.643    0.047   13.638    0.000    0.434    0.440\
+    twlv_mnth_cnt_    0.928    0.072   12.864    0.000    0.626    0.627\
+  Outcomes =~                                                           \
+    CVECount          1.000                               0.999    1.000\
+  Adherence =~                                                          \
+    DevAttention      1.000                               0.099    0.099\
+  AssetRisk =~                                                          \
+    user_count        1.000                               0.999    1.000\
+\
+Regressions:\
+                   Estimate  Std.Err  z-value  P(>|z|)   Std.lv  Std.all\
+  Outcomes ~                                                            \
+    SoftwareRisk      0.255    0.110    2.321    0.020    0.172    0.172\
+    AssetRisk         0.343    0.065    5.283    0.000    0.343    0.343\
+  SoftwareRisk ~                                                        \
+    Adherence        -4.784    1.716   -2.788    0.005   -0.703   -0.703\
+\
+Covariances:\
+                         Estimate  Std.Err  z-value  P(>|z|)   Std.lv  Std.all\
+  Adherence ~~                                                                \
+    AssetRisk              -0.107    0.038   -2.802    0.005   -1.074   -1.074\
+ .SoftwareRisk ~~                                                             \
+    AssetRisk               0.000                               0.000    0.000\
+ .Outcomes ~~                                                                 \
+    Adherence               0.000                               0.000    0.000\
+ .total_code_lines ~~                                                         \
+   .cd_chrn_12mnth          0.422    0.033   12.661    0.000    0.422    0.647\
+ .code_churn_12months ~~                                                      \
+   .twlv_mnth_cnt_          0.227    0.025    9.241    0.000    0.227    0.329\
+\
+Intercepts:\
+                   Estimate  Std.Err  z-value  P(>|z|)   Std.lv  Std.all\
+   .total_code_lns    0.000    0.038    0.000    1.000    0.000    0.000\
+   .project_age       0.000    0.038    0.000    1.000    0.000    0.000\
+   .cd_chrn_12mnth    0.000    0.037    0.000    1.000    0.000    0.000\
+   .twlv_mnth_cnt_    0.000    0.038    0.000    1.000    0.000    0.000\
+   .CVECount          0.000    0.038    0.000    1.000    0.000    0.000\
+   .DevAttention      0.000    0.038    0.000    1.000    0.000    0.000\
+   .user_count        0.000    0.038    0.000    1.000    0.000    0.000\
+   .SoftwareRisk      0.000                               0.000    0.000\
+   .Outcomes          0.000                               0.000    0.000\
+    Adherence         0.000                               0.000    0.000\
+    AssetRisk         0.000                               0.000    0.000\
+\
+Variances:\
+                   Estimate  Std.Err  z-value  P(>|z|)   Std.lv  Std.all\
+   .DevAttention      0.989    0.053   18.600    0.000    0.989    0.990\
+   .total_code_lns    0.543    0.040   13.570    0.000    0.543    0.544\
+   .project_age       0.679    0.042   16.154    0.000    0.679    0.680\
+   .cd_chrn_12mnth    0.784    0.043   18.123    0.000    0.784    0.806\
+   .twlv_mnth_cnt_    0.606    0.041   14.818    0.000    0.606    0.607\
+   .CVECount          0.000                               0.000    0.000\
+   .user_count        0.000                               0.000    0.000\
+   .SoftwareRisk      0.230    0.118    1.947    0.052    0.505    0.505\
+   .Outcomes          0.763    0.042   18.362    0.000    0.764    0.764\
+    Adherence         0.010    0.009    1.095    0.273    1.000    1.000\
+    AssetRisk         0.999    0.053   18.682    0.000    1.000    1.000\
+\
+> residuals(fitX)\
+$type\
+[1] "raw"\
+\
+$cov\
+                               ttl_c_ prjct_ cd__12 twl___ CVECnt DvAttn usr_cn\
+total_code_lines                0.000                                          \
+project_age                    -0.007  0.000                                   \
+code_churn_12months             0.017 -0.159  0.026                            \
+twelve_month_contributor_count  0.045 -0.144  0.035  0.000                     \
+CVECount                        0.012 -0.011  0.070  0.036  0.000              \
+DevAttention                   -0.128 -0.026 -0.269  0.025 -0.013  0.000       \
+user_count                     -0.024  0.043  0.039  0.032  0.000  0.000  0.000\
+\
+$mean\
+              total_code_lines                    project_age            code_churn_12months \
+                             0                              0                              0 \
+twelve_month_contributor_count                       CVECount                   DevAttention \
+                             0                              0                              0 \
+                    user_count \
+                             0 \
+\
+> stargazer(round(residuals(fitX)$cov,2),style="asr",digits=2)\
+\
+% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu\
+% Date and time: Tue, May 30, 2017 - 22:12:14\
+\\begin\{table\}[!htbp] \\centering \
+  \\caption\{\} \
+  \\label\{\} \
+\\begin\{tabular\}\{@\{\\extracolsep\{5pt\}\} cccccccc\} \
+\\\\[-1.8ex]\\hline \\\\[-1.8ex] \
+ & total\\_code\\_lines & project\\_age & code\\_churn\\_12months & twelve\\_month\\_contributor\\_count & CVECount & DevAttention & user\\_count \\\\ \
+\\hline \\\\[-1.8ex] \
+total\\_code\\_lines & $0$ & $$-$0.01$ & $0.02$ & $0.05$ & $0.01$ & $$-$0.13$ & $$-$0.02$ \\\\ \
+project\\_age & $$-$0.01$ & $0$ & $$-$0.16$ & $$-$0.14$ & $$-$0.01$ & $$-$0.03$ & $0.04$ \\\\ \
+code\\_churn\\_12months & $0.02$ & $$-$0.16$ & $0.03$ & $0.04$ & $0.07$ & $$-$0.27$ & $0.04$ \\\\ \
+twelve\\_month\\_contributor\\_count & $0.05$ & $$-$0.14$ & $0.04$ & $0$ & $0.04$ & $0.03$ & $0.03$ \\\\ \
+CVECount & $0.01$ & $$-$0.01$ & $0.07$ & $0.04$ & $0$ & $$-$0.01$ & $0$ \\\\ \
+DevAttention & $$-$0.13$ & $$-$0.03$ & $$-$0.27$ & $0.03$ & $$-$0.01$ & $0$ & $0$ \\\\ \
+user\\_count & $$-$0.02$ & $0.04$ & $0.04$ & $0.03$ & $0$ & $0$ & $0$ \\\\ \
+\\hline \\\\[-1.8ex] \
+\\end\{tabular\} \
+\\end\{table\} \
+> residuals(fitX)\
+$type\
+[1] "raw"\
+\
+$cov\
+                               ttl_c_ prjct_ cd__12 twl___ CVECnt DvAttn usr_cn\
+total_code_lines                0.000                                          \
+project_age                    -0.007  0.000                                   \
+code_churn_12months             0.017 -0.159  0.026                            \
+twelve_month_contributor_count  0.045 -0.144  0.035  0.000                     \
+CVECount                        0.012 -0.011  0.070  0.036  0.000              \
+DevAttention                   -0.128 -0.026 -0.269  0.025 -0.013  0.000       \
+user_count                     -0.024  0.043  0.039  0.032  0.000  0.000  0.000\
+\
+$mean\
+              total_code_lines                    project_age            code_churn_12months \
+                             0                              0                              0 \
+twelve_month_contributor_count                       CVECount                   DevAttention \
+                             0                              0                              0 \
+                    user_count \
+                             0 \
+\
+> semPaths(fitX,,"std",title=FALSE,sizeLat=10,sizeMan=9,nCharNodes=25,residuals=TRUE,intercepts=FALSE,layout="tree2",structural=FALSE)\
+> summary(lm(CVECount ~ DevAttention + total_code_lines + project_age + code_churn_12months + twelve_month_contributor_count + user_count, data=scale(log(combined+1))))\
+Error in summary(lm(CVECount ~ DevAttention + total_code_lines + project_age +  : \
+  error in evaluating the argument 'object' in selecting a method for function 'summary': Error in model.frame.default(formula = CVECount ~ DevAttention + total_code_lines +  : \
+  'data' must be a data.frame, not a matrix or an array\
+> summary(lm(CVECount ~ DevAttention + total_code_lines + project_age + code_churn_12months + twelve_month_contributor_count + user_count, data=data.frame(scale(log(combined+1)))))\
+\
+Call:\
+lm(formula = CVECount ~ DevAttention + total_code_lines + project_age + \
+    code_churn_12months + twelve_month_contributor_count + user_count, \
+    data = data.frame(scale(log(combined + 1))))\
+\
+Residuals:\
+    Min      1Q  Median      3Q     Max \
+-2.0146 -0.5673 -0.1538  0.3939  4.1735 \
+\
+Coefficients:\
+                                Estimate Std. Error t value Pr(>|t|)    \
+(Intercept)                    2.430e-16  3.326e-02   0.000    1.000    \
+DevAttention                   6.406e-03  3.576e-02   0.179    0.858    \
+total_code_lines               3.969e-02  5.611e-02   0.707    0.480    \
+project_age                    1.353e-02  4.079e-02   0.332    0.740    \
+code_churn_12months            5.363e-02  5.757e-02   0.932    0.352    \
+twelve_month_contributor_count 5.262e-02  4.365e-02   1.205    0.228    \
+user_count                     4.016e-01  4.394e-02   9.138   <2e-16 ***\
+---\
+Signif. codes:  0 \'91***\'92 0.001 \'91**\'92 0.01 \'91*\'92 0.05 \'91.\'92 0.1 \'91 \'92 1\
+\
+Residual standard error: 0.8787 on 691 degrees of freedom\
+Multiple R-squared:  0.2346,	Adjusted R-squared:  0.2279 \
+F-statistic: 35.29 on 6 and 691 DF,  p-value: < 2.2e-16\
+\
+> summary(lm(CVECount ~ DevAttention + total_code_lines + project_age + code_churn_12months + twelve_month_contributor_count, data=data.frame(scale(log(combined+1)))))\
+\
+Call:\
+lm(formula = CVECount ~ DevAttention + total_code_lines + project_age + \
+    code_churn_12months + twelve_month_contributor_count, data = data.frame(scale(log(combined + \
+    1))))\
+\
+Residuals:\
+    Min      1Q  Median      3Q     Max \
+-1.9848 -0.6591 -0.2047  0.4351  4.2270 \
+\
+Coefficients:\
+                                 Estimate Std. Error t value Pr(>|t|)    \
+(Intercept)                     2.448e-16  3.519e-02   0.000 1.000000    \
+DevAttention                   -1.221e-02  3.777e-02  -0.323 0.746562    \
+total_code_lines                1.206e-01  5.861e-02   2.058 0.039958 *  \
+project_age                     1.419e-01  4.051e-02   3.502 0.000492 ***\
+code_churn_12months             5.046e-02  6.090e-02   0.829 0.407670    \
+twelve_month_contributor_count  1.921e-01  4.327e-02   4.441 1.04e-05 ***\
+---\
+Signif. codes:  0 \'91***\'92 0.001 \'91**\'92 0.01 \'91*\'92 0.05 \'91.\'92 0.1 \'91 \'92 1\
+\
+Residual standard error: 0.9296 on 692 degrees of freedom\
+Multiple R-squared:  0.142,	Adjusted R-squared:  0.1358 \
+F-statistic: 22.91 on 5 and 692 DF,  p-value: < 2.2e-16\
+\
+> summary(lm(CVECount ~ DevAttention + total_code_lines + project_age + code_churn_12months + twelve_month_contributor_count, data=combined))\
+\
+Call:\
+lm(formula = CVECount ~ DevAttention + total_code_lines + project_age + \
+    code_churn_12months + twelve_month_contributor_count, data = combined)\
+\
+Residuals:\
+    Min      1Q  Median      3Q     Max \
+-243.11   -5.60   -2.20    0.64  493.39 \
+\
+Coefficients:\
+                                 Estimate Std. Error t value Pr(>|t|)    \
+(Intercept)                    -5.207e-01  3.067e+00  -0.170    0.865    \
+DevAttention                   -1.743e-01  2.174e+00  -0.080    0.936    \
+total_code_lines               -2.758e-06  4.062e-07  -6.791 2.41e-11 ***\
+project_age                     4.135e-02  2.722e-02   1.519    0.129    \
+code_churn_12months             7.169e-06  9.788e-07   7.323 6.74e-13 ***\
+twelve_month_contributor_count  1.651e-01  1.896e-02   8.710  < 2e-16 ***\
+---\
+Signif. codes:  0 \'91***\'92 0.001 \'91**\'92 0.01 \'91*\'92 0.05 \'91.\'92 0.1 \'91 \'92 1\
+\
+Residual standard error: 39.37 on 692 degrees of freedom\
+Multiple R-squared:  0.2658,	Adjusted R-squared:  0.2605 \
+F-statistic: 50.11 on 5 and 692 DF,  p-value: < 2.2e-16\
+\
+> summary(lm(CVECount ~ DevAttention + total_code_lines + project_age + code_churn_12months + twelve_month_contributor_count + user_count, data=combined))\
+\
+Call:\
+lm(formula = CVECount ~ DevAttention + total_code_lines + project_age + \
+    code_churn_12months + twelve_month_contributor_count + user_count, \
+    data = combined)\
+\
+Residuals:\
+    Min      1Q  Median      3Q     Max \
+-182.80   -3.67   -0.83    2.10  507.51 \
+\
+Coefficients:\
+                                 Estimate Std. Error t value Pr(>|t|)    \
+(Intercept)                     3.221e+00  2.858e+00   1.127    0.260    \
+DevAttention                   -1.892e-01  2.010e+00  -0.094    0.925    \
+total_code_lines               -2.000e-06  3.821e-07  -5.236 2.18e-07 ***\
+project_age                    -2.577e-02  2.592e-02  -0.994    0.320    \
+code_churn_12months             5.175e-06  9.237e-07   5.602 3.05e-08 ***\
+twelve_month_contributor_count  1.270e-01  1.788e-02   7.101 3.09e-12 ***\
+user_count                      1.847e-02  1.700e-03  10.864  < 2e-16 ***\
+---\
+Signif. codes:  0 \'91***\'92 0.001 \'91**\'92 0.01 \'91*\'92 0.05 \'91.\'92 0.1 \'91 \'92 1\
+\
+Residual standard error: 36.42 on 691 degrees of freedom\
+Multiple R-squared:  0.3729,	Adjusted R-squared:  0.3675 \
+F-statistic: 68.49 on 6 and 691 DF,  p-value: < 2.2e-16\
+\
+\
+}
