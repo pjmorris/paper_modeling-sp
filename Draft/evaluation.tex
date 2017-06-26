@@ -1,21 +1,21 @@
 \section{Case Studies}
 \label{sec:evaluation}
-This section describes how we evaluated our model through two case studies of existing software development security data.
+This section describes how we evaluated our model through two case studies of public software development security data.
 
-We presented the data elements to be collected for our full model in Section ~\ref{sec:model_measurement}, and the data collection guide for the measurement model gives instructions on how to collect the data for a software development project~\cite{morrison2016spefsite}. SEM is a large-sample technique, with median sample size in the literature of 200 observations~\cite{kline2015principles}. The need for large quantities of software development security data leads us to examine existing software development security datasets. Further, confirmation of our hypothesized structural and measurement relationships in data we did not generate would strengthen the case for the theorized relationships.
+We presented the data elements to be collected for our full model in Section ~\ref{sec:model_measurement}, and the data collection guide for the measurement model gives instructions on how to collect the data for a software development project~\cite{morrison2016spefsite}. SEM is a large-sample technique, with median sample size in the literature of 200 observations~\cite{kline2015principles}. The need for large quantities of software development security data leads us to examine public software development security datasets. Further, confirmation of our hypothesized structural and measurement relationships in data we did not generate would strengthen the case for the theorized relationships.
 We have identified two candidate data sets, of increasing detail and decreasing observation count: 
 \begin{itemize}
 \item The NVD contains vulnerability records for a wide variety of software.
 \item The CII project census contains high-level project data for over 400 Debian~\footnote{https://www.debian.org/} packages.
 \end{itemize}
 
-For each dataset, the project is our unit of analysis. In the case of the NVD, which reports vulnerabilities, we collect all vulnerabilities for a given project and summarize them. Each CII record represents a single project. We assume the data points collected for each project in both datasets are independent of other projects.  We give further details for each of these datasets in their case study sections, below. We used the R~\footnote{https://www.r-project.org} lavaan package to conduct our SEM analysis, as well as the ggplot2, semPlot and psych R packages. We now introduce the lavaan syntax, and explain the semantics of each syntax element.
+For each dataset, the project is our unit of analysis. In the case of the NVD, which reports vulnerabilities, we collect all vulnerabilities for a given project and summarize them. Each CII record represents a single project. We assume the data points collected for each project in both datasets are independent of other projects.  We give further details for each of these datasets in their case studies, Sections \ref{sec:evaluation_nvd} and \ref{sec:evaluation_cii}. We used the R~\footnote{https://www.r-project.org} lavaan package to conduct our SEM analysis, as well as the ggplot2, semPlot and psych R packages. We now introduce the lavaan syntax, and explain the semantics of each syntax element.
 
 \begin{itemize}
-\item Regression relationships between latent variables are specified using the $\sim$  operator (see Table \ref{tab:model_lavaan_syntax}), for example $Outcomes \sim SoftwareRisk + AssetImpact$ (SoftwareRisk is also modeled as affecting Outcomes) ("Outcomes are dependent on Software Risk and Asset Impact"). Establishing a parameter estimate for this relationship allows us to test hypotheses about the latent variable relationships, for example the hypothesis that \textbf{H1} Asset Impact is associated with negative Security Outcomes.
+\item Regression relationships between latent variables are specified using the $\sim$  operator (see Table \ref{tab:model_lavaan_syntax}), for example $Outcomes \sim SoftwareRisk + AssetImpact$ ("Outcomes are dependent on Software Risk and Asset Impact"). Establishing a parameter estimate for this relationship allows us to test hypotheses about the latent variable relationships, for example the hypothesis that \textbf{H1} Asset Impact is associated with negative Security Outcomes.
  \item Covariance relationships are specified using the $\sim\sim$ operator.
 \item Latent variable-measurement variable relationships are specified as follows: $LatentVariable =\sim MeasuredVariable1 + ...$. 
-\item Dashed lines indicate estimates established by the modeler, or by the software. We have two examples of modeled fixed parameters in our structural model: We specify the absence of a direct relationship between Asset Impact and Software Risk (syntax: $SoftwareRisk \sim\sim 0*AssetImpact$), as we expect the constructs to be independent of each other. We specify the absence of a direct relationship between Adherence and Outcomes, as we expect Adherence to affect Outcomes through being moderated by overall Software Risk. The remaining dashed lines are estimates fixed by the software, where it has estimated starting values in the course of solving the system of equations expressed by the model.
+\item Dashed lines, as in Figure ~\ref{fig:model_constructs}, indicate estimates established by the modeler, or by the software. We have two examples of modeled fixed parameters in our structural model: We specify the absence of a direct relationship between Asset Impact and Software Risk (syntax: $SoftwareRisk \sim\sim 0*AssetImpact$), as we expect the constructs to be independent of each other. We specify the absence of a direct relationship between Adherence and Outcomes, as we expect Adherence to affect Outcomes through being moderated by overall Software Risk. The remaining dashed lines are estimates fixed by the software, where it has estimated starting values in the course of solving the system of equations expressed by the model.
 \end{itemize}
 
 \begin{table*}[!htbp] \centering 
@@ -50,23 +50,3 @@ We now present the complete set of structural model constructs and relationships
    Adherence &\sim\sim 0*Outcomes\\
  \end{split}
  \end{equation}     
-
-\begin{figure*}
-	\centering
-%	\begin{subfigure}{.5\textwidth}
-		\includegraphics[width=1\textwidth]{syntax_swrisk_asmeasuredby.png}
-		\caption{Graphical display of lavaan syntax for SoftwareRisk $=\sim$ Theorized measurement variables from Table  \ref{tab:model_spef_metrics}}
-		\label{fig:model_example_syntax_asmeasuredby}	
-%	\end{subfigure}%
-%	\begin{subfigure}{.5\textwidth}		
-%		\includegraphics[width=.5\columnwidth]{syntax_latentregress.png}
-%		\caption{Graphical display of lavaan syntax for $LatentVariable \sim LatentVariable2 + LatentVariable3$ (with measured variables)}
-%		\label{fig:model_example_syntax_latentregress}	
-%	\end{subfigure}		
-\end{figure*}
-
-%\begin{figure}
-% \includegraphics[width=\columnwidth]{modelcaoscto}
-%	\caption{Model Constructs and Sub-Constructs}
-%	\label{fig:model_constructs_phases}
-%\end{figure}

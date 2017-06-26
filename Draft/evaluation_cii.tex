@@ -1,14 +1,14 @@
 \subsection{CII Case Study}
-The CII was formed by the Linux Foundation to support critical elements of the global information infrastructure by identifying and funding projects in need of assistance~\footnote{https://www.coreinfrastructure.org/faq}. The CII team has developed a census of open source projects in potential need of assistance~\footnote{https://www.coreinfrastructure.org/programs/census-project}, as well as a program for measuring and rewarding compliance with good security practice~\footnote{https://bestpractices.coreinfrastructure.org/}.
+The CII was formed by the Linux Foundation to support critical elements of the global information infrastructure by identifying and funding projects that were understaffed compared to their criticality~\footnote{https://www.coreinfrastructure.org/faq}. The CII team has developed a census of open source projects in potential need of assistance~\footnote{https://www.coreinfrastructure.org/programs/census-project}, as well as a program for measuring compliance with good quality and security practices~\footnote{https://bestpractices.coreinfrastructure.org/}, and recognzing project participation and compliance via a certification badge.
 
 \subsubsection{Data selection}
 \label{sec:cii_selection}
-The CII census team has published the rationale behind their census and metrics ~\cite{wheeler2015open}, and has published their data and code on Github~\footnote{https://github.com/linuxfoundation/cii-census}. The 428 census records each contain data for one project deemed both important, and potentially at risk for security concerns, according to their criteria used by the CII team.
+The CII census team has published the rationale behind their census and metrics ~\cite{wheeler2015open}, including, for example, the number of publicly reported CVEs, and the team's level of activity.  The CII census team has published their data and code on Github~\footnote{https://github.com/linuxfoundation/cii-census}. The 428 census records published by the CII each contain data for one project deemed both important, and potentially at risk for security concerns, according to their criteria used by the CII team.
 
 The project record contains descriptive data, e.g. project name and version, and security-relevant metrics, e.g. lines of code, contributor count, as well as an overall `risk index' based on the CII team's estimation of the importance of the metrics used to compute the index value.  Parallel to our translations of the CVSS metric score text to ordinal values, we translate the CII $fact\_activity$, $fact\_age$, $fact\_comments$, and $fact\_team\_size$ columns from text descriptions to ordinal values. We also parse the risk index components field to extract the ordinal ranks the CII team assigned each project for the risk index components: `Website points', `CVE Risk', `12 month contributors', `Popularity', `Language', and (network) `Exposure'. We now present our mapping of the CII metrics to our constructs.
 
 \textbf{Asset Impact}
-The CII package\_popularity field contains Debian package popularity contest~\footnote{http://popcon.debian.org/} results, a measure of the frequency of use of each package on each system, aggregated to the relative usage of the package within the Debian ecosystem. We reason that paclage popularity is proportional to our theorized `Number of Machines'  metric, and, so, should be modeled as a component of Asset Value.
+The CII package\_popularity field contains Debian package popularity contest~\footnote{http://popcon.debian.org/} results, a measure of the frequency of use of each package on each system, aggregated to the relative usage of the package within the Debian ecosystem. We reason that package popularity is proportional to our theorized `Number of Machines'  metric, and, so, should be modeled as a component of Asset Impact.
 
 \textbf{Software Risk}
 We model total\_contributor\_count, Contributor Risk, and total\_code\_lines as components of Software Risk, on the rationale that multiple studies (e.g. ~\cite{camilo2015do,dashevskyi2016on}) have identified team size and code size as contributors to software vulnerability. The CII metrics direct\_network\_exposure and process\_network\_data, and potential\_privilege\_escalation are similar in concept to the CVSS Access metrics, and we, similarly, model them as components of Software Risk, theorizing that their values change based on design choices made by the software development team. We do not use the CII risk index measures, as they are composites, and we wish to examine the behavior of each of the index components.
@@ -22,8 +22,8 @@ CII census data related to Outcomes includes a count of CVE vulnerabilities repo
 \textbf{Field choice notes}
 The CII dataset contains a set of essentially co-linear fields, for example CVE Risk is translation of the CVE count since 2010 for the project into a categorical variable. We preferred counts to categorical values in initial field choices for the model.
 
-\textbf{CII Data Exampes}
-To illustrate how data is prepared for use in SEM estimation, Table \ref{tab:cii_data_examples} presents data from two example project, libexpat and procmail.  The table presents both the original data and the computed fields for each row, as used in SEM estimation.
+\textbf{CII Data Examples}
+To illustrate how data is prepared for use in SEM estimation, Table \ref{tab:cii_data_examples} presents data from two example projects, libexpat and procmail.  The table presents both the original data and the computed fields for each row, as used in SEM estimation.
 
 % stargazer(t(ciicooked[1:2,]),style="asr")
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu

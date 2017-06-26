@@ -13,7 +13,7 @@ CVSS has three impact metrics: Confidentiality Impact, Integrity Impact, and Ava
 		\item 'Partial' indicates partial impact, and 
 		\item 'Complete' indicates 'Complete' impact.  
 	\end{itemize}
-We model each Impact metric as a component of Asset Value, theorizing that confidentiality, integrity, and availability impacts change based on the usage context in which the software is run, e.g. the value of the assets managed. We translate None/Partial/Complete to an ordinal scale (values 1,2,3 increasing with impact) to model increasing CIA impact risk.
+We model each Impact metric as a component of Asset Impact, theorizing that confidentiality, integrity, and availability impacts change based on the usage context in which the software is run, e.g. the value of the assets managed. We translate None/Partial/Complete to the values 1, 2, and 3, respectively, to create an ordinal scale to model increasing CIA impact risk.
 
 \textbf{Software Risk}
 \label{sec:evaluation_nvd_selection_risk}
@@ -23,27 +23,27 @@ The CVSS Access Vector, Access Complexity, and Authentication metrics capture ho
 	\begin{itemize}
 		\item 'Local' requires the attacker to have physical access or an account on the system, \item 'Adjacent Network' requires access to the physical network on which the vulnerable software resides, and \item 'Network' requires only logical network acccess, e.g. remote access. 
 	\end{itemize}
-	We model Access Vector Risk as a component of Software Risk, theorizing that the vector value changes based on design choices made by the software development team. We translate the CVSS Access Vector values (1,2,3, increasing with network distance) to an ordinal scale to model increasing `Access Vector Risk'.
+	We model CVSS Access Vector as a component of Software Risk, theorizing that the vector value changes based on design choices made by the software development team. We translate the Local/Adjacent Network/Network values to the values 1, 2, and 3, respectively, to create an ordinal scale modeling increasing Access Vector risk.
 	\item Access Complexity - measures the complexity of attack required to exploit a vulnerability once an attacker has gained access. Values: 
 	\begin{itemize}
 		\item 'High' indicates specialized/elevated access is required to exploit the vulnerability, 
 		\item 'Medium' indicates that some access is required to exploit the vulnerability, and \item 'Low' indicates that the vulnerability can be exploited with default/no special access.  
 	\end{itemize}
-	We model Access Complexity Risk as a component of Software Risk, theorizing that the complexity value changes based on design choices made by the software development team. We translate the CVSS Access Complexity  to an ordinal scale (values 1,2,3, increasing with ease of access) to model increasing `Access Complexity Risk'.
+	We model CVSS Access Complexity as a component of Software Risk, theorizing that the complexity value changes based on design choices made by the software development team. We translate the CVSS Access Complexity values High, Medium, and Low to the values 1, 2, and 3, respectively, to create an ordinal scale modeling increasing Access Complexity risk (which increases as access complexity decreases).
 	\item Authentication - measures the number of times an attacker must authenticate to exploit a vulnerability. Values: 
 	\begin{itemize}
 		\item 'Multiple' indicates an attacker must authenticate two or more times to exploit the vulnerability, 
 		\item 'Single' indicates that an attacker must authenticate once to exploit the vulnerability, and 
 		\item 'None' indicates that the vulnerability can be exploited without authenticating.  
 	\end{itemize}
-	We model Authentication as a component of Software Risk, theorizing that the authentication requirement changes based on design choices made by the software development team. We translate CVSS Authentication values to an ordinal scale (values 1,2,3, increasing with ease of authentication) to model increasing `Authentication Risk'.
+	We model CVSS Authentication as a component of Software Risk, theorizing that the authentication requirement changes based on design choices made by the software development team. We translate CVSS Authentication values to an ordinal scale (values 1,2,3, increasing with ease of authentication) to model increasing risk.
 \end{itemize}
   
 \textbf{Adherence}
 Kaminsky et al. ~\cite{kaminsky2011showing} hypothesized that software quality has increased over the past decade. To test their hypothesis, they fuzzed ten years of Microsoft Office software releases, confirming that software quality had improved over the previous decade, as measured by crash counts per software release over time. We adapt their hypothesis to the security realm, modeling security practice adherence via the passage of time. We take the year each vulnerability is reported as indicative of the state of security practice adherence at the time the vulnerability was reported. We define an `adherence' metric for each vulnerability as the difference, in years, between the vulnerability's publication date and the initial year in the NVD database. If software quality, presumed to be caused by security practice adherence, is increasing, we would expect to see a negative covariance between the Adherence construct and the SoftwareRisk construct. 
 
 \textbf{Outcomes}
-We obtain a metric for Outcomes by counting per-project, per-year vulnerabilities. We treat each unique software name in the NVD records as a distinct project, and sum all vulnerabilities for a project, reflecting our theorized post-release vulnerability count metric. We group each project by its (software) name, and by publication year, taking the mean of the remaining CVSS metrics to represent that project/publication year. 
+We obtain a metric for Outcomes by counting per-project, per-year vulnerabilities. We treat each unique software name in the NVD records as a distinct project, and sum all vulnerabilities for a project, reflecting our theorized post-release vulnerability count metric. We group each project by its (software) name, and by publication year, taking the mean of the  CVSS Access Vector, Access Complexity, Authentication, Availability Impact, Integrity Impact, and Availability Impact metrics to represent that project/publication year. 
 % plot vuln count over time
 % plot cvss score average
 % plot three impact metrics
@@ -216,7 +216,7 @@ Interpreting the (standardized) parameter estimates in terms of our hypothesized
 \begin{itemize}
 	\item  Asset Impact is positively associated (0.05) with Security Outcomes, as hypothesized.
 	\item Software Risk is positively associated (0.12) with Security Outcomes, as hypothesized. 
-	\item Practice Adherence is positively associated (0.78) with Software Risk, contrary to what we hypothesized. 
+	\item Practice Adherence is positively associated (0.78) with Software Risk, contrary in direction to what we hypothesized. 
 \end{itemize}	
 All three relationships were statistically significant. 
 

@@ -15,13 +15,13 @@ We began with the aggregated fields from both datasets, and removed theoreticall
 Through a series of experiments, evaluating model fit for the combined datasets, we obtained a `Combined' model with good global fit characteristics, see the `Combined No Net' column in Table \ref{tab:results_fit_all}.
 
 \begin{align*}
-	SoftwareRisk =\sim cvss\_access\_vector + cvss\_access\_complexity\\
+	DevelopmentRisk =\sim cvss\_access\_vector + cvss\_access\_complexity\\
 	 + cvss\_auth + total\_code\_lines + TeamSize + LanguageRisk\\
-	AssetRisk =\sim cvss\_conf\_impact + cvss\_integ\_impact +\\ cvss\_avail\_impact + package\_popularity\\
+	UsageRisk =\sim cvss\_conf\_impact + cvss\_integ\_impact +\\ cvss\_avail\_impact + package\_popularity\\
 	Outcomes =\sim  logCVECount \\
 	Adherence =\sim adherence + twelve\_month\_contributor\_count +\\ CodeComments + TeamActivity \\
-	Outcomes ~ SoftwareRisk + AssetRisk\\
-	SoftwareRisk \sim  Adherence\\
+	Outcomes ~ DevelopmentRisk + UsageRisk\\
+	DevelopmentRisk \sim  Adherence\\
 \end{align*}
 
 \subsubsection{Reporting Results}
@@ -37,7 +37,7 @@ To study how models behave for different projects, we selected a non-model varia
 			\textit{Latent Variables}: &  & Combined & No Net & \\  
 			$\sim$ Measured variables& Estimate & Std.Err & z$-$value & $P(>|z|)$ \\
 			\hline \\[-1.8ex]
-			$SoftwareRisk =\sim$  & & & & \\                                   
+			$DevelopmentRisk =\sim$  & & & & \\                                   
 			cvss\_ccss\_vctr   & 1.000 & &  & \\                             
 			cvss\_ccss\_cmpl &  $-$0.36 &   0.286 & 1.243 &   0.214\\
 			cvss\_auth     &   $-$0.065  &  0.056  & $-$1.17   & 0.244\\
@@ -45,7 +45,7 @@ To study how models behave for different projects, we selected a non-model varia
 			TeamSize        &  6.268   & 2.484   & 2.524   & 0.012\\
 			LanguageRisk    &  0.148  &  0.413   & 0.357   & 0.721\\ 
 			& & & & \\  
-			$AssetValue =\sim$     & & & & \\                                    		
+			$UsageValue =\sim$     & & & & \\                                    		
 		    cvss\_conf\_mpct  &  1.000  &	&	&                  \\
 		    cvss\_intg\_mpct  &  0.954  &  0.116 &   8.230  &  0.000\\
 		    cvss\_aval\_mpct  &  0.896 &   0.122 &   7.361 &   0.000\\
@@ -64,14 +64,14 @@ To study how models behave for different projects, we selected a non-model varia
 			Regressions:  & & & & \\  
 			%& Estimate & Std.Err & z$-$value & $P(>|z|)$ \\
 			$Outcomes \sim$         & & & & \\                                     
-			SoftwareRisk   &  3.365 &   1.635 & 2.058 &   0.040 \\
+			DevelopmentRisk   &  3.365 &   1.635 & 2.058 &   0.040 \\
 			Adherence       &  $-$1.559  & 1.526  &  $-$1.022  &  0.307\\
-			AssetValue     &   $-0$.619  &  0.291  &  $-$2.125 &   0.034\\
-			$SoftwareRisk \sim$        & & & & \\                                  
+			UsageRisk     &   $-0$.619  &  0.291  &  $-$2.125 &   0.034\\
+			$DevelopmentRisk \sim$        & & & & \\                                  
 			Adherence     &    1.56 &   1.04  &  1.505 &   0.132\\
 			Covariances:  & & & & \\  
 			%& Estimate & Std.Err & z$-$value & $P(>|z|)$ \\
-			$AssetValue \sim\sim$          & & & & \\                                 
+			$UsageRisk \sim\sim$          & & & & \\                                 
 			Adherence     &    $-$0.024 &   0.019  &  $-$.255 &   0.209\\
 		\end{tabular}
 	\end{center}
@@ -88,7 +88,7 @@ To study how models behave for different projects, we selected a non-model varia
 			\textit{Latent Variables}: &  & Combined & No Net & \\  
 			$\sim$ Measured variables& Estimate & Std.Err & z$-$value & $P(>|z|)$ \\
 			\hline \\[-1.8ex]
-			$SoftwareRisk =\sim$  & & & & \\                                   
+			$DevelopmentRisk =\sim$  & & & & \\                                   
 			cvss\_ccss\_vctr   & 1.000 & &  & \\                             
 			cvss\_ccss\_cmpl &  $-$0.224 &   0.272 & 0.822 &   0.411\\
 			cvss\_auth     &   $-$0.1035  &  0.114  & $-$906   & 0.365\\
@@ -96,7 +96,7 @@ To study how models behave for different projects, we selected a non-model varia
 			TeamSize        &  8.448   & 3.092  & 2.732   & 0.006\\
 			LanguageRisk    &  $-$0.976  &  0.645   & $-$1.513   & 0.130\\ 
 			& & & & \\  
-			$AssetValue =\sim$     & & & & \\                                    		
+			$UsageRisk =\sim$     & & & & \\                                    		
 			cvss\_conf\_mpct  &  1.000  &	&	&                  \\
 			cvss\_intg\_mpct  &  0.743  &  0.129 &   5.770  &  0.000\\
 			cvss\_aval\_mpct  &  0.481 &   0.110 &   4.364 &   0.000\\
@@ -114,14 +114,14 @@ To study how models behave for different projects, we selected a non-model varia
 			Regressions:  & & & & \\  
 			%& Estimate & Std.Err & z$-$value & $P(>|z|)$ \\
 			$Outcomes \sim$         & & & & \\                                     
-			SoftwareRisk   &  $-$6.314 &   4.033 & $-$1.566 &   0.117 \\
+			DevelopmentRisk   &  $-$6.314 &   4.033 & $-$1.566 &   0.117 \\
 			Adherence       &  4.210  & 2.340  &  1.80  &  0.072\\
-			AssetValue     &   $-$1.312  &  0.418  &  $-$3.142 &   0.002\\
-			$SoftwareRisk \sim$        & & & & \\                                  
+			UsageRisk     &   $-$1.312  &  0.418  &  $-$3.142 &   0.002\\
+			$DevelopemntRisk \sim$        & & & & \\                                  
 			Adherence     &    -0.003 &   0.035  &  -0.086 &   0.931\\
 			Covariances:  & & & & \\  
 			%& Estimate & Std.Err & z$-$value & $P(>|z|)$ \\
-			$AssetValue \sim\sim$          & & & & \\                                 
+			$UsageRisk \sim\sim$          & & & & \\                                 
 			Adherence     &    $-$0.003 &   0.035  &  $-$.086 &   0.931\\
 		\end{tabular}
 	\end{center}
@@ -129,8 +129,8 @@ To study how models behave for different projects, we selected a non-model varia
 
 In terms of global fit, the Combined No Net model was inside or near the range of traditional fit criteria, as measured by the fit indexes. The Combined Net model was outside the traditional fit criteria on all measurements. In terms of the parameter estimates for our hypothesized factor relationships, we have the following:
 \begin{itemize}
-	\item  Asset Value - Security Outcomes were negative ($-$0.619, $-1$1.312), contrary to our hypothesis. 
+	\item  Usage Risk - Security Outcomes were negative ($-$0.619, $-1$1.312), contrary to our hypothesis. 
 	\item Software Risk - Security Outcomes is positive (73.08), as hypothesized. 
-	\item Practice Adherence is slightly postitively associated (0.045) with Software Risk 
+	\item Practice Adherence is slightly positively associated (0.045) with Software Risk 
 \end{itemize}	
 Only the Asset Risk-Outcome estimate was statistically significant.
