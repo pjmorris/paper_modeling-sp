@@ -1,12 +1,12 @@
-\section{Methodology}
+\section{Case Study Methodology}
 \label{sec:methodology}
 In this section, we present the steps required for analyzing a data set in terms of the \ModelAbbr.
 
 \subsection{Step 1: Select case study subject}
-Select, or prepare, a data set containing measurements of  variables that can be related to the structural model's Asset Impact, Software Risk, Adherence, and Outcomes constructs. The unit of analysis is a software project at a point in time (e.g. OpenSSL as of April 2017), and measurements must be taken, or aggregated to the level of the project as of the data collection date. For example, a given value for SLOC is dependent on when the project is measured, and may need to be aggregated to the project level from a list of SLOCS for the component files of the project. Table ~\ref{tab:model_spef_metrics} is a specification for a complete data set of measurement model metrics and how they relate to the constructs. However, studies using data representative of the constructs but not identical to the specified measurement model enable theoretical replications of the structural model.     
+Select, or prepare, a data set containing measurements of  variables that can be related to the structural model's Usage Risk, Development Risk, Adherence, and Outcomes constructs. The unit of analysis is a software project at a point in time (e.g. OpenSSL as of April 2017), and measurements must be taken, or aggregated to the level of the project as of the data collection date. For example, a given value for SLOC is dependent on when the project is measured, and may need to be aggregated to the project level from a list of SLOCs for the component files of the project. Table ~\ref{tab:model_spef_metrics} is a specification for a complete data set of measurement model metrics and how they relate to the constructs. Where complete SP-EF data is not available, collecting data representative of the measurement model metrics supports theoretical replication of the structural model.     
 
-\subsection{Step 2: Link data source variables to model constructs}
-Consider each variable in the dataset and whether it corresponds to one of the measurement variable definitions as described in Table \ref{tab:model_spef_metrics}. Where the dataset variable corresponds to a measurement variable, associate the dataset variable with the measurement variable's construct. For example, if the dataset contains a code churn metric, associate it with Software Risk.
+\subsection{Step 2: Link data source variables to the model constructs}
+Evaluate whether each dataset variable corresponds to one of the measurement variable definitions as described in Table \ref{tab:model_spef_metrics}. Where the dataset variable corresponds to a measurement variable, associate the dataset variable with the measurement variable's construct. For example, if the dataset contains a code churn metric, associate the code churn metric with Development Risk.
 
 \subsection{Step 3: Evaluate collected data for fit problems}
 Data problems, for example noisy or non-normally distributed data, can cause model fit problems independent of the model's quality. We excerpt Kline's~\cite{kline2015principles} advice on data preparation, focusing on the recommendations we applied in the course of our investigation. 
@@ -14,19 +14,19 @@ Data problems, for example noisy or non-normally distributed data, can cause mod
 \item{Normality}:
 Standard SEM approaches assume linear relationships between variables in both structural and measurement models, requiring researchers to pre-examine the data for non-linear relationships. Potential solutions where nonlinear data is found include excluding outliers and transformations such as log or square root.
 \item{Collinearity}:
-Collinearity between measurement variables affects model fit. We check for collinearity between measurement variables in the dataset, and drop collinear variables (as measured by a Spearman correlation coefficient greater than 0.7) that are theoretical alternatives. For example total\_contributor\_count and TeamSize are collinear in the CII dataset, and we choose logContributorCount to represent the concept.
+Collinearity between measurement variables affects model fit. We check for collinearity between measurement variables in the dataset, and drop collinear variables (as measured by a Spearman correlation coefficient greater than 0.7) that are theoretical alternatives. 
 \item{Outliers}:
 Outliers are values that are very different from other values for the variable, where difference is measured by applying one of a set of heuristics for calculating difference and a decision rule for the border between outliers and typical values. 
 \item{Relative variances}:
-As SEM solves for the covariance or correlation of variables with each other, SEM depends on the variances of the measured variables to be within an order of magnitude of each other, and typically in the range of 1$-$10. In this work, where a measured variable variance exceeds the variances of other measured variables by an order of magnitude or more, we create a transformed variable taking the log of the sum of the original variable value and a small constant, 1. For example, lines of code varies widely, and  we transform logSLOC = (total\_code\_lines+1).
+As SEM solves for the covariance or correlation of variables with each other, SEM depends on the variances of the measured variables to be within an order of magnitude of each other, and typically in the range of 1$-$10. In this work, where a measured variable variance exceeds the variances of other measured variables by an order of magnitude or more, we create a transformed variable taking the log of the sum of the original variable value and a small constant, 1. 
 \end{itemize}
 
 \subsection{Step 4: Estimate SEM model} 
-The specified relationships in the structural and measurement models represent a system of equations, as listed in Equation \ref{eq:1}. Encode the combined structural and measurement models in a SEM modeling tool, and run the tool to obtain estimates for the model. 
+The specified relationships in the structural and measurement models represent a system of equations, as shown in Equation \ref{eq:1}. Encode the combined structural and measurement models in a SEM modeling tool, and run the tool to obtain estimates for the model (for more detail on SEM estimation, see Section~\ref{sec:background}). 
 
-\subsection{Step 5: Test Model Fit}
+\subsection{Step 5: Test model fit}
 % TODO [Paragraph explaining model fit and indicators]
-Once a set of estimates has been generated for a given model and dataset, SEM users evaluate fit measures and residuals to assess the suitability of the model. Model fit indicators and residuals both represent the degree of misfit between the model and the dataset. 
+Once a set of estimates has been generated for a given model and dataset, SEM users evaluate fit measures and residuals to assess the suitability of the model. Model fit indicators and residuals both represent the degree of fit (or misfit) between the model and the dataset. 
 
 No single SEM fit measure captures all of the diagnostic information available, so SEM theorists and practitioners recommend reporting multiple goodness-of-fit and badness of fit measures.
 The model fit measures recommended by Kline~\cite{kline2015principles} are as follows:
@@ -37,17 +37,17 @@ The model fit measures recommended by Kline~\cite{kline2015principles} are as fo
 	\item Standardized Root Mean Square Residual (SRMR) - SRMR is a `badness-of-fit' measure of the difference between the observed and predicted correlations. Zero is a perfect score, scores below 0.08 indicate acceptable fit.
 \end{itemize}
 
-\subsection{Step 6: Perform Re-specification if necessary}
+\subsection{Step 6: Perform Re-specification, if necessary}
 Kline~\cite{kline2015principles} and Loehlin ~\cite{loehlin2004principles} both offer methodologies for diagnosing fit issues and revising the model in principled ways. We present a set of steps derived from these sources for application to our data and measurement model. We declare alterations to the structural model out of scope for the present work, as the work is intended to assess our structural model. 
 
-If model fit indicators show poor fit between the data and the model, it is common to consider adding, dropping, or moving measurement variables, if theory supports doing so. Modifying the model to achieve good fit is only good practice if justified by the theory underlying the model variables and relationships. In the present study, we do not alter the constructs or relationships in the structural model, as we are testing the constructs and their relationships, but we do allow a list of transformations for the measurement model, as follows:
+If model fit indicators show poor fit between the data and the model, it is common to consider adding, dropping, or moving measurement variables, if theory supports doing so. Modifying the model to achieve good fit is only good practice if justified by the theory underlying the model variables and relationships. In the present study, we do allow a list of transformations for the measurement model, as follows:
 \begin{itemize}
 	\item Relative variances: SEM requires measurement model variable variances to be within a narrow range of each other, to avoid ill-scaled covariance matrices, supporting convergence when performing model estimation. Transforming a variable by taking its log, square root, or multiplying by a constant is at the discretion of the researcher (transformation must be documented).
-	\item Choice of measurement variable to construct association is at the discretion of the researcher. 
-	\item Where more than one measurement variable measures the same concept (e.g. team size measured by a count and by an ordinal variable), variable choice is at the discretion of the researcher.
+	\item Choice of measurement variable to construct association is at the discretion of the researcher.
+	\item Where more than one measurement variable measures the same concept (e.g. team size measured by both a count and by an ordinal variable), variable choice is at the discretion of the researcher.
 \end{itemize} 
 
-If transforming the data does not yield adequate fit, the next step is to evaluate the measurement model. Loehlin~\cite{loehlin1986latent} recommends, as a first step for respecification,  fitting the data to a model in which the latent variables are completely intercorrelated, yielding a perfectly fitting structural model, and revealing fit difficulties rooted in the measurement model. 
+If transforming the data does not yield adequate fit, the next step is to evaluate the measurement model. Loehlin~\cite{loehlin1986latent} recommends, as a first step for respecification,  fitting the data to a model in which the latent variables are completely intercorrelated, yielding a perfectly fitting structural model, revealing fit difficulties rooted in the measurement model. 
 
 In addition to the global fit indicators presented above, researchers must examine residuals to assess local model fit. Residuals, also called error terms, are associated with each measurement variable, and represent variance not explained by the construct with which the measurement is associated. Residual values near zero indicate that the construct accounts for the bulk of the variance in the measurement variable. Residual values near one indicate that the construct does not account for the bulk of the variance in the measurement variable, and should prompt investigation, re-specification, and/or explanation. Residual values provide a diagnostic of model fit.
 

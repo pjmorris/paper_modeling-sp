@@ -3,11 +3,10 @@
 
 In this paper, we have presented a model of factors affecting software security, with empirical tests of the model using two datasets. Our results indicate:
 \begin{itemize}
-	\item The NVD data offers per-manufacturer, per-project overview of reporter interest in software vulnerabilities, evidence that, while overall vulnerability risk is growing, per-vulnerability severity is decreasing, and confirmation that the network is an important attack vector.
-	\item The CII data offers evidence that SLOC and team size are correlated with manifest vulnerabilities. 
-	\item Combined NVD-CII data supports better model fit, and offers theoretical support for X, Y, Z elements of the SP-EF measurement model. 
-	\item Stepping back from the specifics of the case studies, SEM offers means of assessing the relative importance of the measurements taken for software security assessement.
-	\item Asset Impact, Software Risk, Adherence, and Outcomes appear to be a reasonable place to start for organizing studies of the factors behind software security success and failure. 
+	\item In the OpenHub-NVD data, Usage Risk, as measured by user count, has a comparable correlation with Outcomes to Development Risk, as measured by SLOC, Churn, Contributor Count, and project age. Factors outside the team's direct influence have to be considered when evaluating security performance and mitigations. 
+	\item Our data corroborate previous research findings that team size and code churn are correlated with discovered vulnerabilities, and do so while controlling for other factors influencing security Outcomes. Measuring the relative impact of each measurement on its construct, and on the model's performance as a whole, supports refining the measurement framework and the theoretical model as further data are collected and evaluated.
+	\item Stepping back from the specifics of the case studies, SEM offers means of assessing the relative importance of the measurements taken for software security assessment.
+	\item Usage Risk, Development Risk, Adherence, and Outcomes appear to be a reasonable place to start for organizing studies of the factors behind software security success and failure. 
 \end{itemize}
 
 Our data suggest that not only software attributes, but the context of software use must be accounted for to assess the state of software security. Researchers and practitioners should measure both software attributes and software usage context when assessing software development practice adherence. That said, our analysis shows correlation, but not causation. Further work including manipulation of variables must be conducted to assess the causes of software insecurity and security. 

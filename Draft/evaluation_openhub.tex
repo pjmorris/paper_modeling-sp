@@ -1,24 +1,25 @@
-\section{Case Studies}
-\label{sec:evaluation}
-This section describes how we evaluated our model through a case study using existing software development security data.
+\section{Case Study}
+\label{sec:evaluation_openhub}
+This section presents a case study of the structural and measurement models using existing software development security data.
 
-We presented the data elements to be collected for our full model in Section ~\ref{sec:model_measurement}, and the data collection guide for the measurement model gives instructions on how to collect the data for a software development project~\cite{morrison2016spefsite}. SEM is a large-sample technique, with median sample size in the literature of 200 observations~\cite{kline2015principles}. The need for large quantities of software development security data leads us to examine existing software development security datasets. Further, confirmation of our hypothesized structural and measurement relationships in data we did not generate would strengthen the case for the theorized relationships.
-We have identified three candidate data sets, of increasing detail and decreasing observation count:
+We presented the data elements to be collected for our full model in Section ~\ref{sec:model_measurement}, and the data collection guidebook~\cite{morrison2016spefguide} for the measurement model gives instructions on how to collect the data for a software development project. SEM is a large-sample technique, with median sample size in the literature of 200 observations~\cite{kline2015principles}. The need for large quantities of software development security data leads us to examine existing software development security datasets. Further, confirmation of our hypothesized structural and measurement relationships in data we did not generate strengthens the case for the theorized relationships.
+
+At present, no single dataset contains a full set of 200+ projects with data collected using the SP-EF framework. However,  we have identified two datasets that, together, represent most of the  information required for our measurement model:
 \begin{itemize}
-\item Black Duck Software~\footnote{https://www.blackducksoftware.com/} maintains OpenHub~\footnote{https://www.openhub.net/}, a tracking site for open source software projects. Nagappan et al.~\cite{nagappan2013diversity} built and published a dataset of 20,028 projects from Openhub (formerly named Ohloh) to enable assessment of diversity in software engineering research. 
-\item The U.S. National Institute of Standards and Technology (NIST) maintains the National Vulnerability Database (NVD) ~\footnote{https://nvd.nist.gov/}, an online database of publicly reported software vulnerabilities, with over 79,000 vulnerabilities dating back to 1988. Vulnerability reporters assign each vulnerability a Common Vulnerability Scoring System (CVSS) score and associated CVSS base metrics, according to the scheme defined in the CVSS guide~\cite{mell2007complete}.
-\item The CII project census contains high-level project data for over 400 Debian~\footnote{https://www.debian.org/} packages. The CII was formed by the Linux Foundation to support critical elements of the global information infrastructure by identifying and funding projects in need of assistance~\footnote{https://www.coreinfrastructure.org/faq}. The CII team has developed a census of open source projects in potential need of assistance~\footnote{https://www.coreinfrastructure.org/programs/census-project}, as well as a program for measuring and rewarding compliance with good security practice~\footnote{https://bestpractices.coreinfrastructure.org/}.
+\item Black Duck Software~\footnote{https://www.blackducksoftware.com/} maintains OpenHub~\footnote{https://www.openhub.net/}, a tracking site for open source software projects. Based on the OpenHub database, Nagappan et al.~\cite{nagappan2013diversity} built and published a dataset of 20,028 projects (OpenHub) to enable assessment of diversity in software engineering research. The OpenHub dataset contains fields related to our Development Risk and Usage Risk constructs, as described below in Section \ref{sec:evaluation_openhub_selection}.
+\item The U.S. National Institute of Standards and Technology (NIST) maintains the National Vulnerability Database (NVD) ~\footnote{https://nvd.nist.gov/}, an online database of publicly reported software vulnerabilities, with over 79,000 vulnerabilities dating back to 1988. Vulnerability reporters assign each vulnerability a Common Vulnerability Scoring System (CVSS) score and associated CVSS base metrics, according to the scheme defined in the CVSS guide~\cite{mell2007complete}. 
 \end{itemize}
 
-For each dataset, the project is our unit of analysis. In the case of the NVD, which reports vulnerabilities, we collect all vulnerabilities for a given project and summarize them. Each Openhub and CII record represents a single project. We assume the data points collected for each project in the three datasets are independent of other projects. Because the NVD and Openhub datasets contain distinct information for over 20,000 project each, we merge the datasets based on project name. Because the CII dataset contains 428 projects, relatively fewer than the NVD and Openhub datasets, we add a flag ('isCII') to the projects merged from the other datasets.
+By combining these datasets, we can establish a baseline for assessing the \ModelAbbr.
+Our unit of analysis is the software development project. Each Openhub record contains a set of descriptive data about a single project. Each NVD record contains a reported vulnerability for a project. We summarize NVD vulnerability counts for each project. We use the OpenHub projects as our baseline, and include vulnerability counts for OpenHub projects where they have matches in the NVD dataset. We restrict our analysis to those projects which have NVD vulnerability records. The absence of a vulnerability record in the NVD does not mean that a project has no security vulnerabilities, only that vulnerabilities have not been reported. Projects may have no reported vulnerabilities for a variety of reasons, for example, because they are not paid attention to by researchers and attackers, or because they are relatively vulnerability-free. 
 
-We used the R~\footnote{https://www.r-project.org} lavaan package to conduct our SEM analysis, as well as the ggplot2, semPlot and psych R packages. We now introduce the lavaan syntax, and explain the semantics of each syntax element.
+We used the R~\footnote{https://www.r-project.org} lavaan package to conduct our SEM analysis, as well as the ggplot2, and semPlot R packages. We now introduce the lavaan syntax, and explain the semantics of each syntax element.
 
 \begin{itemize}
-\item Regression relationships between latent variables are specified using the $\sim$  operator (see Table \ref{tab:model_lavaan_syntax}), for example $Outcomes \sim SoftwareRisk + AssetImpact$ (SoftwareRisk is also modeled as affecting Outcomes) ("Outcomes are dependent on Software Risk and Asset Impact"). Establishing a parameter estimate for this relationship allows us to test hypotheses about the latent variable relationships, for example the hypothesis that \textbf{H1} Asset Impact is associated with negative Security Outcomes.
+\item Regression relationships between latent variables are specified using the $\sim$  operator (see Table \ref{tab:model_lavaan_syntax}), for example $Outcomes \sim DevelopmentRisk + UsageRisk$ (DevelopmentRisk is also modeled as affecting Outcomes) ("Outcomes are dependent on Development Risk and Usage"). Establishing a parameter estimate for this relationship allows us to test hypotheses about the latent variable relationships, for example the hypothesis that \textbf{H1} Usage Risk is associated with negative Security Outcomes.
  \item Covariance relationships are specified using the $\sim\sim$ operator.
 \item Latent variable-measurement variable relationships are specified as follows: $LatentVariable =\sim MeasuredVariable1 + ...$. 
-\item Dashed lines indicate estimates established by the modeler, or by the software. We have two examples of modeled fixed parameters in our structural model: We specify the absence of a direct relationship between Asset Impact and Software Risk (syntax: $SoftwareRisk \sim\sim 0*AssetImpact$), as we expect the constructs to be independent of each other. We specify the absence of a direct relationship between Adherence and Outcomes, as we expect Adherence to affect Outcomes through being moderated by overall Software Risk. The remaining dashed lines are estimates fixed by the software, where it has estimated starting values in the course of solving the system of equations expressed by the model.
+\item Dashed lines indicate estimates established by the researcher, or by the software. We have two examples of modeled fixed parameters in our structural model: We specify the absence of a direct relationship between Usage Risk and Development Risk (syntax: $SoftwareRisk \sim\sim 0*UsageRisk$), as we expect the constructs to be independent of each other. We specify the absence of a direct relationship between Adherence and Outcomes, as we expect Adherence to affect Outcomes through being moderated by overall Development Risk. The remaining dashed lines are estimates fixed by the software, where it has estimated starting values in the course of solving the system of equations expressed by the model.
 \end{itemize}
 
 \begin{table*}[!htbp] \centering 
@@ -30,9 +31,9 @@ We used the R~\footnote{https://www.r-project.org} lavaan package to conduct our
 			\hline&&&& \\[-1.8ex] 
 			Syntax & Symbol & Name & Description & Example \\ 
 			\hline &&&&\\[-1.8ex]  
-			$=\sim$	& $\bigcirc \rightarrow \Box$ & is measured by & $=\sim$ specifies how a latent variable (left side) is measured by the constituent variables listed on the right side & $SoftwareRisk =\sim SLOC + Churn$\\	
-			 $\sim$ & $\bigcirc \leftarrow \bigcirc$ & regression & $\sim$ specifies a regression of the dependent variable on the left-hand side to the independent variables on the right hand side of the expression. & Outcomes $\sim$ SoftwareRisk $+$ AssetImpact  \\	
-			 $\sim\sim$ & $\bigcirc \leftrightarrow \bigcirc$ $\Box \leftrightarrow \Box$ & undirected covariance & model a covariance relationship, but leave the direction of influence unspecified. When one side is multiplied by 0, the meaning is that the factors  explicitly do not covary. & $AssetRisk \sim\sim Adherence$  $Adherence \sim\sim 0*Outcomes$\\
+			$=\sim$	& $\bigcirc \rightarrow \Box$ & is measured by & $=\sim$ specifies how a latent variable (left side) is measured by the constituent variables listed on the right side & $DevelopmentRisk =\sim SLOC + Churn$\\	
+			 $\sim$ & $\bigcirc \leftarrow \bigcirc$ & regression & $\sim$ specifies a regression of the dependent variable on the left-hand side to the independent variables on the right hand side of the expression. & Outcomes $\sim$ DevelopmentRisk $+$ UsageRisk  \\	
+			 $\sim\sim$ & $\bigcirc \leftrightarrow \bigcirc$ $\Box \leftrightarrow \Box$ & undirected covariance & model a covariance relationship, but leave the direction of influence unspecified. When one side is multiplied by 0, the meaning is that the factors  explicitly do not covary. & $UsageRisk \sim\sim Adherence$  $Adherence \sim\sim 0*Outcomes$\\
 			\hline &&&&\\[-1.8ex] 
 			\hline &&&&\\[-1.8ex] 
 		\end{tabular} 
@@ -41,31 +42,19 @@ We used the R~\footnote{https://www.r-project.org} lavaan package to conduct our
 We now present the complete set of structural model constructs and relationships in the lavaan model syntax: 
  \begin{equation} \label{eq:1}
  \begin{split}
- SoftwareRisk &=\sim SoftwareContextFactors\\ 
-  AssetImpact &=\sim AssetContextFactors\\
+ DevelopmentRisk &=\sim DevelopmentRiskContextFactors\\ 
+  UsageRisk &=\sim UsageRiskContextFactors\\
   Outcomes &=\sim OutcomeMeasures\\
   Adherence &=\sim AdherenceMeasures\\
-  Outcomes &\sim SoftwareRisk + AssetImpact\\
-   SoftwareRisk &\sim Adherence\\
-   AssetImpact &\sim\sim  Adherence\\
-   SoftwareRisk &\sim\sim 0*AssetImpact\\
+  Outcomes &\sim DevelopmentRisk + UsageRisk\\
+   DevelopmentRisk &\sim Adherence\\
+   UsageRisk &\sim\sim  Adherence\\
+   DevelopmentRisk &\sim\sim 0*UsageRisk\\
    Adherence &\sim\sim 0*Outcomes\\
  \end{split}
  \end{equation}     
 
-\begin{figure*}
-	\centering
-%	\begin{subfigure}{.5\textwidth}
-		\includegraphics[width=1\textwidth]{syntax_swrisk_asmeasuredby.png}
-		\caption{Graphical display of lavaan syntax for SoftwareRisk $=\sim$ Theorized measurement variables from Table  \ref{tab:model_spef_metrics}}
-		\label{fig:model_example_syntax_asmeasuredby}	
-%	\end{subfigure}%
-%	\begin{subfigure}{.5\textwidth}		
-%		\includegraphics[width=.5\columnwidth]{syntax_latentregress.png}
-%		\caption{Graphical display of lavaan syntax for $LatentVariable \sim LatentVariable2 + LatentVariable3$ (with measured variables)}
-%		\label{fig:model_example_syntax_latentregress}	
-%	\end{subfigure}		
-\end{figure*}
+
 
 %\begin{figure}
 % \includegraphics[width=\columnwidth]{modelcaoscto}
@@ -73,273 +62,183 @@ We now present the complete set of structural model constructs and relationships
 %	\label{fig:model_constructs_phases}
 %\end{figure}
 
-\subsection{Case Study}
-\label{sec:evaluation_openhub}
-No single dataset contains all of the context factors and measures described in ~\ref{tab:model_metrics}. To establish a baseline, we combine three public datasets that contain subsets of the context factors and measures, and that overlap in the projects they have in common.
 
-\subsubsection{Data selection}
+\subsection{Data selection}
 \label{sec:evaluation_openhub_selection}
 In this section, we describe how we selected each row (observation) and each column(variable) in the source datasets, and how we treated and merged the data. We first present how we interpreted each source dataset field in terms of our structural model concepts. We then present how we merged the datasets into a combined dataset.
 
-====
-We intersected the Openhub and NVD datasets based on the project name used in each dataset, yielding combined data for 878 projects. We refer to the 878 project data set as the 'Combined' dataset. We then marked Combined dataset projects that were also present in the CII dataset, yielding 69 projects in the Combined dataset that are also CII projects.
+The project record contains descriptive data, e.g. project name and version, and security-relevant metrics, e.g. total lines of code (SLOC), and contributor count (Team Size). We now present our mapping of the OpenHub and NVD fields to our \ModelAbbr measurement model metrics.
 
-For each project, Openhub included SLOC, Language, Team Size, Code Churn over the preceding 12 months, Commits over the preceding 12 months, Project Age, and Project Activity. Nagappan et al's~\cite{nagappan2013diversity} inclusion criteria required that each project had at least two committers between June 2011 and June 2012, complete data for all collected fields, and no invalid data (e.g. negative SLOC.)
-====
+\subsubsection{Usage Risk}
+We map the OpenHub user\_count metric to our Number of Users metric. Number of Users is one of multiple metrics associated with Usage Risk (Table ~\ref{tab:model_spef_metrics}), so this model is a partial account of the factors affecting Usage Risk. 
 
-
-The CII census team has published the rationale behind their census and metrics ~\cite{wheeler2015open}, and has published their data and code on Github~\footnote{https://github.com/linuxfoundation/cii-census}. The 428 census records each contain data for one project deemed both important, and potentially at risk for security concerns, according to their criteria used by the CII team.
-
-The project record contains descriptive data, e.g. project name and version, and security-relevant metrics, e.g. lines of code, contributor count, as well as an overall `risk index' based on the CII team's estimation of the importance of the metrics used to compute the index value.  Parallel to our translations of the CVSS metric score text to ordinal values, we translate the CII $fact\_activity$, $fact\_age$, $fact\_comments$, and $fact\_team\_size$ columns from text descriptions to ordinal values. We also parse the risk index components field to extract the ordinal ranks the CII team assigned each project for the risk index components: `Website points', `CVE Risk', `12 month contributors', `Popularity', `Language', and (network) `Exposure'. We now present our mapping of the CII metrics to our constructs.
-
-
-
- We translate the CVSS metrics into the terms of our model constructs and measurements. For each structural model construct, we present our metric associations and the rationale behind them.
- 
-\textbf{Asset Value}
-CVSS has three impact metrics: Confidentiality Impact, Integrity Impact, and Availability Impact. The impact metrics are measurements of the degree of loss of confidentiality, integrity, and availability caused by the exploited vulnerability~\cite{mell2007complete}. Each impact metric is measured on the following scale of impact to the system:
-	\begin{itemize}
-		\item 'None' indicates no impact, 
-		\item 'Partial' indicates partial impact, and 
-		\item 'Complete' indicates 'Complete' impact.  
-	\end{itemize}
-We model each Impact metric as a component of Asset Value, theorizing that confidentiality, integrity, and availability impacts change based on the usage context in which the software is run, e.g. the value of the assets managed. We translate None/Partial/Complete to an ordinal scale (values 1,2,3 increasing with impact) to model increasing CIA impact risk.
-
-\textbf{Software Risk}
+\subsubsection{Development Risk}
 \label{sec:evaluation_openhub_selection_risk}
-The NVD CVSS Access Vector, Access Complexity, and Authentication metrics capture how a vulnerability is accessed and whether or not extra conditions are required to exploit it.~\cite{mell2007complete}. We translate these metrics into the terms of our model constructs and measurements. For each metric, we now quote the CVSS guide definition, and give a rationale for the associations we have defined:
+We model the following Development Risk measurement model metrics based on OpenHub data fields:
 \begin{itemize}
-	\item Access Vector - measures how the vulnerability is exploited, in terms of network distance. Values:
-	\begin{itemize}
-		\item 'Local' requires the attacker to have physical access or an account on the system, \item 'Adjacent Network' requires access to the physical network on which the vulnerable software resides, and \item 'Network' requires only logical network acccess, e.g. remote access. 
-	\end{itemize}
-	We model Access Vector Risk as a component of Software Risk, theorizing that the vector value changes based on design choices made by the software development team. We translate the CVSS Access Vector values (1,2,3, increasing with network distance) to an ordinal scale to model increasing `Access Vector Risk'.
-	\item Access Complexity - measures the complexity of attack required to exploit a vulnerability once an attacker has gained access. Values: 
-	\begin{itemize}
-		\item 'High' indicates specialized/elevated access is required to exploit the vulnerability, 
-		\item 'Medium' indicates that some access is required to exploit the vulnerability, and \item 'Low' indicates that the vulnerability can be exploited with default/no special access.  
-	\end{itemize}
-	We model Access Complexity Risk as a component of Software Risk, theorizing that the complexity value changes based on design choices made by the software development team. We translate the CVSS Access Complexity  to an ordinal scale (values 1,2,3, increasing with ease of access) to model increasing `Access Complexity Risk'.
-	\item Authentication - measures the number of times an attacker must authenticate to exploit a vulnerability. Values: 
-	\begin{itemize}
-		\item 'Multiple' indicates an attacker must authenticate two or more times to exploit the vulnerability, 
-		\item 'Single' indicates that an attacker must authenticate once to exploit the vulnerability, and 
-		\item 'None' indicates that the vulnerability can be exploited without authenticating.  
-	\end{itemize}
-	We model Authentication as a component of Software Risk, theorizing that the authentication requirement changes based on design choices made by the software development team. We translate CVSS Authentication values to an ordinal scale (values 1,2,3, increasing with ease of authentication) to model increasing `Authentication Risk'.
-\end{itemize}
-  
-\textbf{Adherence}
-Kaminsky et al. ~\cite{kaminsky2011showing} hypothesized that software quality has increased over the past decade. To test their hypothesis, they fuzzed ten years of Microsoft Office software releases, confirming that software quality had improved over the previous decade, as measured by crash counts per software release over time. We adapt their hypothesis to the security realm, modeling security practice adherence via the passage of time. We take the year each vulnerability is reported as indicative of the state of security practice adherence at the time the vulnerability was reported. We define an `adherence' metric for each vulnerability as the difference, in years, between the vulnerability's publication date and the initial year in the NVD database. If software quality, presumed to be caused by security practice adherence, is increasing, we would expect to see a negative covariance between the Adherence construct and the SoftwareRisk construct. 
+    \item SLOC - total\_code\_lines (total\_code\_lines)
+    \item Team Size - twelve\_month\_contributor\_count (contributor\_count)
+    \item Product Age - difference in months between min\_month and max\_month (product\_age) 
+    \item Churn - code\_churn\_12months (code\_churn)
+\end{itemize}  
 
-\textbf{Outcomes}
-We obtain a metric for Outcomes by counting per-project, per-year vulnerabilities. We treat each unique software name in the NVD records as a distinct project, and sum all vulnerabilities for a project, reflecting our theorized post-release vulnerability count metric. We group each project by its (software) name, and by publication year, taking the mean of the remaining CVSS metrics to represent that project/publication year. 
-% plot vuln count over time
-% plot cvss score average
-% plot three impact metrics
-% plot three access metrics	
+\subsubsection{Adherence}
+We do not have direct measures of security practice adherence available in our datasets. We propose an indirect measure, based on inverting Developer Productivity to yield an estimate of development process effort. Developer productivity is sometimes defined (e.g. ~\cite{vasilescu2016the,xuan2014focus,kan2002metrics}) as the ratio of SLOC to unit time per developer. Adherence to software process requirements, including security practices, takes developer time that could be used to write code, suggesting that higher process compliance may be associated with lower SLOC per unit time. We conjecture that inverting the productivity measure yields an indicator of 'developer attention', that will vary, in part, due to the amount of developer time spent on software process activities other than the addition of code. Based on the data available in our dataset, we define this Developer Attention metric as the ratio of developer count over the last 12 months to the code churn over the last 12 months. 
 
-\textbf{NVD Data Examples}
-To illustrate how data is prepared for use in SEM estimation, Table \ref{tab:nvd_data_examples} presents data from an example project. The Amazon flexible payments service experienced two vulnerabilities in 2012. The table presents the original data rows, the translated version of each row, and the project summary row, assembled from the translated rows. The project summary row is used in SEM estimation.
+\subsubsection{Outcomes}
+We obtain a metric for Outcomes by counting per-project vulnerabilities as of the end of 2012 for each project in the NVD. We treat each unique software name in the NVD records as a distinct project, and sum all vulnerabilities for a project, reflecting our measurement model vulnerability count metric. 
 
-\begin{table}
-	\begin{center}	
-		\caption{NVD Original and Summarized Data for Example Project (Amazon flexible\_payments\_service)}
-		\label{tab:nvd_data_examples}
-		\begin{scriptsize}
-			\begin{tabular}{p{3cm}p{1.5cm}p{1cm}p{1.5cm}p{1cm}p{1cm}}
-				&&&&&\\[-1.8ex]\hline 
-				\hline &&&&\\[-1.8ex] 
-				Field & Original & Translated & Original & Translated & Project Summary \\
-				\hline &&&&&\\[-1.8ex] 				
-				CVE Count &  1 & 1 & 1 & 1 & 2\\
-				&&&&& 1.10\\
-				Pub Year & 2012 & 2012 & 2012 & 2012 & 2012\\
-				Adherence & & 5.26 & & 5.26 & 5.26 \\				
-				CVSS Auth & NONE & 1 & NONE & 1 & 1 \\
-				Access Vector & NETWORK & 3 & NETWORK & 3 & 3 \\
-				Access Complexity & MEDIUM & 2 & MEDIUM & 2 & 2 \\
-				Conf Impact & PARTIAL & 2 & PARTIAL & 2 & 2\\
-				Integ Impact & PARTIAL & 2 & PARTIAL & 2 & 2\\
-				Avail Impact & NONE & 1 & NONE & 1 & 1 \\
-				\hline &&&&&\\[-1.8ex] 		
-			\end{tabular}
-		\end{scriptsize}
-	\end{center}
-\end{table}			
-			
-\subsubsection{Data collection}
-We collected the entire NVD dataset as of February 2017, but limit our analysis to complete years, from the year 2001 to 2016. The dataset includes vulnerabilities dating to 1988, but years prior to 2001 had relatively low activity. We measured activity for a year as the ratio of vulnerabilities reported that year to the average vulnerabilities per year over the NVD history. Activity first exceeded half of the overall average in 2001. We show NVD Vulnerability counts per year in Figure ~\ref{fig:nvd_vulns_year}.
+\subsection{Data collection}
+For each project, Openhub included SLOC, Language, Contributor Count, Code Churn over the preceding 12 months, Commits over the preceding 12 months, Project Age, and Project Activity. Nagappan et al's~\cite{nagappan2013diversity} inclusion criteria required that each project had at least two committers between June 2011 and June 2012, complete data for all collected fields, and no invalid data (e.g. negative SLOC.)
 
-\begin{figure}
-	\centering
-	\includegraphics[width=.6\columnwidth]{nvd_vulns_year}
-	\caption{NVD Vulnerability Count by Year}
-	\label{fig:nvd_vulns_year}
-\end{figure}
-% stargazer(rtrunc)
+We included all 20,028 OpenHub projects in the 'Combined' dataset~\footnote{We make our scripts for all described steps available online at www.github/com/pjmorris/Quantifying}. We present summary statistics for the OpenHub dataset in Table \ref{tab:openhub_demog}. We grouped NVD records by project name, and summed vulnerability counts as of the end of 2012 for each project name (in keeping with the time period represented by the OpenHub dataset). We then augmented the Openhub project data with a vulnerability count field, reporting the NVD vulnerability count for the 698 projects that matched by name, and 0 for the remaining projects. We dropped one project which had a total\_code\_lines value of 258 million lines of code, roughly triple the size of Windows as an outlier, yielding a dataset of 697 projects for further analysis.
+
+% stargazer(tr[tr$CVECount>=0,c("total_code_lines.x","twelve_month_contributor_count.x","project_age","code_churn_12months","CVECount","DevChurnAdh12","user_count")])
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Sun, Feb 26, 2017 - 22:57:53
+% Date and time: Mon, May 15, 2017 - 11:46:03
 \begin{table}[!htbp] \centering 
-	\caption{NVD Project Demographics} 
-	\label{tab:nvd_demog} 
-	\begin{small}
-	\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
-		\\[-1.8ex]\hline 
-		\hline \\[-1.8ex] 
-		Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} \\ 
-		\hline \\[-1.8ex] 
-		CVECount & 10,622 & 4.311 & 5.241 & 2 & 49 \\ 
-		logCVECount & 10,622 & 1.466 & 0.533 & 1.099 & 3.912 \\ 
-		cvss\_score & 10,621 & 6.139 & 1.429 & 1.200 & 10.000 \\ 
-		adherence & 10,621 & 4.678 & 1.007 & 0.225 & 6.532 \\ 
-		cvss\_auth & 10,622 & 2.905 & 0.224 & 0.000 & 3.000 \\ 
-		cvss\_access\_vector & 10,622 & 2.794 & 0.486 & 0.000 & 3.000 \\ 
-		cvss\_access\_complexity & 10,622 & 2.577 & 0.409 & 0.000 & 3.000 \\ 
-		cvss\_conf\_impact & 10,622 & 1.833 & 0.504 & 0.000 & 3.000 \\ 
-		cvss\_integ\_impact & 10,622 & 1.902 & 0.467 & 0.000 & 3.000 \\ 
-		cvss\_avail\_impact & 10,622 & 1.833 & 0.552 & 0.000 & 3.000 \\ 
-		\hline \\[-1.8ex] 
-	\end{tabular} 
-		\end{small}
-	
-\end{table} 
+  \caption{Combined Project Demographics} 
+  \label{tab:openhub_demog} 
+\begin{tabular}{@{\extracolsep{5pt}}lrrrrr} 
+\\[-1.8ex]\hline \\[-1.8ex] 
+Statistic & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{St. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max} \\ 
+\hline \\[-1.8ex] 
+total\_code\_lines & 697 & 666,297.70 & 2,18,927.00 & 56 & 26,915,903 \\ 
+twelve\_month\_contributor\_count & 697 & 34.57 & 90.09 & 2 & 1,167 \\ 
+project\_age & 697 & 99.20 & 55.70 & 1.97 & 355.23 \\ 
+code\_churn\_12months & 697 & 544,547.20 & 2,195,992.000 & 0 & 25,239,730 \\ 
+CVECount & 697 & 11.33 & 45.82 & 1 & 776 \\ 
+DevAttention & 697 & 0.04 & 0.69 & 0.00000 & 18.000 \\ 
+user\_count & 697 & 260.68 & 901.38 & 0 & 11,150 \\ 
+\hline \\[-1.8ex]
+\end{tabular} 
+\end{table}
 
-\subsubsection{Estimation}
+\subsection{Estimation}
 
-Combining the structural and measurement models we have defined with the CVSS data collected from the NVD database, we have the model definition, expressed in lavaan syntax: 
+Combining the structural and measurement models we have defined with the subset of data available in the Combined dataset, we have the model definition, expressed in lavaan syntax: 
 
 \begin{equation}
 \begin{split}
-	SoftwareRisk &=\sim cvss\_access\_vector \\ 
-	&+ cvss\_access\_complexity + cvss\_auth\\
-	AssetImpact &=\sim cvss\_conf\_impact\\
-	&+ cvss\_integ\_impact + cvss\_avail\_impact\\
-	Outcomes &=\sim logCVECount\\
-	Adherence &=\sim adherence\\
-	Outcomes &\sim SoftwareRisk + Adherence + AssetValue\\
-	SoftwareRisk &\sim Adherence\\
+	DevelopmentRisk &=\sim total\_code\_lines + twelve\_month\_contributor\_count +\\ 
+	& project\_age + code\_churn\_12months\\
+ Outcomes &=\sim CVECount \\
+ Outcomes &\sim DevelopmentRisk + UsageRisk\\
+ Adherence &=\sim DevAttention\\
+ DevelopmentRisk &\sim  Adherence\\
+ UsageRisk &=\sim user\_count\\
 \end{split}
 \end{equation}		
 
-\subsubsection{Model Fit} 
-In terms of global fit, the fit index results for the initial NVD model were outside the range of standard fit criteria thresholds, as shown in the NVD column of Table \ref{tab:results_fit_all}, making the parameter estimates unreliable. 
+\subsection{Model Fit} 
 
-\subsubsection{Re-specification}
-The base adherence and CVE Count metrics had variances two magnitudes larger than the other variables. We scaled adherence, and took the log of CVE Count to bring them within range of the other variables. The variation among the 22,000+ projects with exactly one vulnerability caused numeric problems for the estimation algorithm, and we elected to treat the group as outliers and drop them from consideration. We, further, excluded projects with 50 or more vulnerabilities as outliers (79 projects). After the exclusions, 10,621 projects remained in the analyzed dataset.
+To avoid estimation problems caused by ill-scaled covariance matrices (high ratio between the largest and smallest variances), Kline~\cite{kline2015principles} recommends rescaling variables with low or high variances relative to the other variables in the dataset. We implemented rescaling by applying R's scale function defaults to each variable, subtracting the column mean from each variable, and dividing each variable by its standard deviation.
 
-The re-specified model (post-rescaling and outlier exclusion) had global fit characteristics within the traditional fit criteria thresholds, as shown in the Respecified NVD column of Table \ref{tab:results_fit_all}. We present the parameter estimates for the Respecified NVD model in the results, and discuss the implications in Section \ref{sec:case_nvd_discussion}.
-
-\subsubsection{Reporting Results}
-\label{sec:case_nvd_results}
-
-Table \ref{tab:results_fit_all} presents the fit measure results for the NVD  and Respecified NVD models (as well as for the other case study models). We report the estimated parameter values, unstandardized, for the Respecified NVD structural and measurement models in Table \ref{tab:results_nvd}. We present the standardized parameter estimates, and the residuals, in the context of the full structural and measurement models in Figure \ref{fig:nvd_model_respecified_estimates}.
+Standard SEM estimation assumes multivariate normally-distributed variables~\cite{kline2015principles}, pp. 74-78, and normally-distributed joint distributions between variables, however SEM methodologists have develped procedures and estimators for non-normal data. As our data consists primarily of counts, we checked for skewness (ranging from 2.29 for user\_count to 76.48 for total\_code\_lines) and kurtosis (ranging from 12.23 for project\_age to 7993.58 for total\_code\_lines), indicating that we have varying degrees of non-normality in our data. Where data is expected to be non-normal, as with counts, Kline~\cite{kline2015principles}, pp.238-9, recommends  using robust maximum likelihood (RML) to estimate the model, as it does not assume normality, but estimates parameters for each variable's distribution based on the data for each variable. Lavaan implements RML through the MLR estimator. 
+ 
+Applying the described estimation procedure to our transformed data ~\footnote{As a reminder, our scripts are available at ~\url{https://github.com/pjmorris/paper_modeling-sp/blob/master/CombinedCaseStudy.R}}, yielded global fit indicators that were outside the range of standard fit criteria thresholds for CFI, RMSEA and SRMR, as shown in the Combined column of Table \ref{tab:results_fit_combined}. We examine fit refinement in the next section. 
 
 \begin{table*}
 	\begin{center}	
 		\caption{Global Fit Measures and Results}
-			\label{tab:results_fit_all}
-			\begin{tabular}{p{3cm}p{1cm}|p{2cm}p{2cm}p{2cm}}
+			\label{tab:results_fit_combined}
+			\begin{tabular}{p{3cm}p{1cm}|p{2cm}p{2cm}}
 				\\[-1.8ex]\hline 
 				\hline \\[-1.8ex] 
-				Fit Measure & Threshold & NVD	& Respecified NVD & Respecified CII  \\
-				\hline \\[-1.8ex] 				
-				Number of observations &  & $10621$  & $10621$ & $343$  \\				
-				Model chi-square &  & $2759.88$ & 1068.25 & $259$  \\				
-				Model d.f. &  & $17$ & $18$ & $52$  \\		
-				Model p-value & $\leq 0.01$ & $0.0$ & $0.0$ & $0.0$  \\
-				RMSEA & $\leq 0.10$ &  $0.12$ &  $0.07$ & $0.108$   \\
-				CFI & $> 0.90$ & $0.83$ & $0.93$  & $0.702$  \\
-				SRMR & $< 0.08$ & $0.08$ & $0.06$ & $0.08$  \\
+				Fit Measure & Threshold & Combined	& Respecified \\
+				Number of observations &  & $697$  & $697$   \\				
+				Model chi-square &  & $63.00$ & $71.20$   \\				
+				Model d.f. &  & $13$ & $10$   \\		
+				Model p-value & $\leq 0.01$ & $0.0$ & $0.0$   \\
+				Robust RMSEA & $\leq 0.10$ &  $0.15$ &  $0.10$    \\
+				Robust CFI & $> 0.90$ & $0.81$ & $0.94$  \\
+				SRMR & $< 0.08$ & $0.11$ & $0.04$  \\
 				\hline \\[-1.8ex] 				
 			\end{tabular}
 	\end{center}
 \end{table*}
 
+\subsection{Re-specification}
+After reviewing the lavaan modification indice recommendations and what we expect the data to mean, we added three co-variance relationships, as follows:
+\begin{itemize}
+   \item $total\_code\_lines \sim\sim code\_churn\_12months$. We reason that the relationship is reasonable in light of theory because larger projects tend to have more lines of code available to change.
+   \item $twelve\_month\_contributor\_coin \sim\sim code\_churn\_12months$. We reason that the relationship is reasonable in light of theory because larger numbers of contributors are likely to change more code.
+   \item $DevAttention \sim\sim 1*DevAttention$. The given expression constrains the variance of DevAttention to 1. As the scaling performed on the data already yields a variance of 1 for DevAttention, this expression simplifies the estimation procedure by preventing it from estimating some other value.
+\end{itemize}
+
+The re-specified model had global fit characteristics within the traditional fit criteria thresholds, as shown in the Respecified column of Table \ref{tab:results_fit_combined}. We present the parameter estimates for the Respecified model in the results, and discuss the implications in Section \ref{sec:case_openhub_discussion}.
+
+\subsection{Reporting Results}
+\label{sec:case_openhub_results}
+
+We present the global fit results for the Combined and the Respecified models in Table \ref{tab:results_fit_combined}. We report the estimated parameter values, standardized, for the Respecified NVD structural and measurement models in Table \ref{tab:results_openhub}~\footnote{Standardized SEM parameter values are correlations, and can be interpreted as for regression.}. We present the standardized parameter estimates, and the residuals, in the context of the full structural and measurement models in Figure \ref{fig:openhub_model_respecified_estimates}.
+
 \begin{table}
 	\begin{center}	
-		\caption{NVD Respecified Model Results}
-		\label{tab:results_nvd}
+		\caption{OpenHub-NVD Respecified Model Results}
+		\label{tab:results_openhub}
 		\begin{tabular}{l|rrrr}
 				\\[-1.8ex]\hline 
 				\hline \\[-1.8ex] 
 			\textit{Latent Variables}:  & & & & \\  
 			$\sim$ Measured variables& Estimate & Std.Err & z$-$value & $P(>|z|)$ \\
 				\hline \\[-1.8ex]
-			$SoftwareRisk =\sim$  & & & & \\                                   
-			cvss\_ccss\_vctr   & 1.000 & &  & \\                             
-			cvss\_ccss\_cmpl &  $-$0.166 &   0.035 &  $-$4.86 &   0.000\\
-			cvss\_auth     &   $-$1.498  &  0.164  & $-$9.125   & 0.000\\
-			$AssetImpact =\sim$     & & & & \\                                    
-			cvss\_conf\_mpct   & 1.000     & & & \\                       
-			cvss\_intg\_mpct   & 0.797   & 0.011 & 70.746 &   0.000 \\
-			cvss\_aval\_mpct  &  0.872   & 0.013 & 67.584   & 0.000 \\
+			$DevelopmentRisk =\sim$  & & & & \\                                   
+			total\_code\_lines   & 0.459 & &  & \\                             
+			project\_age         &  0.12 &   0.25 &  0.983 &   0.33\\
+			code\_churn           &   0.77  &  0.79  & 2.13   & 0.03\\
+			contributor\_count     &   0.89  &  0.57  & 3.33   & 0.01\\
+			$UsageRisk =\sim$     & & & & \\                                    
+			user\_count   & 1.000     & & & \\                       
 			$Outcomes =\sim$    & & & & \\                                     
-			logCVECount     &  1.000  & & & \\                          
+			CVECount     &  1.000  & & & \\                          
 			$Adherence =\sim$   & & & & \\                                      
-			adherence    &     1.000        & & & \\                    
+			DevAttention    &    0.24        & & & \\                    
 			Regressions:  & & & & \\  
 			%& Estimate & Std.Err & z$-$value & $P(>|z|)$ \\
 			$Outcomes \sim$         & & & & \\                                     
-			SoftwareRisk   &  1.092 &   0.162 & 6.754 &   0.000 \\
-			%Adherence       &  $-$2.84  &  6.829  &  -0.468  &  0.640\\
-			AssetImpact     &   0.062  &  0.013  &  4.907 &   0.00\\
-			$SoftwareRisk \sim$        & & & & \\                                  
-			Adherence     &    0.044 &   0.005  &  9.465 &   0.000\\
-			Covariances:  & & & & \\  
-			%& Estimate & Std.Err & z$-$value & $P(>|z|)$ \\
-			$AssetValue \sim\sim$          & & & & \\                                 
-			Adherence      &  $-$0.017  &  0.005 &  $-$3.590 &   0.000\\
+			DevelopmentRisk   &  0.40 &   0.48 & 1.81 &   0.07 \\
+			UsageRisk     &   0.342  &  0.19  &  1.83 &   0.07\\
+			$DevelopmentRisk \sim$        & & & & \\                                  
+			Adherence     &    $-0.58$ &   8.16  & $-1.37$ &   0.18\\
 		\end{tabular}
 	\end{center}
 \end{table} 
 
 \begin{figure*}
 	\centering
-	\includegraphics[width=.6\textwidth]{NVD_Respecified_SEM_Model.pdf}
-	\caption{Respecified NVD Model}
-	\label{fig:nvd_model_respecified_estimates}
+	\includegraphics[width=1\textwidth]{Openhub_Respecified_SEM_Model.pdf}
+	\caption{Respecified OpenHub-NVD Combine Model}
+	\label{fig:openhub_model_respecified_estimates}
 \end{figure*}
 
 Interpreting the (standardized) parameter estimates in terms of our hypothesized construct relationships, we have the following:
 \begin{itemize}
-	\item  Asset Impact is positively associated (0.05) with Security Outcomes, as hypothesized.
-	\item Software Risk is positively associated (0.12) with Security Outcomes, as hypothesized. 
-	\item Practice Adherence is positively associated (0.78) with Software Risk, contrary to what we hypothesized. 
-\end{itemize}	
-All three relationships were statistically significant. 
+	\item  Usage Risk is positively associated (0.34) with Security Outcomes, as hypothesized. With an alpha of 0.07, Usage Risk is not significant at the .05 level, but is significant at the 0.10 level.
+	\item Development Risk is positively associated (0.40) with Security Outcomes, as hypothesized. With an alpha of 0.07, Development Risk is not significant at the .05 level, but is significant at the 0.10 level.
+	\item Practice Adherence is negatively associated ($-0.58$) with Development Risk, as hypothesized. With an alpha of 0.18, Usage Risk is not significant.
+\end{itemize}	 
 
-We plot how the three impact risk scores change over time in Figure \ref{fig:nvd_vulns_impact}, and the CVSS access risk scores in Figure \ref{fig:nvd_vulns_auth}. 	
-		
-\begin{figure}
-	\centering
-	\includegraphics[width=\columnwidth]{nvd_cvss_impact}
-	\caption{NVD CVSS Impact Risk by Year}
-	\label{fig:nvd_vulns_impact}
-\end{figure}
+The residual variance values, shown in Table \ref{tab:results_openhub_residuals}, are lower than the .10 guideline established in Kline~\cite{kline2015principles}, with the exception of total\_code\_line's relationship with project\_age, and user\_count's relationship with project\_age. 
 
-\begin{figure}
-	\centering
-	\includegraphics[width=\columnwidth]{nvd_cvss_auth}
-	\caption{NVD CVSS Access Control Risk by Year}
-	\label{fig:nvd_vulns_auth}
-\end{figure}
-\subsubsection{Discussion}
-\label{sec:case_nvd_discussion}
-In our data, Adherence has a strong effect on Software Risk (0.78 standardized). Translated to the measurements we used, more recent years are associated with higher Software Risk, Access Vector Risk has been increasing (CVSS access vector metrics have been deteriorating) over the last 15 years, and Authentication Risk has been decreasing (CVSS authentication metrics have been improving). The increase in web usage over the last 15 years correlates with the increase in network attacks represented by the access vector metric increase. We conjecture that the improvement in authentication metrics reflects positively on development team efforts to secure their software.  
- 
-We found effects for both Asset Impact and Software Risk on Security Outcomes, with Software Risk having an effect (.12 standardized) roughly two and a half times that of Asset Impact (0.05). We expect that at least one reason for the small (less than 15\%) effects of Asset Impact and Software Risk are due to the underlying measurement variables being incomplete accounts of the constructs they measure. For example, the impact metrics say something about potential risks, but do not say anything about the environments in which the software runs, or about the kind of data maintained by the software in the contexts from which vulnerabilities were reported. Similarly, the software risk constructs represented by CVSS access vector, and Authentication do not contain information on software size, churn, language, or the other constructs that have been identified as contributing to security issues in software. 
-
-Asset Impact is correlated most strongly by the Confidentiality Impact measurement (.88 standardized), however the Integrity Impact (.76) and Availability Impact (.70) are in the same range and direction. Software Risk is correlated most strongly by Authentication Risk (0.38). Higher Authentication Risk, meaning lower number of authentications required by attackers, may imply that insufficient access control remains a significant development concern, although further investigation is warranted. Given the single measurements, we have no information on the relative importance of the measurements for Adherence and Outcomes constructs.
-
-In general, the (standardized) residual variance values are higher than the .35 guideline established in Kline~\cite{kline2015principles}. The impact metric components of Asset Impact tend to have lower residuals as a group, suggesting that the three impact metrics may be reasonably explained in terms of a common construct. The Access metrics have high residuals, suggesting that the Access metrics may not be reasonably explained in terms of a common construct. 
-
-We have to explain the unexpected negative association of Access Complexity Risk with Software Risk. One possible explanation is that Access Complexity is a poor measurement. The maintainers of the CVSS standard have acknowledged the overloaded nature of Access Complexity.  They state that it is impossible to tell whether the reported Access Complexity emanates from user interaction from social engineering, from a race condition, uncommon configuration, attacker starting privileges, or some other factor~\footnote{https://www.first.org/cvss}. However, each of the listed causes could be construed to be what we seek to measure for Software Risk. Version 3 of the CVSS (CVSSv3) scoring system includes a separate `User Interaction' metric to disambiguate between user-driven and software-driven reasons. In future work, we can update the measurement model to account for the updated CVSSv3 metrics. A second possible explanation is that measurement model is incorrect, via the Access Complexity metric being associated with the wrong construct, or a broader problem with assignments of metrics to constructs. To test this notion, we fit the model with Access Complexity associated with Asset Impact rather than Software Risk, but the model fit was worse than when Access Complexity was associated with Software Risk. A third explanation is that our structural model is incorrect, either in the relationships between the constructs, or in missing one or more constructs with which Access Complexity could be associated. We put altering the structural model out of scope for the present work, but could investigate refinements of the structural model in future work. 
-
-Per the descriptions of the metrics in Section \ref{sec:evaluation_nvd_selection_risk}, we view each of the metrics as measuring a property of the software that the development team can influence. Access Complexity Risk and Authentication Risk might be change through the addition, or refinement, of access control mechanisms. Alternatively, they might be increased by attacker discovery of alternate access paths.   Access Vector Risk might be reduced through care taken with validation of network inputs, or through greater care taken with implementation of network code, or increased through attacker path discovery. Authentication Risk might be reduced through stricter access controls, as with Access Complexity Risk, however the variables are not collinear in our data (as measured by Pearson's , Variance Inflation Factor). Authentication Risk might be increased, again by attacker discovery of alternative paths. Changes over time in each of the Access metrics may be due to development team efforts, or to attacker efforts, and we do not have the data here to distinguish between the two cases. We have assumed, in our modeling, that development team effort is the primary component for each metric. If attacker effort were the primary component, the metric should be modeled as part of Asset Impact.  If the three metrics we have were affected by different proportions of development team and attacker effort.
-
-Our overall model data did not confirm Kaminsky's hypothesis that software quality is improving over time, with our adherence-over-time measure increasing Software Risk. However, we observed several counter-trends in the underlying data. We observed an improvement in CVSS Authentication Risk (Figure \ref{fig:nvd_vulns_auth}). On average, vulnerabilities are requiring more authentications over time, implying that development teams are putting an increasing amount of functionality behind access control.
-
-We also observe from Figure \ref{fig:nvd_vulns_auth} that Access Complexity Risk has trended downward over time, in opposition to Authentication Risk and Access Vector Risk (Regressing Access Complexity Risk on adherence, controlling for the remaining measurement variables has a slope of -.09 for adherence, p-value \textless 0.001). The trend suggests that, on average, over time, vulnerabilities are becoming more complicated for attackers, likely for a variety of causes, but potentially implying that access control is being implemented more frequently over time by development teams.
-
-However, CVSS Access Vector Risk has increased in parallel to the decrease in Authentication Risk, indicating that vulnerabilities are increasingly prone to remote attacks from across the network.
+% stargazer(round(residuals(fitX)$cov,2),style="asr",digits=2)
+% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
+% Date and time: Tue, May 16, 2017 - 13:02:55
+\begin{table}[!htbp] \centering 
+  \caption{OpenHub-NVD Respecified Model Residuals} 
+  \label{tab:results_openhub_residuals} 
+\begin{tabular}{@{\extracolsep{0pt}}lrrrrrrr} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & $1.$ & $2.$ & $3.$ & $4.$ & $5.$ & $6.$ & $7.$ \\ 
+\hline \\[-1.8ex] 
+1. total\_code\_lines & $0$ & $0.11$ & $0$ & $0$ & $$-$0.05$ & $$-$0.01$ & $0.02$ \\ 
+2. project\_age & $0.11$ & $0$ & $$-$0.03$ & $0.05$ & $0.04$ & $$-$0.05$ & $0.21$ \\ 
+3. code\_churn\_12months & $0$ & $$-$0.03$ & $0$ & $0$ & $$-$0.01$ & $0$ & $0.01$ \\ 
+4. twelve\_month\_contributor\_count & $0$ & $0.05$ & $0$ & $0$ & $$-$0.01$ & $0$ & $$-$0.01$ \\ 
+5. CVECount & $$-$0.05$ & $0.04$ & $$-$0.01$ & $$-$0.01$ & $0$ & $0$ & $0$ \\ 
+6. DevAttention & $$-$0.01$ & $$-$0.05$ & $0$ & $0$ & $0$ & $0$ & $0$ \\ 
+7. user\_count & $0.02$ & $0.21$ & $0.01$ & $$-$0.01$ & $0$ & $0$ & $0$ \\
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table}
